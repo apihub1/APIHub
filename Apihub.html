@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Apihub.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>APIHub</title>
+</head>
+<body>
+    <main>
+        <div class="retangulo">
+            <img src="Logo.png" alt="Logo APIHub" class="logo">
+            <h1>APIS</h1>
+        </div>
+
+        <div class="retangulo1">
+            <div class="conteudo">
+                <h1>O que é API?</h1>
+                <p>
+                    Uma API (<strong>Interface de Programação de Aplicações</strong>) é um conjunto de regras e protocolos que permite que diferentes sistemas de software se comuniquem entre si.
+                    Ela define métodos e formatos de dados para que um programa possa acessar funcionalidades ou informações de outro, sem precisar conhecer sua lógica interna.
+                    Isso facilita a integração entre plataformas, acelera o desenvolvimento de aplicações e promove a padronização da comunicação entre sistemas.
+                </p>
+            </div>
+        </div>
+
+        <section class="secao">
+            <h2>Como funciona uma API?</h2>
+            <p>
+                As APIs funcionam como um mensageiro que leva seu pedido até o provedor de serviços e depois retorna com a resposta. 
+                Elas usam protocolos como HTTP para enviar e receber dados, normalmente no formato JSON ou XML. 
+                Dessa forma, diferentes linguagens e plataformas conseguem se integrar facilmente.
+            </p>
+            <div class="fluxo-api">
+    <div class="etapa">
+        <h3>1. Cliente</h3>
+        <p>O usuário interage com um app ou navegador e realiza uma ação, como clicar em "Buscar dados".</p>
+    </div>
+    <div class="etapa">
+        <h3>2. Requisição HTTP</h3>
+        <p>O app envia uma requisição para a API usando o protocolo HTTP, geralmente com o método GET ou POST.</p>
+    </div>
+    <div class="etapa">
+        <h3>3. API</h3>
+        <p>A API interpreta o pedido, valida os dados e encaminha a solicitação ao servidor ou banco de dados.</p>
+    </div>
+    <div class="etapa">
+        <h3>4. Servidor / Banco de Dados</h3>
+        <p>O servidor processa a lógica e consulta os dados necessários, retornando a resposta para a API.</p>
+    </div>
+    <div class="etapa">
+        <h3>5. Resposta HTTP</h3>
+        <p>A API formata os dados (em JSON ou XML) e envia de volta ao cliente, que exibe o resultado ao usuário.</p>
+    </div>
+</div>
+
+            <img src="API.png" alt="Diagrama de API" class="imagem-secao">
+        </section>
+
+        <section class="secao">
+            <h2>Exemplos de APIs famosas</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>Google Maps API</h3>
+                    <p>Permite adicionar mapas interativos, rotas e geolocalização a aplicações e sites.</p>
+                </div>
+                <div class="card">
+                    <h3>OpenAI API</h3>
+                    <p>Oferece modelos de inteligência artificial para geração de texto, imagens e muito mais.</p>
+                </div>
+                <div class="card">
+                    <h3>Twitter API</h3>
+                    <p>Permite ler, escrever e interagir com tweets e dados de usuários do Twitter.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 APIHub - Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>
