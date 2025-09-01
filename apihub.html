@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Catálogo de APIs - Encontre as melhores APIs para integrar em seus projetos de desenvolvimento.">
+    <meta name="keywords" content="APIs, catálogo, desenvolvimento, programação, integração, REST API">
+    <meta name="author" content="APIHub">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Catálogo de APIs - APIHub</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #4f46e5;
+            --accent: #8b5cf6;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --background: #f9fafb;
+            --card-bg: #ffffff;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--background);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--gradient);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            height: 50px;
+            width: auto;
+            border-radius: 8px;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 3rem 0;
+            text-align: center;
+            background: var(--gradient);
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        /* Search Section */
+        .search-section {
+            padding: 2rem 0;
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            border-radius: 10px;
+        }
+
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .search-box {
+            display: flex;
+            box-shadow: var(--shadow);
+            border-radius: 50px;
+            overflow: hidden;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .search-button:hover {
+            background: var(--primary-dark);
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: var(--background);
+            border: 1px solid #e5e7eb;
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* APIs Grid */
+        .apis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .api-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border-top: 5px solid var(--accent);
+        }
+
+        .api-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .api-card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .api-card-category {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .api-card-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .api-card-description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .api-card-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .api-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .api-detail-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .api-detail-item i {
+            margin-right: 10px;
+            color: var(--primary);
+            width: 20px;
+        }
+
+        .api-card-footer {
+            padding: 1rem 1.5rem;
+            background: #f9fafb;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .api-link-container {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 5px;
+        }
+
+        .api-link {
+            flex: 1;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .copy-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .copy-btn.copied {
+            background: #10b981;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0 3rem;
+        }
+
+        .pagination-button {
+            background: white;
+            border: 1px solid #e5e7eb;
+            color: var(--text);
+            padding: 8px 15px;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .pagination-button:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .pagination-button.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text);
+            color: white;
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links h4 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #374151;
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            box-shadow: var(--shadow);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .apis-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                border-radius: 10px;
+            }
+            
+            .search-input {
+                border-radius: 10px 10px 0 0;
+            }
+            
+            .search-button {
+                padding: 12px;
+                border-radius: 0 0 10px 10px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeIn 0.8s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo-container">
+                <img src="Logo.png" alt="APIHub - Centro de recursos para desenvolvedores de API" class="logo">
+                <div class="logo-text">APIHub</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="catalogo.html" class="active">Catálogo de APIs</a></li>
+                    <li><a href="#">Documentação</a></li>
+                    <li><a href="#">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="hero">
+        <div class="container">
+            <h1>Catálogo de APIs</h1>
+            <p>Encontre as melhores APIs para integrar em seus projetos e acelerar seu desenvolvimento</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <section class="search-section animate">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="Buscar por nome, categoria ou descrição...">
+                    <button class="search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="filters">
+                    <button class="filter-btn active">Todas</button>
+                    <button class="filter-btn">Mapas</button>
+                    <button class="filter-btn">Pagamentos</button>
+                    <button class="filter-btn">Redes Sociais</button>
+                    <button class="filter-btn">IA</button>
+                    <button class="filter-btn">Dados</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="apis-container">
+            <div class="apis-grid" id="apis-grid">
+                <!-- API Cards will be generated here -->
+            </div>
+
+            <div class="pagination">
+                <button class="pagination-button">&laquo;</button>
+                <button class="pagination-button active">1</button>
+                <button class="pagination-button">2</button>
+                <button class="pagination-button">3</button>
+                <button class="pagination-button">&raquo;</button>
+            </div>
+        </section>
+    </div>
+
+    <div class="notification" id="notification">Link copiado para a área de transferência!</div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <div class="footer-logo">APIHub</div>
+                    <p>Seu centro de recursos para desenvolvimento e integração de APIs.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="catalogo.html">Catálogo de APIs</a></li>
+                        <li><a href="#">Documentação</a></li>
+                        <li><a href="#">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Recursos</h4>
+                    <ul>
+                        <li><a href="#">Tutoriais</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Fórum</a></li>
+                        <li><a href="#">Suporte</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 APIHub - Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample API data
+        const apiData = [
+            {
+                id: 1,
+                name: "Google Maps API",
+                category: "Mapas",
+                description: "API para integração de mapas, geolocalização e rotas.",
+                url: "https://maps.googleapis.com/maps/api/js",
+                auth: "API Key",
+                https: true,
+                cors: true
+            },
+            {
+                id: 2,
+                name: "Stripe API",
+                category: "Pagamentos",
+                description: "API para processamento de pagamentos online.",
+                url: "https://api.stripe.com/v1",
+                auth: "Bearer Token",
+                https: true,
+                cors: true
+            },
+            {
+                id: 3,
+                name: "Twitter API v2",
+                category: "Redes Sociais",
+                description: "API para acesso a dados do Twitter e interação com tweets.",
+                url: "https://api.twitter.com/2",
+                auth: "OAuth",
+                https: true,
+                cors: true
+            },
+            {
+                id: 4,
+                name: "OpenAI API",
+                category: "IA",
+                description: "API para acesso aos modelos de linguagem da OpenAI.",
+                url: "https://api.openai.com/v1",
+                auth: "API Key",
+                https: true,
+                cors: true
+            },
+            {
+                id: 5,
+                name: "WeatherAPI",
+                category: "Dados",
+                description: "API para previsão do tempo e dados meteorológicos.",
+                url: "https://api.weatherapi.com/v1",
+                auth: "API Key",
+                https: true,
+                cors: true
+            },
+            {
+                id: 6,
+                name: "GitHub API",
+                category: "Desenvolvimento",
+                description: "API para interagir com repositórios e dados do GitHub.",
+                url: "https://api.github.com",
+                auth: "OAuth",
+                https: true,
+                cors: true
+            },
+            {
+                id: 7,
+                name: "YouTube Data API",
+                category: "Mídia",
+                description: "API para acesso a dados de vídeos e canais do YouTube.",
+                url: "https://www.googleapis.com/youtube/v3",
+                auth: "API Key",
+                https: true,
+                cors: true
+            },
+            {
+                id: 8,
+                name: "Twilio API",
+                category: "Comunicação",
+                description: "API para envio de SMS, chamadas de voz e outras comunicações.",
+                url: "https://api.twilio.com/2010-04-01",
+                auth: "API Key",
+                https: true,
+                cors: true
+            }
+        ];
+
+        // Function to generate API cards
+        function generateAPICards(apis) {
+            const apisGrid = document.getElementById('apis-grid');
+            apisGrid.innerHTML = '';
+
+            apis.forEach(api => {
+                const apiCard = document.createElement('div');
+                apiCard.className = 'api-card animate';
+                apiCard.innerHTML = `
+                    <div class="api-card-header">
+                        <span class="api-card-category">${api.category}</span>
+                        <h3 class="api-card-title">${api.name}</h3>
+                        <p class="api-card-description">${api.description}</p>
+                    </div>
+                    <div class="api-card-body">
+                        <div class="api-details">
+                            <div class="api-detail-item">
+                                <i class="fas fa-lock"></i>
+                                <span>Autenticação: ${api.auth}</span>
+                            </div>
+                            <div class="api-detail-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>HTTPS: ${api.https ? 'Sim' : 'Não'}</span>
+                            </div>
+                            <div class="api-detail-item">
+                                <i class="fas fa-exchange-alt"></i>
+                                <span>CORS: ${api.cors ? 'Suportado' : 'Não suportado'}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="api-card-footer">
+                        <div class="api-link-container">
+                            <div class="api-link">${api.url}</div>
+                            <button class="copy-btn" data-url="${api.url}">
+                                <i class="fas fa-copy"></i> Copiar
+                            </button>
+                        </div>
+                    </div>
+                `;
+                apisGrid.appendChild(apiCard);
+            });
+
+            // Add event listeners to copy buttons
+            document.querySelectorAll('.copy-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const url = this.getAttribute('data-url');
+                    copyToClipboard(url);
+                    
+                    // Show notification
+                    const notification = document.getElementById('notification');
+                    notification.classList.add('show');
+                    
+                    // Change button text temporarily
+                    const originalHtml = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+                    this.classList.add('copied');
+                    
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                        this.innerHTML = originalHtml;
+                        this.classList.remove('copied');
+                    }, 2000);
+                });
+            });
+        }
+
+        // Function to copy text to clipboard
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
+
+        // Function to filter APIs based on search input
+        function filterAPIs() {
+            const searchText = document.querySelector('.search-input').value.toLowerCase();
+            const activeFilter = document.querySelector('.filter-btn.active').textContent;
+            
+            let filteredAPIs = apiData;
+            
+            // Apply search filter
+            if (searchText) {
+                filteredAPIs = filteredAPIs.filter(api => 
+                    api.name.toLowerCase().includes(searchText) ||
+                    api.description.toLowerCase().includes(searchText) ||
+                    api.category.toLowerCase().includes(searchText)
+                );
+            }
+            
+            // Apply category filter
+            if (activeFilter !== 'Todas') {
+                filteredAPIs = filteredAPIs.filter(api => 
+                    api.category === activeFilter
+                );
+            }
+            
+            generateAPICards(filteredAPIs);
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Generate initial API cards
+            generateAPICards(apiData);
+            
+            // Add event listener to search input
+            document.querySelector('.search-input').addEventListener('input', filterAPIs);
+            
+            // Add event listeners to filter buttons
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    filterAPIs();
+                });
+            });
+            
+            // Add event listener to search button
+            document.querySelector('.search-button').addEventListener('click', filterAPIs);
+        });
+    </script>
+</body>
+</html>
