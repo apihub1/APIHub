@@ -3,82 +3,630 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Apihub.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <title>APIHub</title>
+    <meta name="description" content="APIHub - Entenda o que são APIs, como funcionam e descubra as APIs mais populares do mercado para integrar em seus projetos.">
+    <meta name="keywords" content="API, desenvolvimento, programação, integração, REST API, Google Maps API, OpenAI API, Twitter API">
+    <meta name="author" content="APIHub">
+    <meta property="og:title" content="APIHub - Tudo sobre APIs e Integrações">
+    <meta property="og:description" content="Descubra o mundo das APIs, como funcionam e as melhores APIs para usar em seus projetos de desenvolvimento.">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>APIHub - Tudo sobre APIs e Como Integrar Sistemas</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #4f46e5;
+            --accent: #8b5cf6;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --background: #f9fafb;
+            --card-bg: #ffffff;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--background);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--gradient);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            height: 50px;
+            width: auto;
+            border-radius: 8px;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+            background: var(--gradient);
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: var(--primary);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content-section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .content-section h1 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .content-section p {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        /* API Flow */
+        .fluxo-api {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+        }
+
+        .etapa {
+            flex: 1;
+            min-width: 200px;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--primary);
+        }
+
+        .etapa:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .etapa h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .etapa-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Cards Section */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border-top: 5px solid var(--accent);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-icon {
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            color: var(--text-light);
+        }
+
+        /* Benefits Section */
+        .benefits {
+            background: var(--gradient);
+            color: white;
+            padding: 4rem 0;
+            margin: 4rem 0;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .benefit-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .benefit-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .benefit-item h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text);
+            color: white;
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links h4 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #374151;
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .fluxo-api {
+                flex-direction: column;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+    </style>
 </head>
 <body>
-    <main>
-        <div class="retangulo">
-            <img src="Logo.png" alt="Logo APIHub" class="logo">
-            <h1>APIS</h1>
+    <header>
+        <div class="container header-content">
+            <div class="logo-container">
+                <img src="Logo.png" alt="APIHub - Centro de recursos para desenvolvedores de API" class="logo">
+                <div class="logo-text">APIHub</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#o-que-e-api">O que é API</a></li>
+                    <li><a href="#como-funciona">Como funciona</a></li>
+                    <li><a href="#exemplos">Exemplos</a></li>
+                    <li><a href="#beneficios">Benefícios</a></li>
+                </ul>
+            </nav>
         </div>
+    </header>
 
-        <div class="retangulo1">
-            <div class="conteudo">
+    <div class="hero">
+        <div class="container">
+            <h1>Domine o poder das APIs</h1>
+            <p>Descubra como as Interfaces de Programação de Aplicações podem transformar seus projetos e impulsionar suas integrações</p>
+            <a href="#o-que-e-api" class="cta-button">Começar a explorar</a>
+        </div>
+    </div>
+
+    <main class="container">
+        <section id="o-que-e-api" class="animate">
+            <div class="content-section">
                 <h1>O que é API?</h1>
                 <p>
                     Uma API (<strong>Interface de Programação de Aplicações</strong>) é um conjunto de regras e protocolos que permite que diferentes sistemas de software se comuniquem entre si.
                     Ela define métodos e formatos de dados para que um programa possa acessar funcionalidades ou informações de outro, sem precisar conhecer sua lógica interna.
                     Isso facilita a integração entre plataformas, acelera o desenvolvimento de aplicações e promove a padronização da comunicação entre sistemas.
                 </p>
+                <p>
+                    Pense em uma API como um garçom em um restaurante: você (o cliente) faz um pedido através do garçom (a API),
+                    que então leva seu pedido para a cozinha (o servidor) e retorna com sua comida (a resposta). Você não precisa
+                    saber como a comida foi preparada, apenas faz o pedido e recebe o resultado.
+                </p>
             </div>
-        </div>
-
-        <section class="secao">
-            <h2>Como funciona uma API?</h2>
-            <p>
-                As APIs funcionam como um mensageiro que leva seu pedido até o provedor de serviços e depois retorna com a resposta. 
-                Elas usam protocolos como HTTP para enviar e receber dados, normalmente no formato JSON ou XML. 
-                Dessa forma, diferentes linguagens e plataformas conseguem se integrar facilmente.
-            </p>
-            <div class="fluxo-api">
-    <div class="etapa">
-        <h3>1. Cliente</h3>
-        <p>O usuário interage com um app ou navegador e realiza uma ação, como clicar em "Buscar dados".</p>
-    </div>
-    <div class="etapa">
-        <h3>2. Requisição HTTP</h3>
-        <p>O app envia uma requisição para a API usando o protocolo HTTP, geralmente com o método GET ou POST.</p>
-    </div>
-    <div class="etapa">
-        <h3>3. API</h3>
-        <p>A API interpreta o pedido, valida os dados e encaminha a solicitação ao servidor ou banco de dados.</p>
-    </div>
-    <div class="etapa">
-        <h3>4. Servidor / Banco de Dados</h3>
-        <p>O servidor processa a lógica e consulta os dados necessários, retornando a resposta para a API.</p>
-    </div>
-    <div class="etapa">
-        <h3>5. Resposta HTTP</h3>
-        <p>A API formata os dados (em JSON ou XML) e envia de volta ao cliente, que exibe o resultado ao usuário.</p>
-    </div>
-</div>
-
-            <img src="API.png" alt="Diagrama de API" class="imagem-secao">
         </section>
 
-        <section class="secao">
-            <h2>Exemplos de APIs famosas</h2>
+        <section id="como-funciona" class="animate delay-1">
+            <div class="section-title">
+                <h2>Como funciona uma API?</h2>
+            </div>
+            <div class="content-section">
+                <p>
+                    As APIs funcionam como um mensageiro que leva seu pedido até o provedor de serviços e depois retorna com a resposta. 
+                    Elas usam protocolos como HTTP para enviar e receber dados, normalmente no formato JSON ou XML. 
+                    Dessa forma, diferentes linguagens e plataformas conseguem se integrar facilmente.
+                </p>
+                
+                <div class="fluxo-api">
+                    <div class="etapa">
+                        <h3><span class="etapa-number">1</span> Cliente</h3>
+                        <p>O usuário interage com um app ou navegador e realiza uma ação, como clicar em "Buscar dados".</p>
+                    </div>
+                    <div class="etapa">
+                        <h3><span class="etapa-number">2</span> Requisição HTTP</h3>
+                        <p>O app envia uma requisição para a API usando o protocolo HTTP, geralmente com o método GET ou POST.</p>
+                    </div>
+                    <div class="etapa">
+                        <h3><span class="etapa-number">3</span> API</h3>
+                        <p>A API interpreta o pedido, valida os dados e encaminha a solicitação ao servidor ou banco de dados.</p>
+                    </div>
+                    <div class="etapa">
+                        <h3><span class="etapa-number">4</span> Servidor / Banco de Dados</h3>
+                        <p>O servidor processa a lógica e consulta os dados necessários, retornando a resposta para a API.</p>
+                    </div>
+                    <div class="etapa">
+                        <h3><span class="etapa-number">5</span> Resposta HTTP</h3>
+                        <p>A API formata os dados (em JSON ou XML) e envia de volta ao cliente, que exibe o resultado ao usuário.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="exemplos" class="animate delay-2">
+            <div class="section-title">
+                <h2>Exemplos de APIs famosas</h2>
+            </div>
             <div class="cards">
                 <div class="card">
-                    <h3>Google Maps API</h3>
-                    <p>Permite adicionar mapas interativos, rotas e geolocalização a aplicações e sites.</p>
+                    <div class="card-content">
+                        <h3><i class="card-icon fas fa-map-marked-alt"></i> Google Maps API</h3>
+                        <p>Permite adicionar mapas interativos, rotas e geolocalização a aplicações e sites. Com essa API, desenvolvedores podem criar experiências personalizadas de mapas, calcular rotas, exibir informações de tráfego em tempo real e muito mais.</p>
+                    </div>
                 </div>
                 <div class="card">
-                    <h3>OpenAI API</h3>
-                    <p>Oferece modelos de inteligência artificial para geração de texto, imagens e muito mais.</p>
+                    <div class="card-content">
+                        <h3><i class="card-icon fas fa-robot"></i> OpenAI API</h3>
+                        <p>Oferece modelos de inteligência artificial para geração de texto, imagens e muito mais. A API GPT permite criar aplicações que entendem e geram linguagem natural, tornando possível chatbots avançados, assistentes virtuais e ferramentas de criação de conteúdo.</p>
+                    </div>
                 </div>
                 <div class="card">
-                    <h3>Twitter API</h3>
-                    <p>Permite ler, escrever e interagir com tweets e dados de usuários do Twitter.</p>
+                    <div class="card-content">
+                        <h3><i class="card-icon fab fa-twitter"></i> Twitter API</h3>
+                        <p>Permite ler, escrever e interagir com tweets e dados de usuários do Twitter. Desenvolvedores podem criar aplicações que postam tweets, analisam tendências, monitoram menções e muito mais, integrando as funcionalidades do Twitter em seus próprios projetos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="beneficios" class="benefits animate delay-3">
+            <div class="container">
+                <div class="section-title">
+                    <h2 style="color: white;">Vantagens de usar APIs</h2>
+                </div>
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <i class="benefit-icon fas fa-bolt"></i>
+                        <h3>Eficiência no desenvolvimento</h3>
+                        <p>APIs permitem reutilizar funcionalidades existentes, acelerando o tempo de desenvolvimento.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="benefit-icon fas fa-sync-alt"></i>
+                        <h3>Integração simplificada</h3>
+                        <p>Conecte sistemas diferentes de maneira padronizada e eficiente.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="benefit-icon fas fa-shield-alt"></i>
+                        <h3>Segurança</h3>
+                        <p>APIs fornecem acesso controlado a funcionalidades sem expor código interno.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="benefit-icon fas fa-expand-arrows-alt"></i>
+                        <h3>Escalabilidade</h3>
+                        <p>Permite que sistemas cresçam e adicionem funcionalidades sem reescrever código existente.</p>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 APIHub - Todos os direitos reservados.</p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <div class="footer-logo">APIHub</div>
+                    <p>Seu centro de recursos para desenvolvimento e integração de APIs.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="#o-que-e-api">O que é API</a></li>
+                        <li><a href="#como-funciona">Como funciona</a></li>
+                        <li><a href="#exemplos">Exemplos</a></li>
+                        <li><a href="#beneficios">Benefícios</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Recursos</h4>
+                    <ul>
+                        <li><a href="#">Documentação</a></li>
+                        <li><a href="#">Tutoriais</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Fórum</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 APIHub - Todos os direitos reservados.</p>
+            </div>
+        </div>
     </footer>
+
+    <script>
+        // Animação de scroll suave para links internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Animação de elementos ao rolar
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
 </body>
 </html>
