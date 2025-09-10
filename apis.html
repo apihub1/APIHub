@@ -560,34 +560,7 @@
     name: "ValidaBR API",
     category: "Validação de Dados",
     description: `API para validação de dados brasileiros como CPF, CNPJ, e-mail, senha, telefone e CEP.
-
-🔹 Exemplos de uso:
-- Validar CPF:
-  GET https://api-validacao-de-dados.onrender.com/validate/cpf?value=12345678909
-
-- Validar CNPJ:
-  GET https://api-validacao-de-dados.onrender.com/validate/cnpj?value=11222333000181
-
-- Validar e-mail:
-  GET https://api-validacao-de-dados.onrender.com/validate/email?value=teste@email.com
-
-- Validar senha (com política):
-  GET https://api-validacao-de-dados.onrender.com/validate/password?value=Senha123!&minLength=8
-
-- Validar telefone BR:
-  GET https://api-validacao-de-dados.onrender.com/validate/phone-br?value=11987654321
-
-- Validar CEP:
-  GET https://api-validacao-de-dados.onrender.com/validate/cep?value=01001000
-
-🔹 Para validar múltiplos de uma vez:
-  POST https://api-validacao-de-dados.onrender.com/validate/batch
-  Body (JSON):
-  [
-    { "type": "cpf", "value": "12345678909" },
-    { "type": "email", "value": "teste@email.com" }
-  ]`,
-    url: "https://api-validacao-de-dados.onrender.com",
+    url: "https://api-validacao-de-dados.onrender.com/velidate",
     auth: "Nenhum",
     https: true,
     cors: true
@@ -595,9 +568,9 @@
 
             {
                 id: 2,
-                name: "Stripe API",
-                category: "Pagamentos",
-                description: "API para processamento de pagamentos online.",
+                name: "DATAPI",
+                category: "Datas",
+                description: "API para envio de datas comemorativas e dias especiais ao longo do ano. Podendo ser por dia ou mês. ",
                 url: "https://api.stripe.com/v1",
                 auth: "Bearer Token",
                 https: true,
@@ -791,6 +764,7 @@
 </body>
 
 </html>
+
 
 
 
