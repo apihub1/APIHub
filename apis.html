@@ -241,52 +241,6 @@
             padding: 1.5rem;
             flex-grow: 1;
         }
-        .api-tutorial {
-  background: var(--card-bg);
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-  margin-top: 3rem;
-}
-
-.api-tutorial h2 {
-  color: var(--primary);
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-.tutorial-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.step {
-  display: flex;
-  align-items: flex-start;
-  gap: 15px;
-}
-
-.step-number {
-  background: var(--primary);
-  color: white;
-  font-weight: bold;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-pre {
-  background: #f3f4f6;
-  padding: 10px;
-  border-radius: 6px;
-  overflow-x: auto;
-}
-
 
         .api-details {
             margin-bottom: 1.5rem;
@@ -309,6 +263,9 @@ pre {
             padding: 1rem 1.5rem;
             background: #f9fafb;
             border-top: 1px solid #f3f4f6;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .api-link-container {
@@ -340,6 +297,7 @@ pre {
             display: flex;
             align-items: center;
             gap: 5px;
+            font-size: 0.8rem;
         }
 
         .copy-btn:hover {
@@ -348,6 +306,132 @@ pre {
 
         .copy-btn.copied {
             background: #10b981;
+        }
+
+        .how-to-use-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-weight: 500;
+            width: 100%;
+        }
+
+        .how-to-use-btn:hover {
+            background: var(--primary);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--text);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-section-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-section-content {
+            background: #f9fafb;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+
+        .code-example {
+            background: #1f2937;
+            color: #e5e7eb;
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-top: 0.5rem;
+        }
+
+        .code-example code {
+            display: block;
+            font-family: 'Fira Code', monospace;
         }
 
         /* Pagination */
@@ -487,6 +571,11 @@ pre {
                 padding: 12px;
                 border-radius: 0 0 10px 10px;
             }
+
+            .modal {
+                width: 95%;
+                margin: 20px;
+            }
         }
 
         /* Animation */
@@ -553,30 +642,6 @@ pre {
             <div class="apis-grid" id="apis-grid">
                 <!-- API Cards will be generated here -->
             </div>
-            <section class="api-tutorial">
-  <h2>Como usar esta API</h2>
-
-  <div class="tutorial-steps">
-    <div class="step">
-      <div class="step-number">1</div>
-      <p>Copie o link da API clicando no botão <b>Copiar</b>.</p>
-    </div>
-
-    <div class="step">
-      <div class="step-number">2</div>
-      <p>Faça uma requisição GET no endpoint, por exemplo:</p>
-      <pre><code>fetch("https://api-validacao-de-dados.onrender.com/validate/cpf?value=12345678900")
-  .then(res => res.json())
-  .then(data => console.log(data))</code></pre>
-    </div>
-
-    <div class="step">
-      <div class="step-number">3</div>
-      <p>Veja a resposta no console ou utilize os dados no seu sistema.</p>
-    </div>
-  </div>
-</section>
-
 
             <div class="pagination">
                 <button class="pagination-button">&laquo;</button>
@@ -586,6 +651,19 @@ pre {
                 <button class="pagination-button">&raquo;</button>
             </div>
         </section>
+    </div>
+
+    <!-- Modal Structure -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title">Como usar a API</h2>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Modal content will be inserted here -->
+            </div>
+        </div>
     </div>
 
     <div class="notification" id="notification">Link copiado para a área de transferência!</div>
@@ -623,100 +701,268 @@ pre {
     </footer>
 
     <script>
-        // Sample API data
+        // Sample API data with usage information
         const apiData = [
           {
-  id: 1,
-  name: "ValidaBR API",
-  category: "Dados",
-  description: "API para validação de dados brasileiros como CPF, CNPJ, e-mail, senha, telefone e CEP.",
-  url: "https://api-validacao-de-dados.onrender.com/validate",
-  auth: "Nenhuma",
-  https: true,
-  cors: true
-},
-
-            {
-                id: 2,
-                name: "DATAPI",
-                category: "Datas",
-                description: "API para envio de datas comemorativas e dias especiais ao longo do ano. Podendo ser por dia ou mês. ",
-                url: "https://api.stripe.com/v1",
-                auth: "Nenhuma",
-                https: true,
-                cors: true
-            },
-           {
-    id: 3,
-    name: "JSONPlaceholder",
-    category: "Dados",
-    description: "Fake REST API para testes e aprendizado.",
-    url: "https://jsonplaceholder.typicode.com",
-    auth: "Nenhuma",
-    https: true,
-    cors: true
-  },
+            id: 1,
+            name: "ValidaBR API",
+            category: "Dados",
+            description: "API para validação de dados brasileiros como CPF, CNPJ, e-mail, senha, telefone e CEP.",
+            url: "https://api-validacao-de-dados.onrender.com/validate",
+            auth: "Nenhuma",
+            https: true,
+            cors: true,
+            usage: {
+                endpoint: "/validate/?value",
+                method: "GET",
+                parameters: {
+                    "Value = Valor a ser validado, sem necessidade de indicação, realiza a identificação automáticamente."
+                },
+                example: "https://api-validacao-de-dados.onrender.com/validate?valor=123.456.789-09",
+                response: `{
+  "valid": true,
+  "message": "CPF válido",
+  "formatted": "123.456.789-09"
+}`
+            }
+          },
+          {
+            id: 2,
+            name: "DATAPI",
+            category: "Datas",
+            description: "API para envio de datas comemorativas e dias especiais ao longo do ano. Podendo ser por dia ou mês.",
+            url: "https://api.stripe.com/v1",
+            auth: "Nenhuma",
+            https: true,
+            cors: true,
+            usage: {
+                endpoint: "/dates/{type}",
+                method: "GET",
+                parameters: {
+                    type: "Tipo de consulta (day, month, all)",
+                    month: "Mês para filtrar (1-12, apenas para type=month)",
+                    day: "Dia para filtrar (apenas para type=day)"
+                },
+                example: "https://api.datapi.com/dates/month?month=12",
+                response: `{
+  "month": 12,
+  "holidays": [
+    {
+      "date": "2023-12-25",
+      "name": "Natal",
+      "type": "nacional"
+    }
+  ]
+}`
+            }
+          },
+          {
+            id: 3,
+            name: "JSONPlaceholder",
+            category: "Dados",
+            description: "Fake REST API para testes e aprendizado.",
+            url: "https://jsonplaceholder.typicode.com",
+            auth: "Nenhuma",
+            https: true,
+            cors: true,
+            usage: {
+                endpoint: "/{resource}",
+                method: "GET, POST, PUT, DELETE",
+                parameters: {
+                    resource: "Recurso desejado (posts, comments, albums, photos, todos, users)"
+                },
+                example: "https://jsonplaceholder.typicode.com/posts",
+                response: `[
   {
-    id: 4,
-    name: "PokeAPI",
-    category: "Diversão",
-    description: "Dados completos sobre Pokémon.",
-    url: "https://pokeapi.co/api/v2",
-    auth: "Nenhuma",
-    https: true,
-    cors: true
-  },
-  {
-    id: 5,
-    name: "The Dog API",
-    category: "Animais",
-    description: "Fotos e informações de cachorros.",
-    url: "https://api.thedogapi.com/v1",
-    auth: "Opcional (API Key)",
-    https: true,
-    cors: true
-  },
-  {
-    id: 6,
-    name: "The Cat API",
-    category: "Animais",
-    description: "Fotos e raças de gatos.",
-    url: "https://api.thecatapi.com/v1",
-    auth: "Opcional (API Key)",
-    https: true,
-    cors: true
-  },
-  {
-    id: 7,
-    name: "Advice Slip API",
-    category: "Diversão",
-    description: "Gera frases e conselhos aleatórios.",
-    url: "https://api.adviceslip.com",
-    auth: "Nenhuma",
-    https: true,
-    cors: true
-  },
-  {
-    id: 8,
-    name: "Bored API",
-    category: "Diversão",
-    description: "Sugestões de atividades para quando você está entediado.",
-    url: "https://www.boredapi.com/api",
-    auth: "Nenhuma",
-    https: true,
-    cors: true
-  },
-  {
-    id: 9,
-    name: "Open Meteo",
-    category: "Clima",
-    description: "API de previsão do tempo grátis e sem chave.",
-    url: "https://api.open-meteo.com/v1/forecast",
-    auth: "Nenhuma",
-    https: true,
-    cors: true
+    "userId": 1,
+    "id": 1,
+    "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+    "body": "quia et suscipit suscipit recusandae consequuntur expedita et cum reprehenderit molestiae ut ut quas totam nostrum rerum est autem sunt rem eveniet architecto"
   }
-
+]`
+            }
+          },
+          {
+            id: 4,
+            name: "PokeAPI",
+            category: "Diversão",
+            description: "Dados completos sobre Pokémon.",
+            url: "https://pokeapi.co/api/v2",
+            auth: "Nenhuma",
+            https: true,
+            cors: true,
+            usage: {
+                endpoint: "/pokemon/{id_or_name}",
+                method: "GET",
+                parameters: {
+                    id_or_name: "ID ou nome do Pokémon"
+                },
+                example: "https://pokeapi.co/api/v2/pokemon/pikachu",
+                response: `{
+  "name": "pikachu",
+  "id": 25,
+  "abilities": [
+    {
+      "ability": {
+        "name": "static",
+        "url": "https://pokeapi.co/api/v2/ability/9/"
+      }
+    }
+  ],
+  "types": [
+    {
+      "type": {
+        "name": "electric",
+        "url": "https://pokeapi.co/api/v2/type/13/"
+      }
+    }
+  ]
+}`
+            }
+          },
+          {
+            id: 5,
+            name: "The Dog API",
+            category: "Animais",
+            description: "Fotos e informações de cachorros.",
+            url: "https://api.thedogapi.com/v1",
+            auth: "Opcional (API Key)",
+            https: true,
+            cors: true,
+            usage: {
+                endpoint: "/images/search",
+                method: "GET",
+                parameters: {
+                    limit: "Número de resultados (opcional)",
+                    breed_id: "ID da raça (opcional)",
+                    format: "Formato (json, src) (opcional)"
+                },
+                example: "https://api.thedogapi.com/v1/images/search?limit=5",
+                response: `[
+  {
+    "id": "HJQ9feNmX",
+    "url": "https://cdn2.thedogapi.com/images/HJQ9feNmX_1280.jpg",
+    "breeds": [
+      {
+        "name": "Akita",
+        "bred_for": "Hunting bears",
+        "life_span": "10 - 14 years"
+      }
+    ]
+  }
+]`
+            }
+          },
+          {
+            id: 6,
+            name: "The Cat API",
+            category: "Animais",
+            description: "Fotos e raças de gatos.",
+            url: "https://api.thecatapi.com/v1",
+            auth: "Opcional (API Key)",
+            https: true,
+            cors: true,
+            usage: {
+                endpoint: "/images/search",
+                method: "GET",
+                parameters: {
+                    limit: "Número de resultados (opcional)",
+                    breed_id: "ID da raça (opcional)",
+                    category_ids: "IDs de categorias (opcional)"
+                },
+                example: "https://api.thecatapi.com/v1/images/search?limit=3",
+                response: `[
+  {
+    "id": "2f6",
+    "url": "https://cdn2.thecatapi.com/images/2f6.jpg",
+    "width": 500,
+    "height": 333
+  }
+]`
+            }
+          },
+          {
+            id: 7,
+            name: "Advice Slip API",
+            category: "Diversão",
+            description: "Gera frases e conselhos aleatórios.",
+            url: "https://api.adviceslip.com",
+            auth: "Nenhuma",
+            https: true,
+            cors: true,
+            usage: {
+                endpoint: "/advice",
+                method: "GET",
+                parameters: "Nenhum parâmetro necessário para conselho aleatório",
+                example: "https://api.adviceslip.com/advice",
+                response: `{
+  "slip": {
+    "id": 117,
+    "advice": "Remember that spiders are more afraid of you than you are of them."
+  }
+}`
+            }
+          },
+          {
+            id: 8,
+            name: "Bored API",
+            category: "Diversão",
+            description: "Sugestões de atividades para quando você está entediado.",
+            url: "https://www.boredapi.com/api",
+            auth: "Nenhuma",
+            https: true,
+            cors: true,
+            usage: {
+                endpoint: "/activity",
+                method: "GET",
+                parameters: {
+                    type: "Tipo de atividade (education, recreational, social, etc.)",
+                    participants: "Número de participantes",
+                    price: "Preço (0.0 a 1.0)",
+                    accessibility: "Acessibilidade (0.0 a 1.0)"
+                },
+                example: "https://www.boredapi.com/api/activity?type=recreational",
+                response: `{
+  "activity": "Go to a concert with some friends",
+  "type": "social",
+  "participants": 4,
+  "price": 0.5,
+  "link": "",
+  "key": "2211716",
+  "accessibility": 0.3
+}`
+            }
+          },
+          {
+            id: 9,
+            name: "Open Meteo",
+            category: "Clima",
+            description: "API de previsão do tempo grátis e sem chave.",
+            url: "https://api.open-meteo.com/v1/forecast",
+            auth: "Nenhuma",
+            https: true,
+            cors: true,
+            usage: {
+                endpoint: "/v1/forecast",
+                method: "GET",
+                parameters: {
+                    latitude: "Latitude da localização",
+                    longitude: "Longitude da localização",
+                    hourly: "Variáveis horárias (temperature_2m, etc.)",
+                    daily: "Variáveis diárias (temperature_2m_max, etc.)",
+                    timezone: "Fuso horário (auto ou específico)"
+                },
+                example: "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m",
+                response: `{
+  "latitude": 52.52,
+  "longitude": 13.419,
+  "hourly": {
+    "time": ["2023-07-01T00:00", "2023-07-01T01:00"],
+    "temperature_2m": [13, 12]
+  }
+}`
+            }
+          }
         ];
 
         // Function to generate API cards
@@ -756,6 +1002,9 @@ pre {
                                 <i class="fas fa-copy"></i> Copiar
                             </button>
                         </div>
+                        <button class="how-to-use-btn" data-api-id="${api.id}">
+                            <i class="fas fa-book"></i> Como usar
+                        </button>
                     </div>
                 `;
                 apisGrid.appendChild(apiCard);
@@ -783,6 +1032,102 @@ pre {
                     }, 2000);
                 });
             });
+
+            // Add event listeners to "How to use" buttons
+            document.querySelectorAll('.how-to-use-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const apiId = this.getAttribute('data-api-id');
+                    const api = apiData.find(a => a.id == apiId);
+                    if (api) {
+                        showUsageModal(api);
+                    }
+                });
+            });
+        }
+
+        // Function to show usage modal
+        function showUsageModal(api) {
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            
+            // Set modal title
+            modalTitle.textContent = `Como usar: ${api.name}`;
+            
+            // Generate modal content
+            modalBody.innerHTML = `
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <i class="fas fa-info-circle"></i> Descrição
+                    </h3>
+                    <p>${api.description}</p>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <i class="fas fa-link"></i> Endpoint
+                    </h3>
+                    <div class="modal-section-content">${api.usage.endpoint}</div>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <i class="fas fa-code"></i> Método HTTP
+                    </h3>
+                    <div class="modal-section-content">${api.usage.method}</div>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <i class="fas fa-cog"></i> Parâmetros
+                    </h3>
+                    <div class="modal-section-content">
+                        ${typeof api.usage.parameters === 'string' 
+                            ? api.usage.parameters 
+                            : Object.entries(api.usage.parameters)
+                                .map(([key, value]) => `<strong>${key}:</strong> ${value}`)
+                                .join('\n')}
+                    </div>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <i class="fas fa-play-circle"></i> Exemplo de Uso
+                    </h3>
+                    <div class="code-example">
+                        <code>${api.usage.example}</code>
+                    </div>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <i class="fas fa-reply"></i> Resposta de Exemplo
+                    </h3>
+                    <div class="code-example">
+                        <code>${api.usage.response}</code>
+                    </div>
+                </div>
+            `;
+            
+            // Show modal
+            modalOverlay.classList.add('active');
+            
+            // Add event listener to close modal
+            document.getElementById('modal-close').onclick = closeModal;
+            modalOverlay.onclick = function(e) {
+                if (e.target === modalOverlay) closeModal();
+            };
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeModal();
+            });
+        }
+
+        // Function to close modal
+        function closeModal() {
+            const modalOverlay = document.getElementById('modal-overlay');
+            modalOverlay.classList.remove('active');
         }
 
         // Function to copy text to clipboard
@@ -843,18 +1188,4 @@ pre {
         });
     </script>
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
