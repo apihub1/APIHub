@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br" dir="ltr">
 <head>
@@ -1084,8 +1085,8 @@
                         ${typeof api.usage.parameters === 'string' 
                             ? api.usage.parameters 
                             : Object.entries(api.usage.parameters)
-                                .map(([key, value]) => `<strong>${key}:</strong> ${value}`)
-                                .join('\n')}
+                                .map(([key, value]) => `<strong>${key}:</strong> ${value}<br>`)
+                                .join('')}
                     </div>
                 </div>
                 
@@ -1188,5 +1189,6 @@
     </script>
 </body>
 </html>
+
 
 
