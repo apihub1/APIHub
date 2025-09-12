@@ -731,19 +731,19 @@
             name: "DATAPI",
             category: "Datas",
             description: "API para envio de datas comemorativas e dias especiais ao longo do ano. Podendo ser por dia ou mês.",
-            url: "https://api.stripe.com/v1",
+            url: "https://api-datas-comemorativas.onrender.com/api/",
             auth: "Nenhuma",
             https: true,
             cors: true,
             usage: {
-                endpoint: "/dates/{type}",
+                endpoint: "/datas?mes=12<br>/datas?dia=25-12",
                 method: "GET",
                 parameters: {
                     type: "Tipo de consulta (day, month, all)",
                     month: "Mês para filtrar (1-12, apenas para type=month)",
                     day: "Dia para filtrar (apenas para type=day)"
                 },
-                example: "https://api-datas-comemorativas.onrender.comapi/datas?mes=12",
+                example: "https://api-datas-comemorativas.onrender.com/api/datas?dia=25-12",
                 response: `{
   "month": 12,
   "holidays": [
@@ -1189,6 +1189,7 @@
     </script>
 </body>
 </html>
+
 
 
 
