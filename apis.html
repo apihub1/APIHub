@@ -701,69 +701,96 @@
             </div>
         </div>
     </footer>
-
 <script>
-  const API_URL = "https://api-apihub.onrender.com/apis";
+const API_URL = "https://api-apihub.onrender.com/apis";
+let todasAPIs = []; // Armazena todas para aplicar filtros depois
+
+// Função para carregar APIs do backend
+async function carregarAPIs() {
   const grid = document.getElementById("apis-grid");
+  grid.innerHTML = "<p>Carregando APIs...</p>";
 
-  async function carregarAPIs() {
-    try {
-      const response = await fetch(API_URL);
-      const apis = await response.json();
+  try {
+    const resposta = await fetch(API_URL);
+    todasAPIs = await resposta.json();
+    renderizarAPIs(todasAPIs);
+  } catch (erro) {
+    grid.innerHTML = "<p>Erro ao carregar APIs 😢</p>";
+    console.error("Erro ao buscar APIs:", erro);
+  }
+}
 
-      grid.innerHTML = ""; // limpa antes de renderizar
+// Renderizar as APIs em cards
+function renderizarAPIs(lista) {
+  const grid = document.getElementById("apis-grid");
+  grid.innerHTML = "";
 
-      apis.forEach(api => {
-        const card = document.createElement("div");
-        card.classList.add("api-card");
-
-        card.innerHTML = `
-          <h3>${api.name}</h3>
-          <p><strong>Categoria:</strong> ${api.category}</p>
-          <p>${api.description}</p>
-          <a href="${api.url}" target="_blank">Acessar</a>
-          <button onclick="mostrarModal(${api.id})">Ver Uso</button>
-        `;
-
-        grid.appendChild(card);
-      });
-
-    } catch (error) {
-      console.error("Erro ao carregar APIs:", error);
-      grid.innerHTML = "<p>Não foi possível carregar as APIs.</p>";
-    }
+  if (lista.length === 0) {
+    grid.innerHTML = "<p>Nenhuma API encontrada.</p>";
+    return;
   }
 
-  // abre modal com detalhes de uso
-  async function mostrarModal(id) {
-    const response = await fetch(API_URL);
-    const apis = await response.json();
-    const api = apis.find(a => a.id === id);
-
-    if (!api) return;
-
-    document.getElementById("modal-title").textContent = api.name;
-    document.getElementById("modal-body").innerHTML = `
-      <p><strong>Endpoint:</strong> ${api.usage.endpoint}</p>
-      <p><strong>Método:</strong> ${api.usage.method}</p>
-      <p><strong>Parâmetros:</strong> ${JSON.stringify(api.usage.parameters, null, 2)}</p>
-      <p><strong>Exemplo:</strong> <code>${api.usage.example}</code></p>
-      <pre>${api.usage.response}</pre>
+  lista.forEach(api => {
+    const card = document.createElement("div");
+    card.classList.add("api-card");
+    card.innerHTML = `
+      <h3>${api.name}</h3>
+      <p>${api.description}</p>
+      <p><strong>Categoria:</strong> ${api.category}</p>
+      <button onclick="abrirModal(${api.id})">Ver detalhes</button>
     `;
-    document.getElementById("modal-overlay").style.display = "flex";
-  }
-
-  // fecha modal
-  document.getElementById("modal-close").addEventListener("click", () => {
-    document.getElementById("modal-overlay").style.display = "none";
+    grid.appendChild(card);
   });
+}
 
-  // carregar ao abrir a página
-  carregarAPIs();
+// Abrir modal com informações da API
+function abrirModal(id) {
+  const api = todasAPIs.find(a => a.id === id);
+  if (!api) return;
+
+  document.getElementById("modal-title").textContent = api.name;
+  document.getElementById("modal-body").innerHTML = `
+    <p><strong>Endpoint:</strong> ${api.usage.endpoint}</p>
+    <p><strong>Método:</strong> ${api.usage.method}</p>
+    <p><strong>Parâmetros:</strong></p>
+    <pre>${JSON.stringify(api.usage.parameters, null, 2)}</pre>
+    <p><strong>Exemplo:</strong></p>
+    <code>${api.usage.example}</code>
+    <p><strong>Resposta:</strong></p>
+    <pre>${api.usage.response}</pre>
+  `;
+  document.getElementById("modal-overlay").classList.add("active");
+}
+
+// Fechar modal
+document.getElementById("modal-close").addEventListener("click", () => {
+  document.getElementById("modal-overlay").classList.remove("active");
+});
+
+// Filtros por categoria
+document.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    const categoria = btn.textContent;
+    if (categoria === "Todas") {
+      renderizarAPIs(todasAPIs);
+    } else {
+      const filtradas = todasAPIs.filter(api => api.category === categoria);
+      renderizarAPIs(filtradas);
+    }
+  });
+});
+
+// Carregar APIs ao abrir a página
+carregarAPIs();
 </script>
+
 
 </body>
 </html>
+
 
 
 
