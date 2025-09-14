@@ -703,29 +703,9 @@ animation: fadeIn 0.8s ease forwards;
 </footer>
 
 <script>
-  const API_URL = "https://api-apihub.onrender.com/apis";
-  const grid = document.getElementById("apis-grid");
-
-  async function carregarAPIs() {
-    try {
-      const response = await fetch(API_URL);
-      const apis = await response.json();
-
-      grid.innerHTML = ""; // limpa antes de renderizar
 const API_URL = "https://api-apihub.onrender.com/apis";
 let todasAPIs = []; // Armazena todas para aplicar filtros depois
 
-      apis.forEach(api => {
-        const card = document.createElement("div");
-        card.classList.add("api-card");
-
-        card.innerHTML = `
-          <h3>${api.name}</h3>
-          <p><strong>Categoria:</strong> ${api.category}</p>
-          <p>${api.description}</p>
-          <a href="${api.url}" target="_blank">Acessar</a>
-          <button onclick="mostrarModal(${api.id})">Ver Uso</button>
-        `;
 // Função para carregar APIs do backend
 async function carregarAPIs() {
   const grid = document.getElementById("apis-grid");
@@ -741,37 +721,16 @@ async function carregarAPIs() {
   }
 }
 
-        grid.appendChild(card);
-      });
 // Renderizar as APIs em cards
 function renderizarAPIs(lista) {
   const grid = document.getElementById("apis-grid");
   grid.innerHTML = "";
 
-    } catch (error) {
-      console.error("Erro ao carregar APIs:", error);
-      grid.innerHTML = "<p>Não foi possível carregar as APIs.</p>";
-    }
   if (lista.length === 0) {
     grid.innerHTML = "<p>Nenhuma API encontrada.</p>";
     return;
-}
+  }
 
-  // abre modal com detalhes de uso
-  async function mostrarModal(id) {
-    const response = await fetch(API_URL);
-    const apis = await response.json();
-    const api = apis.find(a => a.id === id);
-
-    if (!api) return;
-
-    document.getElementById("modal-title").textContent = api.name;
-    document.getElementById("modal-body").innerHTML = `
-      <p><strong>Endpoint:</strong> ${api.usage.endpoint}</p>
-      <p><strong>Método:</strong> ${api.usage.method}</p>
-      <p><strong>Parâmetros:</strong> ${JSON.stringify(api.usage.parameters, null, 2)}</p>
-      <p><strong>Exemplo:</strong> <code>${api.usage.example}</code></p>
-      <pre>${api.usage.response}</pre>
   lista.forEach(api => {
     const card = document.createElement("div");
     card.classList.add("api-card");
@@ -780,15 +739,9 @@ function renderizarAPIs(lista) {
       <p>${api.description}</p>
       <p><strong>Categoria:</strong> ${api.category}</p>
       <button onclick="abrirModal(${api.id})">Ver detalhes</button>
-   `;
-    document.getElementById("modal-overlay").style.display = "flex";
-  }
-
-  // fecha modal
-  document.getElementById("modal-close").addEventListener("click", () => {
-    document.getElementById("modal-overlay").style.display = "none";
+    `;
     grid.appendChild(card);
-});
+  });
 }
 
 // Abrir modal com informações da API
@@ -831,8 +784,6 @@ document.querySelectorAll(".filter-btn").forEach(btn => {
   });
 });
 
-  // carregar ao abrir a página
-  carregarAPIs();
 // Carregar APIs ao abrir a página
 carregarAPIs();
 </script>
@@ -840,6 +791,7 @@ carregarAPIs();
 
 </body>
 </html>
+
 
 
 
