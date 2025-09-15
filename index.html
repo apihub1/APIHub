@@ -3,16 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="APIHub - Entenda o que são APIs, como funcionam e descubra as APIs mais populares do mercado para integrar em seus projetos.">
-    <meta name="keywords" content="API, desenvolvimento, programação, integração, REST API, Google Maps API, OpenAI API, Twitter API">
+    <meta name="description" content="Catálogo de APIs - Encontre as melhores APIs para integrar em seus projetos de desenvolvimento.">
+    <meta name="keywords" content="APIs, catálogo, desenvolvimento, programação, integração, REST API">
     <meta name="author" content="APIHub">
-    <meta property="og:title" content="APIHub - Tudo sobre APIs e Integrações">
-    <meta property="og:description" content="Descubra o mundo das APIs, como funcionam e as melhores APIs para usar em seus projetos de desenvolvimento.">
-    <meta property="og:type" content="website">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <title>APIHub - Tudo sobre APIs e Como Integrar Sistemas</title>
+    <title>Catálogo de APIs - APIHub</title>
     <style>
         :root {
             --primary: #2563eb;
@@ -59,18 +55,13 @@
             z-index: 100;
         }
 
-        .opcoes {
-            font-size: 25px;
-            justify-content: space-between;
-        }
-        
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-         .logo-container {
+        .logo-container {
             display: flex;
             align-items: center;
             gap: 15px;
@@ -108,218 +99,369 @@
 
         /* Hero Section */
         .hero {
-            padding: 4rem 0;
+            padding: 3rem 0;
             text-align: center;
             background: var(--gradient);
             color: white;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
 
         .hero h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 1rem;
             font-weight: 700;
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             max-width: 700px;
             margin: 0 auto 2rem;
             opacity: 0.9;
         }
 
-        .cta-button {
-            display: inline-block;
-            background: white;
-            color: var(--primary);
-            padding: 12px 30px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        /* Section Styles */
-        section {
-            padding: 4rem 0;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-
-        .section-title h2 {
-            font-size: 2.2rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 4px;
-            background: var(--gradient);
-            margin: 0 auto;
-            border-radius: 2px;
-        }
-
-        /* Content Sections */
-        .content-section {
+        /* Search Section */
+        .search-section {
+            padding: 2rem 0;
             background: var(--card-bg);
-            border-radius: 12px;
-            padding: 2.5rem;
+            box-shadow: var(--shadow);
             margin-bottom: 2rem;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .content-section:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .content-section h1 {
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            font-size: 1.8rem;
-        }
-
-        .content-section p {
-            color: var(--text-light);
-            margin-bottom: 1rem;
-        }
-
-        /* API Flow */
-        .fluxo-api {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1.5rem;
-            margin: 2.5rem 0;
-        }
-
-        .etapa {
-            flex: 1;
-            min-width: 200px;
-            background: var(--card-bg);
-            padding: 1.5rem;
             border-radius: 10px;
-            box-shadow: var(--shadow);
-            text-align: center;
-            transition: all 0.3s ease;
-            border-top: 4px solid var(--primary);
         }
 
-        .etapa:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
-        .etapa h3 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
+        .search-box {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            box-shadow: var(--shadow);
+            border-radius: 50px;
+            overflow: hidden;
         }
 
-        .etapa-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 30px;
-            height: 30px;
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-button {
             background: var(--primary);
             color: white;
-            border-radius: 50%;
+            border: none;
+            padding: 0 25px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .search-button:hover {
+            background: var(--primary-dark);
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: var(--background);
+            border: 1px solid #e5e7eb;
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
             font-size: 0.9rem;
-            font-weight: 600;
         }
 
-        /* Cards Section */
-        .cards {
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* APIs Grid */
+        .apis-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
-            margin-top: 2rem;
+            margin-bottom: 3rem;
         }
 
-        .card {
+        .api-card {
             background: var(--card-bg);
             border-radius: 12px;
             overflow: hidden;
             box-shadow: var(--shadow);
             transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
             border-top: 5px solid var(--accent);
         }
 
-        .card:hover {
+        .api-card:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-hover);
         }
 
-        .card-content {
+        .api-card-header {
             padding: 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
         }
 
-        .card h3 {
-            color: var(--primary);
-            margin-bottom: 1rem;
+        .api-card-category {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .api-card-title {
             font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .api-card-description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .api-card-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .api-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .api-detail-item {
             display: flex;
             align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .api-detail-item i {
+            margin-right: 10px;
+            color: var(--primary);
+            width: 20px;
+        }
+
+        .api-card-footer {
+            padding: 1rem 1.5rem;
+            background: #f9fafb;
+            border-top: 1px solid #f3f4f6;
+            display: flex;
+            flex-direction: column;
             gap: 10px;
         }
 
-        .card-icon {
-            color: var(--accent);
-            font-size: 1.5rem;
+        .api-link-container {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 5px;
         }
 
-        .card p {
-            color: var(--text-light);
+        .api-link {
+            flex: 1;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        /* Benefits Section */
-        .benefits {
-            background: var(--gradient);
+        .copy-btn {
+            background: var(--primary);
             color: white;
-            padding: 4rem 0;
-            margin: 4rem 0;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
         }
 
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+        .copy-btn:hover {
+            background: var(--primary-dark);
         }
 
-        .benefit-item {
-            text-align: center;
+        .copy-btn.copied {
+            background: #10b981;
+        }
+
+        .how-to-use-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-weight: 500;
+            width: 100%;
+        }
+
+        .how-to-use-btn:hover {
+            background: var(--primary);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--text);
+        }
+
+        .modal-body {
             padding: 1.5rem;
         }
 
-        .benefit-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: white;
+        .modal-section {
+            margin-bottom: 1.5rem;
         }
 
-        .benefit-item h3 {
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
+        .modal-section-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-section-content {
+            background: #f9fafb;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+
+        .code-example {
+            background: #1f2937;
+            color: #e5e7eb;
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-top: 0.5rem;
+        }
+
+        .code-example code {
+            display: block;
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0 3rem;
+        }
+
+        .pagination-button {
+            background: white;
+            border: 1px solid #e5e7eb;
+            color: var(--text);
+            padding: 8px 15px;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .pagination-button:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .pagination-button.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
         }
 
         /* Footer */
@@ -374,29 +516,65 @@
             font-size: 0.9rem;
         }
 
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            box-shadow: var(--shadow);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
                 gap: 1rem;
             }
-            
+
             nav ul {
                 gap: 1rem;
                 flex-wrap: wrap;
                 justify-content: center;
             }
-            
+
             .hero h1 {
-                font-size: 2.2rem;
+                font-size: 2rem;
             }
-            
-            .fluxo-api {
+
+            .apis-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-box {
                 flex-direction: column;
+                border-radius: 10px;
             }
-            
-            .section-title h2 {
-                font-size: 1.8rem;
+
+            .search-input {
+                border-radius: 10px 10px 0 0;
+            }
+
+            .search-button {
+                padding: 12px;
+                border-radius: 0 0 10px 10px;
+            }
+
+            .modal {
+                width: 95%;
+                margin: 20px;
             }
         }
 
@@ -415,22 +593,10 @@
         .animate {
             animation: fadeIn 0.8s ease forwards;
         }
-
-        .delay-1 {
-            animation-delay: 0.2s;
-        }
-
-        .delay-2 {
-            animation-delay: 0.4s;
-        }
-
-        .delay-3 {
-            animation-delay: 0.6s;
-        }
     </style>
 </head>
 <body>
-      <header>
+    <header>
         <div class="container header-content">
             <div class="logo-container">
                 <img src="Logo.png" alt="APIHub - Centro de recursos para desenvolvedores de API" class="logo">
@@ -445,124 +611,62 @@
         </div>
     </header>
 
-
     <div class="hero">
         <div class="container">
-            <h1>Domine o poder das APIs</h1>
-            <p>Descubra como as Interfaces de Programação de Aplicações podem transformar seus projetos e impulsionar suas integrações</p>
-            <a href="apis.html" class="cta-button">Catálogo de APIs</a>
+            <h1>Catálogo de APIs</h1>
+            <p>Encontre as melhores APIs para integrar em seus projetos e acelerar seu desenvolvimento</p>
         </div>
     </div>
 
-    <main class="container">
-        <section id="o-que-e-api" class="animate">
-            <div class="content-section">
-                <h1>O que é API?</h1>
-                <p>
-                    Uma API (<strong>Interface de Programação de Aplicações</strong>) é um conjunto de regras e protocolos que permite que diferentes sistemas de software se comuniquem entre si.
-                    Ela define métodos e formatos de dados para que um programa possa acessar funcionalidades ou informações de outro, sem precisar conhecer sua lógica interna.
-                    Isso facilita a integração entre plataformas, acelera o desenvolvimento de aplicações e promove a padronização da comunicação entre sistemas.
-                </p>
-                <p>
-                    Pense em uma API como um garçom em um restaurante: você (o cliente) faz um pedido através do garçom (a API),
-                    que então leva seu pedido para a cozinha (o servidor) e retorna com sua comida (a resposta). Você não precisa
-                    saber como a comida foi preparada, apenas faz o pedido e recebe o resultado.
-                </p>
-            </div>
-        </section>
-
-        <section id="como-funciona" class="animate delay-1">
-            <div class="section-title">
-                <h2>Como funciona uma API?</h2>
-            </div>
-            <div class="content-section">
-                <p>
-                    As APIs funcionam como um mensageiro que leva seu pedido até o provedor de serviços e depois retorna com a resposta. 
-                    Elas usam protocolos como HTTP para enviar e receber dados, normalmente no formato JSON ou XML. 
-                    Dessa forma, diferentes linguagens e plataformas conseguem se integrar facilmente.
-                </p>
-                
-                <div class="fluxo-api">
-                    <div class="etapa">
-                        <h3><span class="etapa-number">1</span> Cliente</h3>
-                        <p>O usuário interage com um app ou navegador e realiza uma ação, como clicar em "Buscar dados".</p>
-                    </div>
-                    <div class="etapa">
-                        <h3><span class="etapa-number">2</span> Requisição HTTP</h3>
-                        <p>O app envia uma requisição para a API usando o protocolo HTTP, geralmente com o método GET ou POST.</p>
-                    </div>
-                    <div class="etapa">
-                        <h3><span class="etapa-number">3</span> API</h3>
-                        <p>A API interpreta o pedido, valida os dados e encaminha a solicitação ao servidor ou banco de dados.</p>
-                    </div>
-                    <div class="etapa">
-                        <h3><span class="etapa-number">4</span> Servidor / Banco de Dados</h3>
-                        <p>O servidor processa a lógica e consulta os dados necessários, retornando a resposta para a API.</p>
-                    </div>
-                    <div class="etapa">
-                        <h3><span class="etapa-number">5</span> Resposta HTTP</h3>
-                        <p>A API formata os dados (em JSON ou XML) e envia de volta ao cliente, que exibe o resultado ao usuário.</p>
-                    </div>
+    <div class="container">
+        <section class="search-section animate">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="Buscar por nome, categoria ou descrição...">
+                    <button class="search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="filters">
+                    <button class="filter-btn active">Todas</button>
+                    <button class="filter-btn">Dados</button>
+                    <button class="filter-btn">Datas</button>
+                    <button class="filter-btn">Diversão</button>
+                    <button class="filter-btn">Animais</button>
+                    <button class="filter-btn">Clima</button>
                 </div>
             </div>
         </section>
 
-        <section id="exemplos" class="animate delay-2">
-            <div class="section-title">
-                <h2>Exemplos de APIs famosas</h2>
+        <section class="apis-container">
+            <div class="apis-grid" id="apis-grid">
+                <!-- API Cards will be generated here -->
             </div>
-            <div class="cards">
-                <div class="card">
-                    <div class="card-content">
-                        <h3><i class="card-icon fas fa-map-marked-alt"></i> Google Maps API</h3>
-                        <p>Permite adicionar mapas interativos, rotas e geolocalização a aplicações e sites. Com essa API, desenvolvedores podem criar experiências personalizadas de mapas, calcular rotas, exibir informações de tráfego em tempo real e muito mais.</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-content">
-                        <h3><i class="card-icon fas fa-robot"></i> OpenAI API</h3>
-                        <p>Oferece modelos de inteligência artificial para geração de texto, imagens e muito mais. A API GPT permite criar aplicações que entendem e geram linguagem natural, tornando possível chatbots avançados, assistentes virtuais e ferramentas de criação de conteúdo.</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-content">
-                        <h3><i class="card-icon fab fa-twitter"></i> Twitter API</h3>
-                        <p>Permite ler, escrever e interagir com tweets e dados de usuários do Twitter. Desenvolvedores podem criar aplicações que postam tweets, analisam tendências, monitoram menções e muito mais, integrando as funcionalidades do Twitter em seus próprios projetos.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <section id="beneficios" class="benefits animate delay-3">
-            <div class="container">
-                <div class="section-title">
-                    <h2 style="color: white;">Vantagens de usar APIs</h2>
-                </div>
-                <div class="benefits-grid">
-                    <div class="benefit-item">
-                        <i class="benefit-icon fas fa-bolt"></i>
-                        <h3>Eficiência no desenvolvimento</h3>
-                        <p>APIs permitem reutilizar funcionalidades existentes, acelerando o tempo de desenvolvimento.</p>
-                    </div>
-                    <div class="benefit-item">
-                        <i class="benefit-icon fas fa-sync-alt"></i>
-                        <h3>Integração simplificada</h3>
-                        <p>Conecte sistemas diferentes de maneira padronizada e eficiente.</p>
-                    </div>
-                    <div class="benefit-item">
-                        <i class="benefit-icon fas fa-shield-alt"></i>
-                        <h3>Segurança</h3>
-                        <p>APIs fornecem acesso controlado a funcionalidades sem expor código interno.</p>
-                    </div>
-                    <div class="benefit-item">
-                        <i class="benefit-icon fas fa-expand-arrows-alt"></i>
-                        <h3>Escalabilidade</h3>
-                        <p>Permite que sistemas cresçam e adicionem funcionalidades sem reescrever código existente.</p>
-                    </div>
-                </div>
+            <div class="pagination">
+                <button class="pagination-button">&laquo;</button>
+                <button class="pagination-button active">1</button>
+                <button class="pagination-button">2</button>
+                <button class="pagination-button">3</button>
+                <button class="pagination-button">&raquo;</button>
             </div>
         </section>
-    </main>
+    </div>
+
+    <!-- Modal Structure -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title">Como usar a API</h2>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Modal content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">Link copiado para a área de transferência!</div>
 
     <footer>
         <div class="container">
@@ -574,19 +678,19 @@
                 <div class="footer-links">
                     <h4>Links Rápidos</h4>
                     <ul>
-                        <li><a href="#o-que-e-api">O que é API</a></li>
-                        <li><a href="#como-funciona">Como funciona</a></li>
-                        <li><a href="#exemplos">Exemplos</a></li>
-                        <li><a href="#beneficios">Benefícios</a></li>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="catalogo.html">Catálogo de APIs</a></li>
+                        <li><a href="#">Documentação</a></li>
+                        <li><a href="#">Contato</a></li>
                     </ul>
                 </div>
                 <div class="footer-links">
                     <h4>Recursos</h4>
                     <ul>
-                        <li><a href="#">Documentação</a></li>
                         <li><a href="#">Tutoriais</a></li>
                         <li><a href="#">Blog</a></li>
                         <li><a href="#">Fórum</a></li>
+                        <li><a href="#">Suporte</a></li>
                     </ul>
                 </div>
             </div>
@@ -597,59 +701,492 @@
     </footer>
 
     <script>
-        // Animação de scroll suave para links internos
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
+        // Sample API data with usage information
+        const apiData = [
+          {
+            id: 1,
+            name: "ValidaBR API",
+            category: "Dados",
+            description: "API para validação de dados brasileiros como CPF, CNPJ, e-mail, senha, telefone e CEP.",
+            url: "https://api-validacao-de-dados.onrender.com/validate",
+            auth: "Nenhuma",
+            https: true,
+            cors: true,
+            usage: {
+                endpoint: "/validate/?value",
+                method: "GET",
+                parameters: {value: "Valor a ser validado, sem necessidade de indicação, realiza a identificação automáticamente."
+                },
+                example: "https://api-validacao-de-dados.onrender.com/validate?value=123.456.789-09",
+                response: `{
+  "valid": true,
+  "message": "CPF válido",
+  "formatted": "123.456.789-09"
+}`
+            }
+          },
+          {
+            id: 2,
+            name: "DATAPI",
+            category: "Datas",
+            description: "API para envio de datas comemorativas e dias especiais ao longo do ano. Podendo ser por dia ou mês.",
+            url: "https://api.stripe.com/v1",
+            auth: "Nenhuma",
+            https: true,
+            cors: true,
+            usage: {
+                endpoint: "/dates/{type}",
+                method: "GET",
+                parameters: {
+                    type: "Tipo de consulta (day, month, all)",
+                    month: "Mês para filtrar (1-12, apenas para type=month)",
+                    day: "Dia para filtrar (apenas para type=day)"
+                },
+                example: "https://api.datapi.com/dates/month?month=12",
+                response: `{
+  "month": 12,
+  "holidays": [
+    {
+      "date": "2023-12-25",
+      "name": "Natal",
+      "type": "nacional"
+    }
+  ]
+}`
+            }
+          },
+          {
+            id: 3,
+            name: "JSONPlaceholder",
+            category: "Dados",
+            description: "Fake REST API para testes e aprendizado.",
+            url: "https://jsonplaceholder.typicode.com",
+            auth: "Nenhuma",
+            https: true,
+            cors: true,
+            usage: {
+                endpoint: "/{resource}",
+                method: "GET, POST, PUT, DELETE",
+                parameters: {
+                    resource: "Recurso desejado (posts, comments, albums, photos, todos, users)"
+                },
+                example: "https://jsonplaceholder.typicode.com/posts",
+                response: `[
+  {
+    "userId": 1,
+    "id": 1,
+    "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+    "body": "quia et suscipit suscipit recusandae consequuntur expedita et cum reprehenderit molestiae ut ut quas totam nostrum rerum est autem sunt rem eveniet architecto"
+  }
+]`
+            }
+          },
+          {
+            id: 4,
+            name: "PokeAPI",
+            category: "Diversão",
+            description: "Dados completos sobre Pokémon.",
+            url: "https://pokeapi.co/api/v2",
+            auth: "Nenhuma",
+            https: true,
+            cors: true,
+            usage: {
+                endpoint: "/pokemon/{id_or_name}",
+                method: "GET",
+                parameters: {
+                    id_or_name: "ID ou nome do Pokémon"
+                },
+                example: "https://pokeapi.co/api/v2/pokemon/pikachu",
+                response: `{
+  "name": "pikachu",
+  "id": 25,
+  "abilities": [
+    {
+      "ability": {
+        "name": "static",
+        "url": "https://pokeapi.co/api/v2/ability/9/"
+      }
+    }
+  ],
+  "types": [
+    {
+      "type": {
+        "name": "electric",
+        "url": "https://pokeapi.co/api/v2/type/13/"
+      }
+    }
+  ]
+}`
+            }
+          },
+          {
+            id: 5,
+            name: "The Dog API",
+            category: "Animais",
+            description: "Fotos e informações de cachorros.",
+            url: "https://api.thedogapi.com/v1",
+            auth: "Opcional (API Key)",
+            https: true,
+            cors: true,
+            usage: {
+                endpoint: "/images/search",
+                method: "GET",
+                parameters: {
+                    limit: "Número de resultados (opcional)",
+                    breed_id: "ID da raça (opcional)",
+                    format: "Formato (json, src) (opcional)"
+                },
+                example: "https://api.thedogapi.com/v1/images/search?limit=5",
+                response: `[
+  {
+    "id": "HJQ9feNmX",
+    "url": "https://cdn2.thedogapi.com/images/HJQ9feNmX_1280.jpg",
+    "breeds": [
+      {
+        "name": "Akita",
+        "bred_for": "Hunting bears",
+        "life_span": "10 - 14 years"
+      }
+    ]
+  }
+]`
+            }
+          },
+          {
+            id: 6,
+            name: "The Cat API",
+            category: "Animais",
+            description: "Fotos e raças de gatos.",
+            url: "https://api.thecatapi.com/v1",
+            auth: "Opcional (API Key)",
+            https: true,
+            cors: true,
+            usage: {
+                endpoint: "/images/search",
+                method: "GET",
+                parameters: {
+                    limit: "Número de resultados (opcional)",
+                    breed_id: "ID da raça (opcional)",
+                    category_ids: "IDs de categorias (opcional)"
+                },
+                example: "https://api.thecatapi.com/v1/images/search?limit=3",
+                response: `[
+  {
+    "id": "2f6",
+    "url": "https://cdn2.thecatapi.com/images/2f6.jpg",
+    "width": 500,
+    "height": 333
+  }
+]`
+            }
+          },
+          {
+            id: 7,
+            name: "Advice Slip API",
+            category: "Diversão",
+            description: "Gera frases e conselhos aleatórios.",
+            url: "https://api.adviceslip.com",
+            auth: "Nenhuma",
+            https: true,
+            cors: true,
+            usage: {
+                endpoint: "/advice",
+                method: "GET",
+                parameters: "Nenhum parâmetro necessário para conselho aleatório",
+                example: "https://api.adviceslip.com/advice",
+                response: `{
+  "slip": {
+    "id": 117,
+    "advice": "Remember that spiders are more afraid of you than you are of them."
+  }
+}`
+            }
+          },
+          {
+            id: 8,
+            name: "Bored API",
+            category: "Diversão",
+            description: "Sugestões de atividades para quando você está entediado.",
+            url: "https://www.boredapi.com/api",
+            auth: "Nenhuma",
+            https: true,
+            cors: true,
+            usage: {
+                endpoint: "/activity",
+                method: "GET",
+                parameters: {
+                    type: "Tipo de atividade (education, recreational, social, etc.)",
+                    participants: "Número de participantes",
+                    price: "Preço (0.0 a 1.0)",
+                    accessibility: "Acessibilidade (0.0 a 1.0)"
+                },
+                example: "https://www.boredapi.com/api/activity?type=recreational",
+                response: `{
+  "activity": "Go to a concert with some friends",
+  "type": "social",
+  "participants": 4,
+  "price": 0.5,
+  "link": "",
+  "key": "2211716",
+  "accessibility": 0.3
+}`
+            }
+          },
+          {
+            id: 9,
+            name: "Open Meteo",
+            category: "Clima",
+            description: "API de previsão do tempo grátis e sem chave.",
+            url: "https://api.open-meteo.com/v1/forecast",
+            auth: "Nenhuma",
+            https: true,
+            cors: true,
+            usage: {
+                endpoint: "/v1/forecast",
+                method: "GET",
+                parameters: {
+                    latitude: "Latitude da localização",
+                    longitude: "Longitude da localização",
+                    hourly: "Variáveis horárias (temperature_2m, etc.)",
+                    daily: "Variáveis diárias (temperature_2m_max, etc.)",
+                    timezone: "Fuso horário (auto ou específico)"
+                },
+                example: "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m",
+                response: `{
+  "latitude": 52.52,
+  "longitude": 13.419,
+  "hourly": {
+    "time": ["2023-07-01T00:00", "2023-07-01T01:00"],
+    "temperature_2m": [13, 12]
+  }
+}`
+            }
+          }
+        ];
+
+        // Function to generate API cards
+        function generateAPICards(apis) {
+            const apisGrid = document.getElementById('apis-grid');
+            apisGrid.innerHTML = '';
+
+            apis.forEach(api => {
+                const apiCard = document.createElement('div');
+                apiCard.className = 'api-card animate';
+                apiCard.innerHTML = `
+                    <div class="api-card-header">
+                        <span class="api-card-category">${api.category}</span>
+                        <h3 class="api-card-title">${api.name}</h3>
+                        <p class="api-card-description">${api.description}</p>
+                    </div>
+                    <div class="api-card-body">
+                        <div class="api-details">
+                            <div class="api-detail-item">
+                                <i class="fas fa-lock"></i>
+                                <span>Autenticação: ${api.auth}</span>
+                            </div>
+                            <div class="api-detail-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>HTTPS: ${api.https ? 'Sim' : 'Não'}</span>
+                            </div>
+                            <div class="api-detail-item">
+                                <i class="fas fa-exchange-alt"></i>
+                                <span>CORS: ${api.cors ? 'Suportado' : 'Não suportado'}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="api-card-footer">
+                        <div class="api-link-container">
+                            <div class="api-link">${api.url}</div>
+                            <button class="copy-btn" data-url="${api.url}">
+                                <i class="fas fa-copy"></i> Copiar
+                            </button>
+                        </div>
+                        <button class="how-to-use-btn" data-api-id="${api.id}">
+                            <i class="fas fa-book"></i> Como usar
+                        </button>
+                    </div>
+                `;
+                apisGrid.appendChild(apiCard);
+            });
+
+            // Add event listeners to copy buttons
+            document.querySelectorAll('.copy-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const url = this.getAttribute('data-url');
+                    copyToClipboard(url);
+
+                    // Show notification
+                    const notification = document.getElementById('notification');
+                    notification.classList.add('show');
+
+                    // Change button text temporarily
+                    const originalHtml = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+                    this.classList.add('copied');
+
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                        this.innerHTML = originalHtml;
+                        this.classList.remove('copied');
+                    }, 2000);
+                });
+            });
+
+            // Add event listeners to "How to use" buttons
+            document.querySelectorAll('.how-to-use-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const apiId = this.getAttribute('data-api-id');
+                    const api = apiData.find(a => a.id == apiId);
+                    if (api) {
+                        showUsageModal(api);
+                    }
+                });
+            });
+        }
+
+        // Function to show usage modal
+        function showUsageModal(api) {
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+
+            // Set modal title
+            modalTitle.textContent = `Como usar: ${api.name}`;
+
+            // Generate modal content
+            modalBody.innerHTML = `
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <i class="fas fa-info-circle"></i> Descrição
+                    </h3>
+                    <p>${api.description}</p>
+                </div>
                 
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <i class="fas fa-link"></i> Endpoint
+                    </h3>
+                    <div class="modal-section-content">${api.usage.endpoint}</div>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <i class="fas fa-code"></i> Método HTTP
+                    </h3>
+                    <div class="modal-section-content">${api.usage.method}</div>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <i class="fas fa-cog"></i> Parâmetros
+                    </h3>
+                    <div class="modal-section-content">
+                        ${typeof api.usage.parameters === 'string' 
+                            ? api.usage.parameters 
+                            : Object.entries(api.usage.parameters)
+                                .map(([key, value]) => `<strong>${key}:</strong> ${value}`)
+                                .join('\n')}
+                                .map(([key, value]) => `<strong>${key}:</strong> ${value}<br>`)
+                                .join('')}
+                    </div>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <i class="fas fa-play-circle"></i> Exemplo de Uso
+                    </h3>
+                    <div class="code-example">
+                        <code>${api.usage.example}</code>
+                    </div>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <i class="fas fa-reply"></i> Resposta de Exemplo
+                    </h3>
+                    <div class="code-example">
+                        <code>${api.usage.response}</code>
+                    </div>
+                </div>
+            `;
+
+            // Show modal
+            modalOverlay.classList.add('active');
+
+            // Add event listener to close modal
+            document.getElementById('modal-close').onclick = closeModal;
+            modalOverlay.onclick = function(e) {
+                if (e.target === modalOverlay) closeModal();
+            };
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeModal();
             });
-        });
+        }
 
-        // Animação de elementos ao rolar
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
+        // Function to close modal
+        function closeModal() {
+            const modalOverlay = document.getElementById('modal-overlay');
+            modalOverlay.classList.remove('active');
+        }
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate');
-                }
+        // Function to copy text to clipboard
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
+
+        // Function to filter APIs based on search input
+        function filterAPIs() {
+            const searchText = document.querySelector('.search-input').value.toLowerCase();
+            const activeFilter = document.querySelector('.filter-btn.active').textContent;
+
+            let filteredAPIs = apiData;
+
+            // Apply search filter
+            if (searchText) {
+                filteredAPIs = filteredAPIs.filter(api => 
+                    api.name.toLowerCase().includes(searchText) ||
+                    api.description.toLowerCase().includes(searchText) ||
+                    api.category.toLowerCase().includes(searchText)
+                );
+            }
+
+            // Apply category filter
+            if (activeFilter !== 'Todas') {
+                filteredAPIs = filteredAPIs.filter(api => 
+                    api.category === activeFilter
+                );
+            }
+
+            generateAPICards(filteredAPIs);
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Generate initial API cards
+            generateAPICards(apiData);
+
+            // Add event listener to search input
+            document.querySelector('.search-input').addEventListener('input', filterAPIs);
+
+            // Add event listeners to filter buttons
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    filterAPIs();
+                });
             });
-        }, observerOptions);
 
-        document.querySelectorAll('section').forEach(section => {
-            observer.observe(section);
+            // Add event listener to search button
+            document.querySelector('.search-button').addEventListener('click', filterAPIs);
         });
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
