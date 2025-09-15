@@ -500,6 +500,8 @@ nav a:hover {
   display: flex;
   justify-content: center;
   margin: 2rem 0 3rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .pagination-button {
@@ -507,10 +509,10 @@ nav a:hover {
   border: 1px solid #e5e7eb;
   color: var(--text);
   padding: 8px 15px;
-  margin: 0 5px;
   cursor: pointer;
   border-radius: 6px;
   transition: all 0.3s ease;
+  min-width: 40px;
 }
 
 .pagination-button:hover {
@@ -523,6 +525,11 @@ nav a:hover {
   background: var(--primary);
   color: white;
   border-color: var(--primary);
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* Footer */
@@ -582,7 +589,6 @@ footer {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: #10b981;
   color: white;
   padding: 12px 20px;
   border-radius: 6px;
@@ -594,6 +600,14 @@ footer {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.notification.success {
+  background: #10b981;
+}
+
+.notification.error {
+  background: #ef4444;
 }
 
 .notification.show {
@@ -651,6 +665,15 @@ footer {
     position: absolute;
     top: 1.5rem;
     right: 1.5rem;
+  }
+  
+  .pagination {
+    gap: 0.3rem;
+  }
+  
+  .pagination-button {
+    padding: 6px 10px;
+    min-width: 35px;
   }
 }
 
@@ -755,6 +778,123 @@ pre {
 .json-null {
   color: #808080;
 }
+
+/* Skeleton Loading */
+.skeleton {
+  animation: skeleton-loading 1s linear infinite alternate;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.skeleton-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.skeleton-category {
+  height: 24px;
+  width: 100px;
+  background: #e5e7eb;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+
+.skeleton-title {
+  height: 28px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  margin-bottom: 0.8rem;
+}
+
+.skeleton-description {
+  height: 16px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  margin-bottom: 0.4rem;
+}
+
+.skeleton-description.short {
+  width: 70%;
+}
+
+.skeleton-body {
+  padding: 1.5rem;
+  flex-grow: 1;
+}
+
+.skeleton-detail {
+  height: 16px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  margin-bottom: 0.8rem;
+}
+
+.skeleton-footer {
+  padding: 1rem 1.5rem;
+  background: #f9fafb;
+  border-top: 1px solid #f3f4f6;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skeleton-link {
+  height: 36px;
+  background: #e5e7eb;
+  border-radius: 6px;
+}
+
+.skeleton-button {
+  height: 40px;
+  background: #e5e7eb;
+  border-radius: 6px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+
+/* Error State */
+.error-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.error-icon {
+  font-size: 3rem;
+  color: #ef4444;
+  margin-bottom: 1rem;
+}
+
+.retry-button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.retry-button:hover {
+  background: var(--primary-dark);
+}
 </style>
 </head>
 <body>
@@ -805,12 +945,8 @@ pre {
 <!-- API Cards will be generated here -->
 </div>
 
-<div class="pagination">
-<button class="pagination-button">&laquo;</button>
-<button class="pagination-button active">1</button>
-<button class="pagination-button">2</button>
-<button class="pagination-button">3</button>
-<button class="pagination-button">&raquo;</button>
+<div class="pagination" id="pagination">
+<!-- Pagination buttons will be generated here -->
 </div>
 </section>
 </div>
@@ -874,6 +1010,9 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let todasAPIs = [];
+let currentPage = 1;
+const itemsPerPage = 6;
+let totalPages = 1;
 
 // --- Helpers ---
 function tryParseJSON(value) {
@@ -897,21 +1036,147 @@ function getPrimaryCategory(api) {
   return 'Outros';
 }
 
+// --- Skeleton Loading ---
+function mostrarSkeletonCards() {
+  const grid = document.getElementById("apis-grid");
+  grid.innerHTML = '';
+  
+  for (let i = 0; i < itemsPerPage; i++) {
+    const skeletonCard = document.createElement("div");
+    skeletonCard.classList.add("skeleton");
+    skeletonCard.innerHTML = `
+      <div class="skeleton-header">
+        <div class="skeleton-category"></div>
+        <div class="skeleton-title"></div>
+        <div class="skeleton-description"></div>
+        <div class="skeleton-description short"></div>
+      </div>
+      <div class="skeleton-body">
+        <div class="skeleton-detail"></div>
+        <div class="skeleton-detail"></div>
+        <div class="skeleton-detail"></div>
+        <div class="skeleton-detail"></div>
+      </div>
+      <div class="skeleton-footer">
+        <div class="skeleton-link"></div>
+        <div class="skeleton-button"></div>
+      </div>
+    `;
+    grid.appendChild(skeletonCard);
+  }
+}
+
+// --- Error Handling ---
+function mostrarMensagemErro(mensagem, isError = true) {
+  const notification = document.getElementById('notification');
+  notification.innerHTML = `
+    <i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
+    <span>${mensagem}</span>
+  `;
+  notification.className = `notification ${isError ? 'error' : 'success'} show`;
+  
+  setTimeout(() => {
+    notification.classList.remove('show');
+  }, 5000);
+}
+
+function mostrarEstadoErro(mensagem) {
+  const grid = document.getElementById("apis-grid");
+  grid.innerHTML = `
+    <div class="error-state">
+      <div class="error-icon">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <h3>Ocorreu um erro</h3>
+      <p>${mensagem}</p>
+      <button class="retry-button" onclick="carregarAPIs()">
+        <i class="fas fa-redo"></i> Tentar novamente
+      </button>
+    </div>
+  `;
+  
+  document.getElementById("pagination").innerHTML = '';
+}
+
 // --- Carregar APIs ---
 async function carregarAPIs() {
   const grid = document.getElementById("apis-grid");
-  if (grid) grid.innerHTML = "<p style='text-align: center; padding: 2rem;'><i class='fas fa-spinner fa-spin'></i> Carregando APIs...</p>";
+  if (grid) {
+    grid.innerHTML = '';
+    mostrarSkeletonCards();
+  }
 
   try {
     const { data, error } = await supabase.from("apis").select("*").order("name");
-    if (error) throw error;
+    
+    if (error) {
+      throw new Error(`Erro no Supabase: ${error.message}`);
+    }
+    
     todasAPIs = data || [];
-    renderizarAPIs(todasAPIs);
+    
+    if (todasAPIs.length === 0) {
+      grid.innerHTML = "<p style='text-align: center; padding: 2rem;'>Nenhuma API encontrada no banco de dados.</p>";
+      document.getElementById("pagination").innerHTML = '';
+      return;
+    }
+    
+    totalPages = Math.ceil(todasAPIs.length / itemsPerPage);
+    atualizarPaginacao();
     aplicarFiltroPesquisa();
+    
   } catch (erro) {
-    if (grid) grid.innerHTML = `<p style='text-align: center; padding: 2rem;'>Erro ao carregar APIs.<br><small>${erro.message || erro}</small></p>`;
     console.error("Erro ao buscar APIs:", erro);
+    mostrarEstadoErro(erro.message || "Falha ao carregar as APIs. Verifique sua conexão e tente novamente.");
   }
+}
+
+// --- Paginação ---
+function atualizarPaginacao() {
+  const paginationContainer = document.getElementById("pagination");
+  if (!paginationContainer) return;
+  
+  let paginationHTML = '';
+  
+  // Botão anterior
+  paginationHTML += `
+    <button class="pagination-button" onclick="mudarPagina(${currentPage - 1})" 
+            ${currentPage === 1 ? 'disabled' : ''}>
+      &laquo;
+    </button>
+  `;
+  
+  // Botões de página
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+      paginationHTML += `
+        <button class="pagination-button ${currentPage === i ? 'active' : ''}" 
+                onclick="mudarPagina(${i})">
+          ${i}
+        </button>
+      `;
+    } else if (i === currentPage - 2 || i === currentPage + 2) {
+      paginationHTML += `<span class="pagination-ellipsis">...</span>`;
+    }
+  }
+  
+  // Botão próximo
+  paginationHTML += `
+    <button class="pagination-button" onclick="mudarPagina(${currentPage + 1})" 
+            ${currentPage === totalPages ? 'disabled' : ''}>
+      &raquo;
+    </button>
+  `;
+  
+  paginationContainer.innerHTML = paginationHTML;
+}
+
+function mudarPagina(pagina) {
+  if (pagina < 1 || pagina > totalPages) return;
+  
+  currentPage = pagina;
+  aplicarFiltroPesquisa();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // --- Renderização ---
@@ -927,10 +1192,19 @@ function renderizarAPIs(lista) {
 
   if (!lista || lista.length === 0) {
     grid.innerHTML = "<p style='text-align: center; padding: 2rem;'>Nenhuma API encontrada.</p>";
+    document.getElementById("pagination").innerHTML = '';
     return;
   }
 
-  lista.forEach(api => {
+  // Aplicar paginação
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const apisPaginadas = lista.slice(startIndex, endIndex);
+  
+  totalPages = Math.ceil(lista.length / itemsPerPage);
+  atualizarPaginacao();
+
+  apisPaginadas.forEach(api => {
     const card = document.createElement("div");
     card.classList.add("api-card", "animate");
     const categoryLabel = getPrimaryCategory(api);
@@ -983,7 +1257,10 @@ function renderizarAPIs(lista) {
 // --- Modal ---
 function abrirModal(id) {
   const api = todasAPIs.find(a => a.id === id);
-  if (!api) return;
+  if (!api) {
+    mostrarMensagemErro("API não encontrada.");
+    return;
+  }
 
   const fullEndpoint = `${api.base_url || ''}${api.endpoint_path || ''}`;
   const method = api.method || 'GET';
@@ -1047,21 +1324,10 @@ function abrirModal(id) {
 // --- Utils ---
 function copiarParaAreaDeTransferencia(texto) {
   navigator.clipboard.writeText(texto).then(() => {
-    const notification = document.getElementById('notification');
-    notification.classList.add('show');
-    setTimeout(() => notification.classList.remove('show'), 3000);
-  }).catch(err => console.error('Falha ao copiar texto: ', err));
-}
-
-function syntaxHighlight(json) {
-  if (typeof json !== 'string') json = JSON.stringify(json, undefined, 2);
-  json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-    let cls = 'json-number';
-    if (/^"/.test(match)) { cls = /:$/.test(match) ? 'json-key' : 'json-string'; }
-    else if (/true|false/.test(match)) cls = 'json-boolean';
-    else if (/null/.test(match)) cls = 'json-null';
-    return '<span class="' + cls + '">' + match + '</span>';
+    mostrarMensagemErro("Link copiado para a área de transferência!", false);
+  }).catch(err => {
+    console.error('Falha ao copiar texto: ', err);
+    mostrarMensagemErro("Falha ao copiar o link.");
   });
 }
 
@@ -1080,33 +1346,39 @@ document.querySelectorAll(".filter-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
-    const categoria = btn.getAttribute("data-category");
-    renderizarAPIs(categoria === "all" ? todasAPIs : todasAPIs.filter(api => getPrimaryCategory(api) === categoria));
+    currentPage = 1; // Reset para a primeira página ao mudar filtro
+    aplicarFiltroPesquisa();
   });
 });
 
 // --- Pesquisa ---
 function aplicarFiltroPesquisa() {
   const searchInput = document.querySelector('.search-input');
-  searchInput.addEventListener('input', () => {
-    const termo = searchInput.value.toLowerCase();
-    const categoriaAtiva = document.querySelector('.filter-btn.active').getAttribute('data-category');
-    let filtradas = todasAPIs;
+  const termo = searchInput.value.toLowerCase();
+  const categoriaAtiva = document.querySelector('.filter-btn.active').getAttribute('data-category');
+  let filtradas = todasAPIs;
 
-    if (categoriaAtiva !== 'all') filtradas = filtradas.filter(api => getPrimaryCategory(api) === categoriaAtiva);
-    if (termo) filtradas = filtradas.filter(api =>
+  if (categoriaAtiva !== 'all') {
+    filtradas = filtradas.filter(api => getPrimaryCategory(api) === categoriaAtiva);
+  }
+  
+  if (termo) {
+    filtradas = filtradas.filter(api =>
       (api.name || '').toLowerCase().includes(termo) ||
       (api.description || '').toLowerCase().includes(termo) ||
       (getPrimaryCategory(api) || '').toLowerCase().includes(termo)
     );
+  }
 
-    renderizarAPIs(filtradas);
-  });
+  renderizarAPIs(filtradas);
 }
+
+// Inicializar a pesquisa
+document.querySelector('.search-input').addEventListener('input', aplicarFiltroPesquisa);
+document.querySelector('.search-button').addEventListener('click', aplicarFiltroPesquisa);
 
 // --- Iniciar ---
 document.addEventListener('DOMContentLoaded', carregarAPIs);
 </script>
 </body>
 </html>
-
