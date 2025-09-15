@@ -868,62 +868,64 @@ pre {
 <!-- Importar a biblioteca do Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const API_URL = "https://api-apihub.onrender.com/apis";
-// Configuração do Supabase - substitua com suas próprias credenciais
 const SUPABASE_URL = "https://bllvhpayuglmkhgvoppv.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsbHZocGF5dWdsbWtoZ3ZvcHB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc3MTg3OTksImV4cCI6MjA3MzI5NDc5OX0.6y-iXrOZFl5ufsB06ZW1mAK6y5wPfTIEH8GhMsE_byw";
 
-// Inicializar o cliente Supabase
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-let todasAPIs = []; // Armazena todas para aplicar filtros depois
+let todasAPIs = [];
 
-// Função para carregar APIs do backend
-// Função para carregar APIs do Supabase
+// --- Helpers ---
+function tryParseJSON(value) {
+  if (!value) return null;
+  if (typeof value !== 'string') return value;
+  try { return JSON.parse(value); } catch (e) { return null; }
+}
+
+function prettyPrintJSON(value) {
+  const parsed = tryParseJSON(value);
+  if (parsed !== null) return JSON.stringify(parsed, null, 2);
+  return String(value || '');
+}
+
+function getPrimaryCategory(api) {
+  if (api.category) return api.category;
+  if (api.tags) {
+    const first = String(api.tags).split(',')[0].trim();
+    return first || 'Outros';
+  }
+  return 'Outros';
+}
+
+// --- Carregar APIs ---
 async function carregarAPIs() {
   const grid = document.getElementById("apis-grid");
-  grid.innerHTML = "<p style='text-align: center; padding: 2rem;'><i class='fas fa-spinner fa-spin'></i> Carregando APIs...</p>";
+  if (grid) grid.innerHTML = "<p style='text-align: center; padding: 2rem;'><i class='fas fa-spinner fa-spin'></i> Carregando APIs...</p>";
 
   try {
-    const resposta = await fetch(API_URL);
-    todasAPIs = await resposta.json();
-    // Buscar dados da tabela 'apis' no Supabase
-    const { data, error } = await supabase
-      .from("apis")
-      .select("*")
-      .order('name');
-    
-    if (error) {
-      throw error;
-    }
-    
-    todasAPIs = data;
+    const { data, error } = await supabase.from("apis").select("*").order("name");
+    if (error) throw error;
+    todasAPIs = data || [];
     renderizarAPIs(todasAPIs);
     aplicarFiltroPesquisa();
   } catch (erro) {
-    grid.innerHTML = "<p style='text-align: center; padding: 2rem;'>Erro ao carregar APIs 😢<br><small>" + erro.message + "</small></p>";
+    if (grid) grid.innerHTML = `<p style='text-align: center; padding: 2rem;'>Erro ao carregar APIs.<br><small>${erro.message || erro}</small></p>`;
     console.error("Erro ao buscar APIs:", erro);
   }
 }
 
-// Função para determinar a classe CSS baseada na categoria
+// --- Renderização ---
 function getCategoryClass(category) {
-  const categoryMap = {
-    'Dados': 'category-dados',
-    'Datas': 'category-datas',
-    'Diversão': 'category-diversao',
-    'Animais': 'category-animais',
-    'Clima': 'category-clima'
-  };
-  return categoryMap[category] || 'category-outros';
+  const map = { 'Dados': 'category-dados', 'Datas': 'category-datas', 'Diversão': 'category-diversao', 'Animais': 'category-animais', 'Clima': 'category-clima' };
+  return map[category] || 'category-outros';
 }
 
-// Renderizar as APIs em cards
 function renderizarAPIs(lista) {
   const grid = document.getElementById("apis-grid");
+  if (!grid) return;
   grid.innerHTML = "";
 
-  if (lista.length === 0) {
+  if (!lista || lista.length === 0) {
     grid.innerHTML = "<p style='text-align: center; padding: 2rem;'>Nenhuma API encontrada.</p>";
     return;
   }
@@ -931,60 +933,45 @@ function renderizarAPIs(lista) {
   lista.forEach(api => {
     const card = document.createElement("div");
     card.classList.add("api-card", "animate");
-    card.setAttribute("data-category", api.category);
+    const categoryLabel = getPrimaryCategory(api);
+    card.setAttribute("data-category", categoryLabel);
 
-    // Determinar ícone baseado na categoria
-    let categoryIcon = "fas fa-code";
-    if (api.category === "Dados") categoryIcon = "fas fa-database";
-    if (api.category === "Datas") categoryIcon = "fas fa-calendar";
-    if (api.category === "Diversão") categoryIcon = "fas fa-gamepad";
-    if (api.category === "Animais") categoryIcon = "fas fa-paw";
-    if (api.category === "Clima") categoryIcon = "fas fa-cloud-sun";
+    let icon = "fas fa-code";
+    if (categoryLabel === "Dados") icon = "fas fa-database";
+    if (categoryLabel === "Datas") icon = "fas fa-calendar";
+    if (categoryLabel === "Diversão") icon = "fas fa-gamepad";
+    if (categoryLabel === "Animais") icon = "fas fa-paw";
+    if (categoryLabel === "Clima") icon = "fas fa-cloud-sun";
+
+    const fullEndpoint = `${api.base_url || ''}${api.endpoint_path || ''}`;
 
     card.innerHTML = `
       <div class="api-card-header">
-        <span class="api-card-category ${getCategoryClass(api.category)}">
-          <i class="${categoryIcon}"></i> ${api.category}
+        <span class="api-card-category ${getCategoryClass(categoryLabel)}">
+          <i class="${icon}"></i> ${categoryLabel}
         </span>
-        <h3 class="api-card-title">${api.name}</h3>
-        <p class="api-card-description">${api.description}</p>
+        <h3 class="api-card-title">${api.name || 'Sem nome'}</h3>
+        <p class="api-card-description">${api.description || ''}</p>
       </div>
       <div class="api-card-body">
         <div class="api-details">
-          <div class="api-detail-item">
-            <i class="fas fa-link"></i>
-            <span><strong>URL Base:</strong> ${api.url}</span>
-          </div>
-          <div class="api-detail-item">
-            <i class="fas fa-lock"></i>
-            <span><strong>Autenticação:</strong> ${api.auth}</span>
-          </div>
-          <div class="api-detail-item">
-            <i class="fas fa-shield-alt"></i>
-            <span><strong>HTTPS:</strong> ${api.https ? 'Sim' : 'Não'}</span>
-          </div>
-          <div class="api-detail-item">
-            <i class="fas fa-exchange-alt"></i>
-            <span><strong>CORS:</strong> ${api.cors ? 'Suportado' : 'Não suportado'}</span>
-          </div>
+          <div class="api-detail-item"><i class="fas fa-link"></i><span><strong>Endpoint:</strong> ${fullEndpoint || '—'}</span></div>
+          <div class="api-detail-item"><i class="fas fa-lock"></i><span><strong>Autenticação:</strong> ${api.authentication_type || 'Nenhuma'}</span></div>
+          <div class="api-detail-item"><i class="fas fa-shield-alt"></i><span><strong>HTTPS:</strong> ${api.https ? 'Sim' : 'Não'}</span></div>
+          <div class="api-detail-item"><i class="fas fa-exchange-alt"></i><span><strong>CORS:</strong> ${api.cors ? 'Suportado' : 'Não suportado'}</span></div>
         </div>
       </div>
       <div class="api-card-footer">
         <div class="api-link-container">
-          <span class="api-link" title="${api.url}">${api.url}</span>
-          <button class="copy-btn" data-url="${api.url}">
-            <i class="fas fa-copy"></i> Copiar
-          </button>
+          <span class="api-link" title="${fullEndpoint}">${fullEndpoint}</span>
+          <button class="copy-btn" data-url="${fullEndpoint}"><i class="fas fa-copy"></i> Copiar</button>
         </div>
-        <button class="how-to-use-btn" onclick="abrirModal(${api.id})">
-          <i class="fas fa-book"></i> Como usar
-        </button>
+        <button class="how-to-use-btn" onclick="abrirModal('${api.id}')"><i class="fas fa-book"></i> Como usar</button>
       </div>
     `;
     grid.appendChild(card);
   });
 
-  // Adicionar event listeners para os botões de copiar
   document.querySelectorAll('.copy-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const url = e.currentTarget.getAttribute('data-url');
@@ -993,185 +980,133 @@ function renderizarAPIs(lista) {
   });
 }
 
-// Função para copiar texto para a área de transferência
-function copiarParaAreaDeTransferencia(texto) {
-  navigator.clipboard.writeText(texto).then(() => {
-    const notification = document.getElementById('notification');
-    notification.classList.add('show');
-    setTimeout(() => {
-      notification.classList.remove('show');
-    }, 3000);
-  }).catch(err => {
-    console.error('Falha ao copiar texto: ', err);
-  });
-}
-
-// Abrir modal com informações da API
+// --- Modal ---
 function abrirModal(id) {
   const api = todasAPIs.find(a => a.id === id);
   if (!api) return;
 
-  // Formatar a resposta JSON com syntax highlighting
-  const formattedResponse = syntaxHighlight(api.usage.response);
-  // Verificar se a API tem informações de uso
-  const hasUsageInfo = api.usage && typeof api.usage === 'object';
+  const fullEndpoint = `${api.base_url || ''}${api.endpoint_path || ''}`;
+  const method = api.method || 'GET';
+  const responseFormatted = prettyPrintJSON(api.response_format);
+  const usageExample = api.usage_example || '';
 
-  // Criar tabela de parâmetros
-  // Formatar a resposta JSON com syntax highlighting se disponível
-  const formattedResponse = hasUsageInfo && api.usage.response 
-    ? syntaxHighlight(api.usage.response) 
-    : '<p>Nenhum exemplo de resposta disponível.</p>';
-  
-  // Criar tabela de parâmetros se disponível
   let parametersTable = '';
-  if (api.usage.parameters && typeof api.usage.parameters === 'object') {
-  if (hasUsageInfo && api.usage.parameters && typeof api.usage.parameters === 'object') {
+  const params = tryParseJSON(api.parameters);
+  if (params && typeof params === 'object' && Object.keys(params).length > 0) {
     parametersTable = '<table class="parameter-table"><tr><th>Parâmetro</th><th>Descrição</th></tr>';
-    for (const [key, value] of Object.entries(api.usage.parameters)) {
+    for (const [key, value] of Object.entries(params)) {
       parametersTable += `<tr><td><code>${key}</code></td><td>${value}</td></tr>`;
     }
     parametersTable += '</table>';
+  } else if (api.parameters && typeof api.parameters === 'string') {
+    parametersTable = `<pre>${api.parameters}</pre>`;
   } else {
-    parametersTable = '<p>Nenhum parâmetro necessário.</p>';
     parametersTable = '<p>Nenhum parâmetro necessário ou informações não disponíveis.</p>';
   }
 
   document.getElementById("modal-title").innerHTML = `
-    ${api.name} 
-    <span class="modal-category ${getCategoryClass(api.category)}">${api.category}</span>
+    ${api.name || 'Sem nome'}
+    <span class="modal-category ${getCategoryClass(getPrimaryCategory(api))}">${getPrimaryCategory(api)}</span>
   `;
 
   document.getElementById("modal-body").innerHTML = `
     <div class="modal-section">
       <h3 class="modal-section-title"><i class="fas fa-info-circle"></i> Descrição</h3>
-      <p>${api.description}</p>
+      <p>${api.description || ''}</p>
     </div>
-    
+
     <div class="modal-section">
       <h3 class="modal-section-title"><i class="fas fa-link"></i> Endpoint</h3>
-      <div class="modal-section-content">${api.usage.endpoint}</div>
-      <div class="modal-section-content">${api.url}</div>
+      <div class="modal-section-content">${fullEndpoint}</div>
     </div>
-    
-    ${hasUsageInfo ? `
+
     <div class="modal-section">
       <h3 class="modal-section-title"><i class="fas fa-code"></i> Método HTTP</h3>
-      <div class="modal-section-content">${api.usage.method}</div>
-      <div class="modal-section-content">${api.usage.method || 'GET'}</div>
+      <div class="modal-section-content">${method}</div>
     </div>
-    
+
     <div class="modal-section">
       <h3 class="modal-section-title"><i class="fas fa-cog"></i> Parâmetros</h3>
       ${parametersTable}
     </div>
-    
+
     <div class="modal-section">
       <h3 class="modal-section-title"><i class="fas fa-code"></i> Exemplo de Uso</h3>
-      <div class="code-example">
-        <code>${api.usage.example}</code>
-        <code>${api.usage.example || 'Nenhum exemplo disponível.'}</code>
-      </div>
+      <div class="code-example"><pre>${usageExample || 'Nenhum exemplo disponível.'}</pre></div>
     </div>
-    
+
     <div class="modal-section">
       <h3 class="modal-section-title"><i class="fas fa-reply"></i> Resposta</h3>
-      <div class="code-example">
-        <pre>${formattedResponse}</pre>
-      </div>
+      <div class="code-example"><pre>${responseFormatted || 'Nenhum exemplo de resposta disponível.'}</pre></div>
     </div>
-    ` : `
-    <div class="modal-section">
-      <h3 class="modal-section-title"><i class="fas fa-info-circle"></i> Informações Adicionais</h3>
-      <p>Para mais detalhes sobre como usar esta API, consulte a documentação oficial.</p>
-    </div>
-    `}
   `;
 
   document.getElementById("modal-overlay").classList.add("active");
 }
 
-// Função para destacar sintaxe JSON
+// --- Utils ---
+function copiarParaAreaDeTransferencia(texto) {
+  navigator.clipboard.writeText(texto).then(() => {
+    const notification = document.getElementById('notification');
+    notification.classList.add('show');
+    setTimeout(() => notification.classList.remove('show'), 3000);
+  }).catch(err => console.error('Falha ao copiar texto: ', err));
+}
+
 function syntaxHighlight(json) {
-  if (typeof json !== 'string') {
-    json = JSON.stringify(json, undefined, 2);
-  }
-
+  if (typeof json !== 'string') json = JSON.stringify(json, undefined, 2);
   json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
   return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
     let cls = 'json-number';
-    if (/^"/.test(match)) {
-      if (/:$/.test(match)) {
-        cls = 'json-key';
-      } else {
-        cls = 'json-string';
-      }
-    } else if (/true|false/.test(match)) {
-      cls = 'json-boolean';
-    } else if (/null/.test(match)) {
-      cls = 'json-null';
-    }
+    if (/^"/.test(match)) { cls = /:$/.test(match) ? 'json-key' : 'json-string'; }
+    else if (/true|false/.test(match)) cls = 'json-boolean';
+    else if (/null/.test(match)) cls = 'json-null';
     return '<span class="' + cls + '">' + match + '</span>';
   });
 }
 
-// Fechar modal
+// --- Modal close ---
 document.getElementById("modal-close").addEventListener("click", () => {
   document.getElementById("modal-overlay").classList.remove("active");
 });
-
-// Fechar modal clicando fora dele
-document.getElementById("modal-overlay").addEventListener("click", (e) => {
+document.getElementById("modal-overlay").addEventListener("click", e => {
   if (e.target === document.getElementById("modal-overlay")) {
     document.getElementById("modal-overlay").classList.remove("active");
   }
 });
 
-// Filtros por categoria
+// --- Filtros ---
 document.querySelectorAll(".filter-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
-
     const categoria = btn.getAttribute("data-category");
-    if (categoria === "all") {
-      renderizarAPIs(todasAPIs);
-    } else {
-      const filtradas = todasAPIs.filter(api => api.category === categoria);
-      renderizarAPIs(filtradas);
-    }
+    renderizarAPIs(categoria === "all" ? todasAPIs : todasAPIs.filter(api => getPrimaryCategory(api) === categoria));
   });
 });
 
-// Pesquisa em tempo real
+// --- Pesquisa ---
 function aplicarFiltroPesquisa() {
   const searchInput = document.querySelector('.search-input');
   searchInput.addEventListener('input', () => {
     const termo = searchInput.value.toLowerCase();
+    const categoriaAtiva = document.querySelector('.filter-btn.active').getAttribute('data-category');
+    let filtradas = todasAPIs;
 
-    if (termo === '') {
-      // Se não há termo de pesquisa, use o filtro de categoria ativo
-      const categoriaAtiva = document.querySelector('.filter-btn.active').getAttribute('data-category');
-      if (categoriaAtiva === 'all') {
-        renderizarAPIs(todasAPIs);
-      } else {
-        const filtradas = todasAPIs.filter(api => api.category === categoriaAtiva);
-        renderizarAPIs(filtradas);
-      }
-    } else {
-      // Filtrar por termo de pesquisa
-      const resultados = todasAPIs.filter(api => 
-        api.name.toLowerCase().includes(termo) || 
-        api.description.toLowerCase().includes(termo) ||
-        api.category.toLowerCase().includes(termo)
-      );
-      renderizarAPIs(resultados);
-    }
+    if (categoriaAtiva !== 'all') filtradas = filtradas.filter(api => getPrimaryCategory(api) === categoriaAtiva);
+    if (termo) filtradas = filtradas.filter(api =>
+      (api.name || '').toLowerCase().includes(termo) ||
+      (api.description || '').toLowerCase().includes(termo) ||
+      (getPrimaryCategory(api) || '').toLowerCase().includes(termo)
+    );
+
+    renderizarAPIs(filtradas);
   });
 }
 
-// Carregar APIs ao abrir a página
+// --- Iniciar ---
 document.addEventListener('DOMContentLoaded', carregarAPIs);
 </script>
 </body>
 </html>
+
