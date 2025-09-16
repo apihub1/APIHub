@@ -234,17 +234,24 @@
             gap: 10px;
         }
 
+        /* Ajustes para os círculos numerados */
         .etapa-number {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 30px;
-            height: 30px;
+            width: 36px;
+            height: 36px;
             background: var(--primary);
             color: white;
             border-radius: 50%;
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .etapa:hover .etapa-number {
+            background: var(--primary-dark);
+            transform: scale(1.1);
         }
 
         /* Cards Section */
