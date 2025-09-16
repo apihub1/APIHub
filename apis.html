@@ -1007,7 +1007,7 @@ pre {
 const SUPABASE_URL = "https://bllvhpayuglmkhgvoppv.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsbHZocGF5dWdsbWtoZ3ZvcHB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc3MTg3OTksImV4cCI6MjA3MzI5NDc5OX0.6y-iXrOZFl5ufsB06ZW1mAK6y5wPfTIEH8GhMsE_byw";
 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let todasAPIs = [];
 let currentPage = 1;
@@ -1382,4 +1382,5 @@ document.addEventListener('DOMContentLoaded', carregarAPIs);
 </script>
 </body>
 </html>
+
 
