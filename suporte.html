@@ -695,19 +695,6 @@
             });
         });
 
-        document.getElementById('support-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-                        
-            const notification = document.getElementById('notification');
-            notification.textContent = 'Sua mensagem foi enviada com sucesso! Entraremos em contato em breve.';
-            notification.classList.add('show');
-
-            this.reset();
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 5000);
-        });
 
         const emailLink = document.querySelector('a[href^="mailto"]');
         emailLink.addEventListener('click', () => {
