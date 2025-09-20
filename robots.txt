@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: https://josejunior1001.github.io/APIHub/sitemap.xml
