@@ -42,6 +42,7 @@
   --color-outros: #8b5cf6;
   --color-palavras: #D611D6;
   --color-nomes: #E5A335;
+  --color-financeiro: #059669; 
 }
 
 * {
@@ -724,11 +725,17 @@ footer {
 .category-clima {
   background-color: var(--color-clima);
 }
-   .api-card[data-category="Palavras"] {
-  border-top: 4px solid var(--color-palavras);
+
+.category-palavras {
+  background-color: var(--color-palavras);
 }
-  .api-card[data-category="Nomes"] {
-  border-top: 4px solid var(--color-nomes);
+
+.category-nomes {
+  background-color: var(--color-nomes);
+}
+
+.category-financeiro {
+  background-color: var(--color-financeiro);
 }
 
 .category-outros {
@@ -755,14 +762,20 @@ footer {
 .api-card[data-category="Clima"] {
   border-top: 4px solid var(--color-clima);
 }
-  .api-card[data-category="Palavras"] {
+
+.api-card[data-category="Palavras"] {
   border-top: 4px solid var(--color-palavras);
 }
-  .api-card[data-category="Nomes"] {
+
+.api-card[data-category="Nomes"] {
   border-top: 4px solid var(--color-nomes);
 }
 
-.api-card[data-category]:not([data-category="Dados"]):not([data-category="Datas"]):not([data-category="Diversão"]):not([data-category="Animais"]):not([data-category="Clima"]) {
+.api-card[data-category="Financeiro"] {
+  border-top: 4px solid var(--color-financeiro);
+}
+
+.api-card[data-category]:not([data-category="Dados"]):not([data-category="Datas"]):not([data-category="Diversão"]):not([data-category="Animais"]):not([data-category="Clima"]):not([data-category="Palavras"]):not([data-category="Nomes"]):not([data-category="Financeiro"]) {
   border-top: 4px solid var(--color-outros);
 }
 
@@ -959,9 +972,9 @@ pre {
 <button class="filter-btn" data-category="Diversão"><i class="fas fa-gamepad"></i> Diversão</button>
 <button class="filter-btn" data-category="Animais"><i class="fas fa-paw"></i> Animais</button>
 <button class="filter-btn" data-category="Clima"><i class="fas fa-cloud-sun"></i> Clima</button>
-<button class="filter-btn" data-category="Palavras"><i class="fas fa-pencil"></i> Palavras</button>
-<button class="filter-btn" data-category="Pessoas"><i class="fas fa-male"></i> Palavras</button>  
-<button class="filter-btn" data-category="Nomes"><i class="	fa fa-vcard"></i>Nomes</button>
+<button class="filter-btn" data-category="Palavras"><i class="fas fa-pencil"></i> Palavras</button> 
+<button class="filter-btn" data-category="Nomes"><i class="	fa fa-vcard"></i> Nomes</button>
+<button class="filter-btn" data-category="Financeiro"><i class="fas fa-money-bill-wave"></i> Financeiro</button>
 </div>
 </div>
 </section>
@@ -1207,7 +1220,16 @@ function mudarPagina(pagina) {
 
 // --- Renderização ---
 function getCategoryClass(category) {
-  const map = { 'Dados': 'category-dados', 'Datas': 'category-datas', 'Diversão': 'category-diversao', 'Animais': 'category-animais', 'Clima': 'category-clima' };
+  const map = { 
+    'Dados': 'category-dados', 
+    'Datas': 'category-datas', 
+    'Diversão': 'category-diversao', 
+    'Animais': 'category-animais', 
+    'Clima': 'category-clima',
+    'Palavras': 'category-palavras',
+    'Nomes': 'category-nomes',
+    'Financeiro': 'category-financeiro'
+  };
   return map[category] || 'category-outros';
 }
 
@@ -1408,6 +1430,7 @@ document.addEventListener('DOMContentLoaded', carregarAPIs);
 </script>
 </body>
 </html>
+
 
 
 
