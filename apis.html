@@ -40,6 +40,8 @@
   --color-animais: #ef4444;
   --color-clima: #06b6d4;
   --color-outros: #8b5cf6;
+  --color-palavras: #D611D6;
+  --color-nomes: #E5A335;
 }
 
 * {
@@ -722,6 +724,12 @@ footer {
 .category-clima {
   background-color: var(--color-clima);
 }
+   .api-card[data-category="Palavras"] {
+  border-top: 4px solid var(--color-palavras);
+}
+  .api-card[data-category="Nomes"] {
+  border-top: 4px solid var(--color-nomes);
+}
 
 .category-outros {
   background-color: var(--color-outros);
@@ -746,6 +754,12 @@ footer {
 
 .api-card[data-category="Clima"] {
   border-top: 4px solid var(--color-clima);
+}
+  .api-card[data-category="Palavras"] {
+  border-top: 4px solid var(--color-palavras);
+}
+  .api-card[data-category="Nomes"] {
+  border-top: 4px solid var(--color-nomes);
 }
 
 .api-card[data-category]:not([data-category="Dados"]):not([data-category="Datas"]):not([data-category="Diversão"]):not([data-category="Animais"]):not([data-category="Clima"]) {
@@ -946,6 +960,8 @@ pre {
 <button class="filter-btn" data-category="Animais"><i class="fas fa-paw"></i> Animais</button>
 <button class="filter-btn" data-category="Clima"><i class="fas fa-cloud-sun"></i> Clima</button>
 <button class="filter-btn" data-category="Palavras"><i class="fas fa-pencil"></i> Palavras</button>
+<button class="filter-btn" data-category="Pessoas"><i class="fas fa-male"></i> Palavras</button>  
+<button class="filter-btn" data-category="Nomes"><i class="	fa fa-vcard"></i>Nomes</button>
 </div>
 </div>
 </section>
@@ -1392,6 +1408,7 @@ document.addEventListener('DOMContentLoaded', carregarAPIs);
 </script>
 </body>
 </html>
+
 
 
 
