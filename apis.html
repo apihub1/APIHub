@@ -972,8 +972,8 @@ pre {
 <button class="filter-btn" data-category="Diversão"><i class="fas fa-gamepad"></i> Diversão</button>
 <button class="filter-btn" data-category="Animais"><i class="fas fa-paw"></i> Animais</button>
 <button class="filter-btn" data-category="Clima"><i class="fas fa-cloud-sun"></i> Clima</button>
-<button class="filter-btn" data-category="Palavras"><i class="fas fa-pencil"></i> Palavras</button> 
-<button class="filter-btn" data-category="Nomes"><i class="	fa fa-vcard"></i> Nomes</button>
+<button class="filter-btn" data-category="Palavras"><i class="fas fa-pencil-alt"></i> Palavras</button>
+<button class="filter-btn" data-category="Nomes"><i class="fas fa-user"></i> Nomes</button>
 <button class="filter-btn" data-category="Financeiro"><i class="fas fa-money-bill-wave"></i> Financeiro</button>
 </div>
 </div>
@@ -1258,12 +1258,16 @@ function renderizarAPIs(lista) {
     const categoryLabel = getPrimaryCategory(api);
     card.setAttribute("data-category", categoryLabel);
 
+    // ÍCONES ATUALIZADOS PARA TODAS AS CATEGORIAS
     let icon = "fas fa-code";
     if (categoryLabel === "Dados") icon = "fas fa-database";
     if (categoryLabel === "Datas") icon = "fas fa-calendar";
     if (categoryLabel === "Diversão") icon = "fas fa-gamepad";
     if (categoryLabel === "Animais") icon = "fas fa-paw";
     if (categoryLabel === "Clima") icon = "fas fa-cloud-sun";
+    if (categoryLabel === "Palavras") icon = "fas fa-pencil-alt";
+    if (categoryLabel === "Nomes") icon = "fas fa-user";
+    if (categoryLabel === "Financeiro") icon = "fas fa-money-bill-wave";
 
     const fullEndpoint = `${api.base_url || ''}${api.endpoint_path || ''}`;
 
@@ -1430,6 +1434,7 @@ document.addEventListener('DOMContentLoaded', carregarAPIs);
 </script>
 </body>
 </html>
+
 
 
 
