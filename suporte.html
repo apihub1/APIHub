@@ -55,57 +55,94 @@
         }
 
         /* Header Styles */
-        header {
-            background: var(--gradient);
-            color: white;
-            padding: 1.5rem 0;
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+      header {
+                background: var(--gradient);
+                color: white;
+                padding: 1.5rem 0;
+                box-shadow: var(--shadow);
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+            .opcoes {
+                font-size: 25px;
+                justify-content: space-between;
+            }
+            
+            .header-content {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
 
-        .logo {
-            height: 50px;
-            width: auto;
-            border-radius: 8px;
-        }
+            .logo-container {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
 
-        .logo-text {
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
+            .logo {
+                height: 50px;
+                width: auto;
+                border-radius: 8px;
+            }
 
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
+            .logo-text {
+                font-size: 1.8rem;
+                font-weight: 700;
+            }
+            
+            nav {
+                display: flex;
+                align-items: center;
+                gap: 2rem;
+            }
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            padding: 5px 10px;
-            border-radius: 4px;
-        }
+            nav ul {
+                display: flex;
+                list-style: none;
+                gap: 2rem;
+            }
 
-        nav a:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
+            nav a {
+                position: relative;
+                display: inline-block;
+                color: white;
+                text-decoration: none;
+                padding: 5px 0;
+            }
+
+            nav a:not(.login a)::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 0;
+                height: 2px;
+                background-color: #ffffff;
+                transition: width 0.3s ease;
+            }
+
+            nav a:not(.login a):hover::after {
+                width: 100%;
+            }
+            .login a{
+                background-color: white;
+                border-radius: 24px;
+                color: #1d4ed8;
+                font-size: 1.2rem;
+                text-align: center;
+                width: 90px;
+                padding: 8px 20px;
+                background-color: #e5e7eb;
+                transform: translatey(-2px);
+                border: none;
+                text-decoration: none;
+            }
+            .login a:hover {
+                text-decoration: none;
+            }
 
         /* Hero Section */
         .hero {
