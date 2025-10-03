@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="APIHub - Entenda o que são APIs, como funcionam e descubra as APIs mais populares do mercado para integrar em seus projetos.">
+    <meta name="keywords" content="API, desenvolvimento, programação, integração, REST API, Google Maps API, OpenAI API, Twitter API">
+    <meta name="author" content="APIHub">
+    <meta property="og:title" content="APIHub - Tudo sobre APIs e Integrações">
+    <meta property="og:description" content="Descubra o mundo das APIs, como funcionam e as melhores APIs para usar em seus projetos de desenvolvimento.">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <title>APIHub | Login</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #4f46e5;
+            --accent: #8b5cf6;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --background: #f9fafb;
+            --card-bg: #ffffff;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-image: url('fundo-login.png');
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* HEADER CORRIGIDO */
+        header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            width: 100%;
+        }
+        
+        #return {
+            position: absolute;
+            left: 20px;
+            font-size: 40px;
+            color: #4898dd;
+            z-index: 10;
+        }
+        
+        #return:hover {
+            cursor: pointer;
+            color: var(--primary-dark);
+        }
+        
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .logo-container img {
+            max-width: 180px;
+            height: auto;
+        }
+        
+        /* CONTEÚDO PRINCIPAL */
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            padding: 20px;
+        }
+        
+        .box {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            padding: 30px;
+            margin: 20px;
+        }
+        
+        .box h1 {
+            color: rgb(0, 0, 53);
+            margin-bottom: 15px;
+        }
+        
+        .box hr {
+            margin: 15px 0;
+            border: 0;
+            height: 1px;
+            background: #eee;
+        }
+        
+        .box input {
+            width: 80%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 25px;
+            text-align: center;
+            border: 1px solid #ddd;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .inputs {
+            margin: 20px 0;
+        }
+        
+        .login-button {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .login-button img {
+            width: 100px;
+            transition: transform 0.3s;
+        }
+        
+        .login-button img:hover {
+            transform: scale(1.1);
+            cursor: pointer;
+        }
+        .submit {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 25px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: background 0.3s;
+        }
+        .notific {
+            height: 60px;
+            width: 300px;
+            background-color: rgb(177, 0, 0);
+            color: white;
+            align-self: flex-end;
+            z-index: 1000;
+            border-radius: 11px;
+            position: relative;
+            text-align: center;
+        }
+        .notific p {
+            padding-top: 10px ;
+        }
+        .box p {
+            margin: 10px 0;
+            color: var(--text-light);
+        }
+        
+        .box a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .box a:hover {
+            text-decoration: underline;
+        }
+        #toast {
+  visibility: hidden;          
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 8px;
+  padding: 12px;
+  position: fixed;
+  left: 50%;
+  bottom: -60px; /* começa fora da tela */
+  font-size: 16px;
+  z-index: 1000;
+  opacity: 0;
+  transition: bottom 0.5s ease, opacity 0.5s ease;
+}
+
+#toast.show {
+  visibility: visible;
+  bottom: 30px;  /* sobe */
+  opacity: 1;
+}
+
+        
+        /* RESPONSIVIDADE */
+        @media (max-width: 768px) {
+            #return {
+                font-size: 32px;
+            }
+            
+            .logo-container img {
+                max-width: 150px;
+            }
+            
+            .box {
+                padding: 20px;
+            }
+            
+            .box input {
+                width: 90%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #return {
+                font-size: 28px;
+                left: 15px;
+            }
+            
+            .logo-container img {
+                max-width: 130px;
+            }
+            
+            .box {
+                padding: 15px;
+            }
+            
+            .login-button {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a id="return">←</a>
+        <div class="logo-container">
+            <img src="Logo.png" alt="Logo APIHub">
+        </div>
+    </header>
+    
+    <main>
+        <div class="box">
+            <h1>Bem-Vindo(a) de Volta!</h1>
+            <hr>
+            <form class="inputs">
+                <input type="email" id="email" name="email" placeholder="Digite seu e-mail">
+                <input type="password" id="senha" name="senha" placeholder="Digite sua senha">
+                <i id="toggle"></i><br>
+                <a href="recuperar-senha.html" style="text-decoration: none; color:#1d4ed8; text-align: end; font-size: 11px;">Esqueci a minha senha</a><br>
+                <button type="submit" class="submit">
+        Confirmar
+    </button>
+            </form>
+            <p>Ou</p>
+            <form class="login-button">
+                <a><img src="logo-google.png" alt="Login com Google"></a>
+                <a><img src="logo-github.png" alt="Login com GitHub"></a>
+                            </form>
+            <p>Não tem uma conta? <a href="cadastro.html">Crie uma!</a></p>
+        </div>
+        <div id="toast"></div>
+    </main>
+    <script>
+      const voltarBtn = document.getElementById('return');
+      const email = document.getElementById('email');
+      const senha = document.getElementById('senha');
+      const noti = document.getElementById('notific');
+      const toogle = document.getElementById('toggle');
+
+
+    toogle.addEventListener("click", () => {
+    if (senha.type = "password") {
+        senha.type = "text";
+        toogle.classList.replace("fa-eye", "fa-eye slash");
+    } else {
+        senha.type === "password"
+        toogle.classList.replace("fa-eye slash","fa-eye");
+    }
+    });
+
+
+voltarBtn.addEventListener("click", () => {
+    window.history.back();
+});
+function showToast(msg, type = "default") {
+  const toast = document.getElementById("toast");
+  toast.innerHTML = msg;
+  if (type === "error") {
+    toast.style.backgroundColor = "#b91c1c"; 
+  } else if (type === "success") {
+    toast.style.backgroundColor = "#16a34a"; 
+  } else {
+    toast.style.backgroundColor = "#333"; 
+  }
+
+  toast.className = "show";
+
+  setTimeout(() => {
+    toast.className = toast.className.replace("show", "");
+  }, 3000); 
+}
+
+document.querySelector(".inputs").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  if (email.value.trim() === "" || senha.value.trim() === "") {
+      showToast("⚠️ Preencha todos os campos!", "error");
+      return;
+  }
+
+  try {
+    const response = await fetch("http://localhost:3000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        email: email.value.trim(),
+        senha: senha.value
+      })
+    });
+
+    const result = await response.json();
+    console.log("📥 Resposta do servidor:", result);
+
+    if (response.ok) {
+        showToast("✅ Login realizado com sucesso!", "success");
+        setTimeout(() => {
+            window.location.href = "index.html"; // coloque a página desejada aqui
+        }, 2000);
+    } else {
+        showToast(result.message || "❌ Usuário ou senha inválidos", "error");
+    }
+
+  } catch (error) {
+    console.error("💥 Erro de conexão:", error);
+    showToast("❌ Erro ao conectar com o servidor", "error");
+  }
+});
+
+    </script>
+</body>
+</html>

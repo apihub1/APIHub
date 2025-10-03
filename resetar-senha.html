@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APIHub | Redefinir Senha</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --text: #1f2937;
+            --text-light: #6b7280;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url('fundo-login.png');
+            display:flex; flex-direction:column; min-height:100vh; color: var(--text);
+        }
+        header {
+            display:flex; align-items:center; padding:20px; position:relative;
+        }
+        #return { position:absolute; left:20px; font-size:40px; color:#4898dd; cursor:pointer; }
+        #return:hover { color: var(--primary-dark); }
+        .logo-container { display:flex; justify-content:center; align-items:center; width:100%; }
+        .logo-container img { max-width:180px; height:auto; }
+        main { flex:1; display:flex; justify-content:center; align-items:center; padding:20px; }
+        .box { width:100%; max-width:500px; background:white; border-radius:25px; padding:30px; box-shadow:0 4px 10px rgba(0,0,0,0.2); text-align:center; }
+        .box h1 { margin-bottom:15px; color: rgb(0,0,53); }
+        .box hr { margin:15px 0; height:1px; background:#eee; border:none; }
+        .box input { width:80%; padding:12px; margin:10px 0; border-radius:25px; border:1px solid #ddd; text-align:center; }
+        .submit { background: var(--primary); color:white; border:none; padding:12px 25px; border-radius:25px; cursor:pointer; margin-top:10px; }
+        #toast { visibility:hidden; min-width:250px; margin-left:-125px; background-color:#333; color:#fff; text-align:center; border-radius:8px; padding:12px; position:fixed; left:50%; bottom:-60px; font-size:16px; z-index:1000; opacity:0; transition: bottom 0.5s ease, opacity 0.5s ease; }
+        #toast.show { visibility:visible; bottom:30px; opacity:1; }
+    </style>
+</head>
+<body>
+<header>
+    <a id="return">←</a>
+    <div class="logo-container">
+        <img src="Logo.png" alt="Logo APIHub">
+    </div>
+</header>
+<main>
+    <div class="box">
+        <h1>Redefinir Senha</h1>
+        <hr>
+        <form id="reset-form">
+            <input type="password" id="novaSenha" placeholder="Digite a nova senha">
+            <button type="submit" class="submit">Confirmar</button>
+        </form>
+    </div>
+    <div id="toast"></div>
+</main>
+<script>
+const voltarBtn = document.getElementById('return');
+voltarBtn.addEventListener("click", () => window.history.back());
+
+function showToast(msg, type="default"){
+    const toast = document.getElementById("toast");
+    toast.innerHTML = msg;
+    toast.style.backgroundColor = type==="error"? "#b91c1c" : type==="success"? "#16a34a" : "#333";
+    toast.className = "show";
+    setTimeout(()=>{toast.className = toast.className.replace("show","");},3000);
+}
+
+// Pega token da URL
+const urlParams = new URLSearchParams(window.location.search);
+const token = urlParams.get('token');
+
+document.getElementById('reset-form').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const novaSenha = document.getElementById('novaSenha').value.trim();
+
+    if(!novaSenha){ showToast("⚠️ Preencha a nova senha!", "error"); return; }
+
+    try {
+        const response = await fetch("http://localhost:3000/resetar-senha", {
+            method:"POST",
+            headers: { "Content-Type":"application/json" },
+            body: JSON.stringify({ token, novaSenha })
+        });
+
+        const result = await response.json();
+        if(response.ok){
+            showToast(result.message, "success");
+            setTimeout(()=>window.location.href="login.html",2000);
+        } else {
+            showToast(result.message || "❌ Erro ao redefinir senha", "error");
+        }
+    } catch(err){
+        console.error(err);
+        showToast("❌ Erro de conexão", "error");
+    }
+});
+</script>
+</body>
+</html>
