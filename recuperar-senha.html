@@ -274,6 +274,9 @@
             <div id="toast"></div>
         </main>
     <script>
+       return.addEventListener("click", () => {
+    window.history.back();
+});
 function showToast(msg, type="default"){
     const toast = document.getElementById("toast");
     toast.innerHTML = msg;
@@ -316,3 +319,4 @@ form.addEventListener('submit', async (e) => {
 </script>
 </body>
 </html>
+
