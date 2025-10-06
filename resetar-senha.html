@@ -78,7 +78,7 @@ document.getElementById('reset-form').addEventListener('submit', async (e)=>{
     if(!novaSenha){ showToast("⚠️ Preencha a nova senha!", "error"); return; }
 
     try {
-        const response = await fetch("http://localhost:3000/resetar-senha", {
+        const response = await fetchhttps://backend-apihub.onrender.com/resetar-senha", {
             method:"POST",
             headers: { "Content-Type":"application/json" },
             body: JSON.stringify({ token, novaSenha })
@@ -99,3 +99,4 @@ document.getElementById('reset-form').addEventListener('submit', async (e)=>{
 </script>
 </body>
 </html>
+
