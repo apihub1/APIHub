@@ -266,8 +266,10 @@
             <hr>
             <form class="inputs">
                 <input type="email" id="email" name="email" placeholder="Digite seu e-mail">
-                <input type="password" id="senha" placeholder="Senha">
-                <i id="toggleSenha" class="fa fa-eye"></i><br>
+                <div style="position: relative; width: 80%; margin: 10px auto;">
+                <input type="password" id="senha" placeholder="Senha" style="width: 100%; padding-right: 40px;">
+                <i id="toggleSenha" class="fa fa-eye" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #888;"></i>
+                </div>
                 <a href="recuperar-senha.html" style="text-decoration: none; color:#1d4ed8; text-align: end; font-size: 11px;">Esqueci a minha senha</a><br>
                 <button type="submit" class="submit">
         Confirmar
@@ -285,12 +287,12 @@
     <script>
       const voltarBtn = document.getElementById('return');
       const email = document.getElementById('email');
-      const senha = document.getElementById('senha');
       const noti = document.getElementById('notific');
       const toggleSenha = document.getElementById('toggleSenha');
+      const senha = document.getElementById('senha');
+      const toggleSenha = document.getElementById('toggleSenha');
 
-
-   toggleSenha.addEventListener("click", () => {
+toggleSenha.addEventListener("click", () => {
     if (senha.type === "password") {
         senha.type = "text";
         toggleSenha.classList.replace("fa-eye", "fa-eye-slash");
@@ -298,7 +300,7 @@
         senha.type = "password";
         toggleSenha.classList.replace("fa-eye-slash", "fa-eye");
     }
-    });
+});
 
 
 voltarBtn.addEventListener("click", () => {
@@ -370,5 +372,6 @@ document.querySelector(".inputs").addEventListener("submit", async (e) => {
 </body>
 
 </html>
+
 
 
