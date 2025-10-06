@@ -294,6 +294,7 @@ const email = document.getElementById('email');
 const confsenha = document.getElementById('confsenha');
 const nome = document.getElementById('nome');
 const senha = document.getElementById('senha');
+const senha2 = document.getElementById('senha2');
 const toggleSenha = document.getElementById('toggleSenha');
 const toggleSenha2 = document.getElementById('toggleSenha2');
 
@@ -306,15 +307,17 @@ toggleSenha.addEventListener("click", () => {
         toggleSenha.classList.replace("fa-eye-slash", "fa-eye");
     }
 });
- toggleSenha2.addEventListener("click", () => {
-    if (senha.type === "password") {
-        senha.type = "text";
+
+toggleSenha2.addEventListener("click", () => {
+    if (senha2.type === "password") {
+        senha2.type = "text";
         toggleSenha2.classList.replace("fa-eye", "fa-eye-slash");
     } else {
-        senha.type = "password";
+        senha2.type = "password";
         toggleSenha2.classList.replace("fa-eye-slash", "fa-eye");
     }
 });
+
 voltarBtn.addEventListener("click", () => {
     window.history.back();
 });
@@ -414,6 +417,7 @@ document.querySelector(".inputs").addEventListener("submit", async (e) => {
 </body>
 
 </html>
+
 
 
 
