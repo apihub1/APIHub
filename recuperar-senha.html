@@ -274,11 +274,6 @@
             <div id="toast"></div>
         </main>
     <script>
-        const voltarBtn = document.getElementById('return');
-        
-       voltarBtn.addEventListener("click", () => {
-    window.history.back();
-});
 function showToast(msg, type="default"){
     const toast = document.getElementById("toast");
     toast.innerHTML = msg;
@@ -318,8 +313,14 @@ form.addEventListener('submit', async (e) => {
         showToast("❌ Erro de conexão", "error");
     }
 });
+        const voltarBtn = document.getElementById('return');
+        
+       voltarBtn.addEventListener("click", () => {
+    window.history.back();
+});
 </script>
 </body>
 </html>
+
 
 
