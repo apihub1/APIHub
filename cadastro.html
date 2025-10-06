@@ -268,10 +268,15 @@
             <form class="inputs">
                 <input type="text" id="nome" name="nome" placeholder="Digite seu nome">
                 <input type="email" id="email" name="email" placeholder="Digite seu e-mail">
-                <input type="password" id="senha" placeholder="Senha">
-                <i id="toggleSenha" class="fa fa-eye"></i>
-                <input type="password" id="senha2" placeholder="Senha">
-                <i id="toggleSenha2" class="fa fa-eye"></i>
+                <div style="position: relative; width: 80%; margin: 10px auto;">
+    <input type="password" id="senha" placeholder="Senha" style="width: 100%; padding-right: 40px;">
+    <i id="toggleSenha" class="fa fa-eye" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #888;"></i>
+</div>
+
+<div style="position: relative; width: 80%; margin: 10px auto;">
+    <input type="password" id="senha2" placeholder="Confirme sua senha" style="width: 100%; padding-right: 40px;">
+    <i id="toggleSenha2" class="fa fa-eye" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #888;"></i>
+</div>
                 <button type="submit" class="submit">Cadastrar</button>
             </form>
             <p>Ou</p>
@@ -409,5 +414,6 @@ document.querySelector(".inputs").addEventListener("submit", async (e) => {
 </body>
 
 </html>
+
 
 
