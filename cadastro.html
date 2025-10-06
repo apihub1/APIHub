@@ -34,18 +34,13 @@
             box-sizing: border-box;
         }
 
-       body {
-    font-family: 'Poppins', sans-serif;
-    line-height: 1.6;
-    color: var(--text);
+      body {
     background-image: url('fundo-login.png');
-    background-size: cover;      
-    background-position: center; 
+    background-size: 100% 100%; /* força largura e altura */
+    background-position: center;
     background-repeat: no-repeat;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
+
 
 
         .container {
@@ -420,6 +415,7 @@ document.querySelector(".inputs").addEventListener("submit", async (e) => {
 </body>
 
 </html>
+
 
 
 
