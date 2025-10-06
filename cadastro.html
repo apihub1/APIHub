@@ -34,17 +34,19 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            line-height: 1.6;
-            color: var(--text);
-            background-image: url('fundo-login.png');
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;  
-            background-repeat: no-repeat;
-        }
+       body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    color: var(--text);
+    background-image: url('fundo-login.png');
+    background-size: cover;      
+    background-position: center; 
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 
         .container {
             max-width: 1200px;
@@ -418,6 +420,7 @@ document.querySelector(".inputs").addEventListener("submit", async (e) => {
 </body>
 
 </html>
+
 
 
 
