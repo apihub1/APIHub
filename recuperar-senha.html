@@ -274,7 +274,9 @@
             <div id="toast"></div>
         </main>
     <script>
-       return.addEventListener("click", () => {
+        const voltarBtn = document.getElementById('return');
+        
+       voltarBtn.addEventListener("click", () => {
     window.history.back();
 });
 function showToast(msg, type="default"){
@@ -319,4 +321,5 @@ form.addEventListener('submit', async (e) => {
 </script>
 </body>
 </html>
+
 
