@@ -360,7 +360,7 @@ document.querySelector(".inputs").addEventListener("submit", async (e) => {
             senha: senha.value
         };
 
-        const response = await fetch("http://localhost:3000/cadastro", {
+        const response = await fetch("https://backend-apihub.onrender.com/cadastro", {
             method: "POST",
             headers: { 
                 "Content-Type": "application/json",
@@ -400,4 +400,5 @@ document.querySelector(".inputs").addEventListener("submit", async (e) => {
 </script>
 
 </body>
+
 </html>
