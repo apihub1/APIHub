@@ -347,6 +347,11 @@ document.querySelector(".inputs").addEventListener("submit", async (e) => {
     console.log("📥 Resposta do servidor:", result);
 
     if (response.ok) {
+        
+        localStorage.setItem('user', JSON.stringify({
+            name: result.name,
+        }))
+
         showToast("✅ Login realizado com sucesso!", "success");
         setTimeout(() => {
             window.location.href = "index.html"; // coloque a página desejada aqui
@@ -365,3 +370,4 @@ document.querySelector(".inputs").addEventListener("submit", async (e) => {
 </body>
 
 </html>
+
