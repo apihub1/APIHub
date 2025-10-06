@@ -269,10 +269,9 @@
                 <input type="text" id="nome" name="nome" placeholder="Digite seu nome">
                 <input type="email" id="email" name="email" placeholder="Digite seu e-mail">
                 <input type="password" id="senha" placeholder="Senha">
-                <i id="toggle"></i>
-
-                <input type="password" id="confsenha" name="confsenha" placeholder="Confirme sua senha">
-                <i id="toggle"></i>
+                <i id="toggleSenha" class="fa fa-eye"></i>
+                <input type="password" id="senha2" placeholder="Senha">
+                <i id="toggleSenha2" class="fa fa-eye"></i>
                 <button type="submit" class="submit">Cadastrar</button>
             </form>
             <p>Ou</p>
@@ -287,22 +286,30 @@
     <script>
 const voltarBtn = document.getElementById('return');
 const email = document.getElementById('email');
-const senha = document.getElementById('senha');
 const confsenha = document.getElementById('confsenha');
 const nome = document.getElementById('nome');
-const toogle = document.getElementById('toggle');
+const senha = document.getElementById('senha');
+const toggleSenha = document.getElementById('toggleSenha');
+const toggleSenha2 = document.getElementById('toggleSenha2');
 
-
-toogle.addEventListener("click", () => {
-    if (senha.type = "password") {
+toggleSenha.addEventListener("click", () => {
+    if (senha.type === "password") {
         senha.type = "text";
-        toogle.classList.replace("fa-eye", "fa-eye slash");
+        toggleSenha.classList.replace("fa-eye", "fa-eye-slash");
     } else {
-        senha.type === "password"
-        toogle.classList.replace("fa-eye slash","fa-eye");
+        senha.type = "password";
+        toggleSenha.classList.replace("fa-eye-slash", "fa-eye");
     }
-});
-
+}
+ toggleSenha2.addEventListener("click", () => {
+    if (senha.type === "password") {
+        senha.type = "text";
+        toggleSenha2.classList.replace("fa-eye", "fa-eye-slash");
+    } else {
+        senha.type = "password";
+        toggleSenha2.classList.replace("fa-eye-slash", "fa-eye");
+    }
+}
 voltarBtn.addEventListener("click", () => {
     window.history.back();
 });
@@ -402,3 +409,4 @@ document.querySelector(".inputs").addEventListener("submit", async (e) => {
 </body>
 
 </html>
+
