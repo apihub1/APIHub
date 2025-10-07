@@ -293,7 +293,6 @@
       const noti = document.getElementById('notific');
       const toggleSenha = document.getElementById('toggleSenha');
       const senha = document.getElementById('senha');
-      const toggleSenha = document.getElementById('toggleSenha');
 
 toggleSenha.addEventListener("click", () => {
     if (senha.type === "password") {
@@ -303,11 +302,6 @@ toggleSenha.addEventListener("click", () => {
         senha.type = "password";
         toggleSenha.classList.replace("fa-eye-slash", "fa-eye");
     }
-});
-
-
-voltarBtn.addEventListener("click", () => {
-    window.history.back();
 });
 function showToast(msg, type = "default") {
   const toast = document.getElementById("toast");
@@ -371,10 +365,14 @@ document.querySelector(".inputs").addEventListener("submit", async (e) => {
   }
 });
 
+        voltarBtn.addEventListener("click", () => {
+    window.history.back();
+});
     </script>
 </body>
 
 </html>
+
 
 
 
