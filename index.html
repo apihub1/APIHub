@@ -1,3 +1,4 @@
+
     <!DOCTYPE html>
     <html lang="pt-br" dir="ltr">
     <head>
@@ -467,6 +468,24 @@
             .delay-3 {
                 animation-delay: 0.6s;
             }
+            /* Ícones do menu */
+nav a i {
+    margin-right: 8px;
+    width: 16px;
+    text-align: center;
+}
+
+/* Menu responsivo */
+@media (max-width: 768px) {
+    nav a i {
+        margin-right: 5px;
+    }
+    
+    .login a {
+        width: auto;
+        padding: 8px 15px;
+    }
+}
         </style>
     </head>
     <body>
@@ -638,6 +657,74 @@
         </footer>
 
         <script>
+// Sistema de autenticação
+class AuthSystem {
+    constructor() {
+        this.currentUser = null;
+        this.checkLoginStatus();
+    }
+
+    // Verifica se o usuário está logado
+    checkLoginStatus() {
+        const token = localStorage.getItem('authToken');
+        const userData = localStorage.getItem('userData');
+        
+        if (token && userData) {
+            this.currentUser = JSON.parse(userData);
+            this.updateUI();
+            return true;
+        }
+        return false;
+    }
+
+    // Atualiza a UI baseado no status de login
+    updateUI() {
+        const loginBtn = document.querySelector('.login a');
+        const nav = document.querySelector('nav ul');
+        
+        if (this.currentUser) {
+            // Usuário logado - mostra menu personalizado
+            loginBtn.textContent = 'Minha Conta';
+            loginBtn.href = 'dashboard.html';
+            
+            // Adiciona opções extras no menu
+            if (!document.querySelector('.menu-dashboard')) {
+                const dashboardItem = document.createElement('li');
+                dashboardItem.className = 'menu-dashboard';
+                dashboardItem.innerHTML = '<a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>';
+                
+                const apisItem = document.createElement('li');
+                apisItem.className = 'menu-my-apis';
+                apisItem.innerHTML = '<a href="minhas-apis.html"><i class="fas fa-code"></i> Minhas APIs</a>';
+                
+                // Insere antes do login
+                nav.appendChild(dashboardItem);
+                nav.appendChild(apisItem);
+            }
+        } else {
+            // Usuário não logado - mostra login normal
+            loginBtn.textContent = 'Login';
+            loginBtn.href = 'login.html';
+            
+            // Remove opções extras
+            document.querySelectorAll('.menu-dashboard, .menu-my-apis').forEach(el => el.remove());
+        }
+    }
+
+    // Faz logout
+    logout() {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userData');
+        this.currentUser = null;
+        this.updateUI();
+        window.location.href = 'index.html';
+    }
+}
+
+// Inicializa o sistema de auth quando a página carrega
+document.addEventListener('DOMContentLoaded', function() {
+    window.authSystem = new AuthSystem();
+}); 
             // Animação de scroll suave para links internos
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
