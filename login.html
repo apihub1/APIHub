@@ -345,19 +345,19 @@ document.querySelector(".inputs").addEventListener("submit", async (e) => {
     const result = await response.json();
     console.log("📥 Resposta do servidor:", result);
 
-    if (response.ok) {
-        
-        localStorage.setItem('user', JSON.stringify({
-            name: result.name,
-        }))
+ if (response.ok) {
+    // CORREÇÃO: Usar as mesmas chaves que o index.html espera
+    localStorage.setItem('authToken', result.token || 'authenticated');
+    localStorage.setItem('userData', JSON.stringify({
+        name: result.name || result.nome,
+        email: result.email
+    }));
 
-        showToast("✅ Login realizado com sucesso!", "success");
-        setTimeout(() => {
-            window.location.href = "index.html"; // coloque a página desejada aqui
-        }, 2000);
-    } else {
-        showToast(result.message || "❌ Usuário ou senha inválidos", "error");
-    }
+    showToast("✅ Login realizado com sucesso!", "success");
+    setTimeout(() => {
+        window.location.href = "index.html";
+    }, 2000);
+}
 
   } catch (error) {
     console.error("💥 Erro de conexão:", error);
@@ -372,6 +372,7 @@ document.querySelector(".inputs").addEventListener("submit", async (e) => {
 </body>
 
 </html>
+
 
 
 
