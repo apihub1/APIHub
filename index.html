@@ -9,7 +9,1101 @@
         <meta name="author" content="APIHub">
         <meta property="og:title" content="APIHub - Tudo sobre APIs e Integrações">
         <meta property="og:description" content="Descubra o mundo das APIs, como funcionam e as melhores APIs para usar em seus projetos de desenvolvimento.">
-        <meta property="og:type" content="website">
+        <meta property="og:type" content="website<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO OTIMIZADO MAS DISCRETO -->
+    <meta name="description" content="APIHub - Plataforma para desenvolvedores aprenderem e integrarem APIs. Descubra APIs gratuitas e como funcionam as integrações.">
+    <meta name="keywords" content="API, desenvolvimento, programação, integração, REST API, APIs gratuitas">
+    <meta name="author" content="APIHub">
+    <meta name="robots" content="index, follow">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    
+    <title>APIHub - Tudo sobre APIs e Integrações</title>
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #4f46e5;
+            --accent: #8b5cf6;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --background: #f9fafb;
+            --card-bg: #ffffff;
+            --sidebar-bg: #1f2937;
+            --sidebar-hover: #374151;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--background);
+            overflow-x: hidden;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* SIDEBAR ESTILO DEEPSEEK */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            color: white;
+            display: none;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            right: 0;
+            top: 0;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem 1.5rem;
+            border-bottom: 1px solid #374151;
+            text-align: center;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            border: 3px solid #4b5563;
+        }
+
+        .user-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-info p {
+            color: #d1d5db;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 1.5rem 0;
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-section h4 {
+            padding: 0 1.5rem 0.75rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #9ca3af;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: var(--sidebar-hover);
+            color: white;
+            border-left-color: var(--primary);
+        }
+
+        .nav-item i {
+            width: 20px;
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-footer {
+            padding: 1.5rem;
+            border-top: 1px solid #374151;
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.75rem;
+            background: #dc2626;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            gap: 8px;
+        }
+
+        .logout-btn:hover {
+            background: #b91c1c;
+            transform: translateY(-1px);
+        }
+
+        /* TOGGLE SIDEBAR BUTTON */
+        .sidebar-toggle {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: var(--shadow-hover);
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .sidebar-toggle:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        /* OVERLAY */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            transition: margin-right 0.3s ease;
+        }
+
+        .main-content.sidebar-open {
+            margin-right: 280px;
+        }
+
+        /* HEADER STYLES */
+        header {
+            background: var(--gradient);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            height: 50px;
+            width: auto;
+            border-radius: 8px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            position: relative;
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            padding: 5px 0;
+        }
+
+        nav a:not(.login a)::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: #ffffff;
+            transition: width 0.3s ease;
+        }
+
+        nav a:not(.login a):hover::after {
+            width: 100%;
+        }
+
+        .login a {
+            background-color: white;
+            border-radius: 24px;
+            color: #1d4ed8;
+            font-size: 1.2rem;
+            text-align: center;
+            width: 90px;
+            padding: 8px 20px;
+            background-color: #e5e7eb;
+            transform: translatey(-2px);
+            border: none;
+            text-decoration: none;
+        }
+
+        .login a:hover {
+            text-decoration: none;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+            background: var(--gradient);
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: var(--primary);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* SECTION STYLES */
+        section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        .content-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content-section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .content-section h1 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .content-section p {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        /* API FLOW */
+        .fluxo-api {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+        }
+
+        .etapa {
+            flex: 1;
+            min-width: 200px;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--primary);
+        }
+
+        .etapa:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .etapa h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .etapa-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .etapa:hover .etapa-number {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        /* CARDS SECTION */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border-top: 5px solid var(--accent);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-icon {
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            color: var(--text-light);
+        }
+
+        .free-badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+            font-weight: 500;
+        }
+
+        /* BENEFITS SECTION */
+        .benefits {
+            background: var(--gradient);
+            color: white;
+            padding: 4rem 0;
+            margin: 4rem 0;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .benefit-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .benefit-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .benefit-item h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--text);
+            color: white;
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links h4 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #374151;
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+            }
+            
+            .main-content.sidebar-open {
+                margin-right: 0;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 0.6rem;
+                flex-wrap: wrap;
+                justify-content: center;
+                flex-direction: column;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .fluxo-api {
+                flex-direction: column;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .sidebar-toggle {
+                right: 15px;
+                top: 15px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav a i {
+                margin-right: 5px;
+            }
+            
+            .login a {
+                width: auto;
+                padding: 8px 15px;
+            }
+        }
+
+        /* ANIMATION */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+    </style>
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <div class="sidebar-overlay"></div>
+    
+    <button class="sidebar-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <h3 id="sidebar-username">Visitante</h3>
+                    <p id="sidebar-email">Faça login para acessar</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <h4>Menu Principal</h4>
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="minhas-apis.html" class="nav-item">
+                    <i class="fas fa-code"></i>
+                    <span>Minhas APIs</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <h4>Favoritos</h4>
+                <a href="favoritos.html" class="nav-item">
+                    <i class="fas fa-star"></i>
+                    <span>APIs Favoritas</span>
+                </a>
+                <a href="historico.html" class="nav-item">
+                    <i class="fas fa-history"></i>
+                    <span>Histórico</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <h4>Configurações</h4>
+                <a href="configuracoes.html" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Configurações</span>
+                </a>
+                <a href="perfil.html" class="nav-item">
+                    <i class="fas fa-user-edit"></i>
+                    <span>Editar Perfil</span>
+                </a>
+                <a href="seguranca.html" class="nav-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Segurança</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="logout-btn" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Sair</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content" id="main-content">
+        <header>
+            <div class="container header-content">
+                <div class="logo-container">
+                    <img src="Logo.png" alt="APIHub - Centro de recursos para desenvolvedores de API" class="logo">
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-home"></i> Início</a></li>
+                        <li><a href="apis.html"><i class="fas fa-th-list"></i> Catálogo de APIs</a></li> 
+                        <li><a href="suporte.html"><i class="fas fa-headset"></i> Suporte</a></li>
+                    </ul>
+                    <div class="login"><a href="login.html">Login</a></div>
+                </nav>
+            </div>
+        </header>
+
+        <div class="hero">
+            <div class="container">
+                <h1>Domine o poder das APIs</h1>
+                <p>Descubra como as Interfaces de Programação de Aplicações podem transformar seus projetos e impulsionar suas integrações. Explore diversas APIs gratuitas disponíveis.</p>
+                <a href="apis.html" class="cta-button">Catálogo de APIs</a>
+            </div>
+        </div>
+
+        <main class="container">
+            <section id="o-que-e-api" class="animate">
+                <div class="content-section">
+                    <h1>O que é API?</h1>
+                    <p>
+                        Uma API (<strong>Interface de Programação de Aplicações</strong>) é um conjunto de regras e protocolos que permite que diferentes sistemas de software se comuniquem entre si.
+                        Ela define métodos e formatos de dados para que um programa possa acessar funcionalidades ou informações de outro, sem precisar conhecer sua lógica interna.
+                        Isso facilita a integração entre plataformas, acelera o desenvolvimento de aplicações e promove a padronização da comunicação entre sistemas.
+                    </p>
+                    <p>
+                        Pense em uma API como um garçom em um restaurante: você (o cliente) faz um pedido através do garçom (a API),
+                        que então leva seu pedido para a cozinha (o servidor) e retorna com sua comida (a resposta). Você não precisa
+                        saber como a comida foi preparada, apenas faz o pedido e recebe o resultado.
+                    </p>
+                </div>
+            </section>
+
+            <section id="como-funciona" class="animate delay-1">
+                <div class="section-title">
+                    <h2>Como funciona uma API?</h2>
+                </div>
+                <div class="content-section">
+                    <p>
+                        As APIs funcionam como um mensageiro que leva seu pedido até o provedor de serviços e depois retorna com a resposta. 
+                        Elas usam protocolos como HTTP para enviar e receber dados, normalmente no formato JSON ou XML. 
+                        Dessa forma, diferentes linguagens e plataformas conseguem se integrar facilmente.
+                    </p>
+                    
+                    <div class="fluxo-api">
+                        <div class="etapa">
+                            <h3><span class="etapa-number">1</span> Cliente</h3>
+                            <p>O usuário interage com um app ou navegador e realiza uma ação, como clicar em "Buscar dados".</p>
+                        </div>
+                        <div class="etapa">
+                            <h3><span class="etapa-number">2</span> Requisição HTTP</h3>
+                            <p>O app envia uma requisição para a API usando o protocolo HTTP, geralmente com o método GET ou POST.</p>
+                        </div>
+                        <div class="etapa">
+                            <h3><span class="etapa-number">3</span> API</h3>
+                            <p>A API interpreta o pedido, valida os dados e encaminha a solicitação ao servidor ou banco de dados.</p>
+                        </div>
+                        <div class="etapa">
+                            <h3><span class="etapa-number">4</span> Servidor / Banco de Dados</h3>
+                            <p>O servidor processa a lógica e consulta os dados necessários, retornando a resposta para a API.</p>
+                        </div>
+                        <div class="etapa">
+                            <h3><span class="etapa-number">5</span> Resposta HTTP</h3>
+                            <p>A API formata os dados (em JSON ou XML) e envia de volta ao cliente, que exibe o resultado ao usuário.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="exemplos" class="animate delay-2">
+    <div class="section-title">
+        <h2>Exemplos de APIs populares <small style="font-size: 1rem; color: var(--text-light)">- Muitas com planos gratuitos</small></h2>
+    </div>
+    <div class="cards">
+        <div class="card">
+            <div class="card-content">
+                <h3><i class="card-icon fas fa-cloud-sun"></i> OpenWeatherMap <span class="free-badge">GRATUITA</span></h3>
+                <p>API de previsão do tempo com plano gratuito generoso - 1,000 chamadas/dia. Dados meteorológicos precisos para qualquer localização.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <h3><i class="card-icon fas fa-exchange-alt"></i> ExchangeRate-API <span class="free-badge">GRATUITA</span></h3>
+                <p>API de câmbio com 1,500 requisições/mês grátis. Conversão entre 150+ moedas com dados atualizados em tempo real.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <h3><i class="card-icon fas fa-newspaper"></i> NewsAPI <span class="free-badge">GRATUITA</span></h3>
+                <p>API de notícias com 100 requisições/dia gratuitas. Acesso a +30,000 fontes de notícias em múltiplos idiomas.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="cards">
+        <div class="card">
+            <div class="card-content">
+                <h3><i class="card-icon fas fa-map-marked-alt"></i> OpenStreetMap <span class="free-badge">GRATUITA</span></h3>
+                <p>Alternativa gratuita ao Google Maps. Dados de mapas abertos e gratuitos para integração em seus projetos.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <h3><i class="card-icon fas fa-database"></i> JSONPlaceholder <span class="free-badge">GRATUITA</span></h3>
+                <p>API fake para testes e prototipagem. Dados simulados de usuários, posts, comentários - ideal para desenvolvimento.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <h3><i class="card-icon fas fa-paw"></i> The Cat API <span class="free-badge">GRATUITA</span></h3>
+                <p>API divertida com imagens de gatos. Perfeita para testes e projetos iniciantes - totalmente gratuita sem limites.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 2rem;">
+        <p style="color: var(--text-light);">Explore nosso catálogo completo com APIs realmente gratuitas para todos os tipos de projetos.</p>
+        <a href="apis.html" class="cta-button" style="margin-top: 1rem;">Ver Todas as APIs</a>
+    </div>
+</section>
+
+            <section id="beneficios" class="benefits animate delay-3">
+                <div class="container">
+                    <div class="section-title">
+                        <h2 style="color: white;">Vantagens de usar APIs</h2>
+                    </div>
+                    <div class="benefits-grid">
+                        <div class="benefit-item">
+                            <i class="benefit-icon fas fa-bolt"></i>
+                            <h3>Eficiência no desenvolvimento</h3>
+                            <p>APIs permitem reutilizar funcionalidades existentes, acelerando o tempo de desenvolvimento.</p>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="benefit-icon fas fa-sync-alt"></i>
+                            <h3>Integração simplificada</h3>
+                            <p>Conecte sistemas diferentes de maneira padronizada e eficiente.</p>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="benefit-icon fas fa-shield-alt"></i>
+                            <h3>Segurança</h3>
+                            <p>APIs fornecem acesso controlado a funcionalidades sem expor código interno.</p>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="benefit-icon fas fa-expand-arrows-alt"></i>
+                            <h3>Escalabilidade</h3>
+                            <p>Permite que sistemas cresçam e adicionem funcionalidades sem reescrever código existente.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-info">
+                        <div class="footer-logo">APIHub</div>
+                        <p>Seu centro de recursos para desenvolvimento e integração de APIs. Descubra APIs gratuitas e melhore seus projetos.</p>
+                    </div>
+                    <div class="footer-links">
+                        <h4>Links Rápidos</h4>
+                        <ul>
+                            <li><a href="#o-que-e-api">O que é API</a></li>
+                            <li><a href="#como-funciona">Como funciona</a></li>
+                            <li><a href="#exemplos">Exemplos</a></li>
+                            <li><a href="#beneficios">Benefícios</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-links">
+                        <h4>Recursos</h4>
+                        <ul>
+                            <li><a href="#">Documentação</a></li>
+                            <li><a href="#">Tutoriais</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Fórum</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2025 APIHub - Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Sistema de autenticação - Sidebar só após login
+        class AuthSystem {
+            constructor() {
+                this.currentUser = null;
+                this.checkLoginStatus();
+            }
+
+            checkLoginStatus() {
+                const token = localStorage.getItem('authToken');
+                const userData = localStorage.getItem('userData');
+                
+                if (token && userData) {
+                    this.currentUser = JSON.parse(userData);
+                    this.updateUI();
+                    this.initSidebar();
+                    return true;
+                }
+                return false;
+            }
+
+            updateUI() {
+                const loginBtn = document.querySelector('.login a');
+                const nav = document.querySelector('nav ul');
+                const sidebarToggle = document.querySelector('.sidebar-toggle');
+                const sidebar = document.querySelector('.sidebar');
+                
+                if (this.currentUser) {
+                    loginBtn.textContent = 'Minha Conta';
+                    loginBtn.href = 'dashboard.html';
+                    
+                    sidebarToggle.style.display = 'block';
+                    sidebar.style.display = 'flex';
+                    
+                    this.updateSidebarUserInfo();
+                    
+                    document.querySelectorAll('.menu-dashboard, .menu-my-apis').forEach(el => el.remove());
+                    
+                    const dashboardItem = document.createElement('li');
+                    dashboardItem.className = 'menu-dashboard';
+                    dashboardItem.innerHTML = '<a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>';
+                    
+                    const apisItem = document.createElement('li');
+                    apisItem.className = 'menu-my-apis';
+                    apisItem.innerHTML = '<a href="minhas-apis.html"><i class="fas fa-code"></i> Minhas APIs</a>';
+                    
+                    nav.appendChild(dashboardItem);
+                    nav.appendChild(apisItem);
+                    
+                } else {
+                    loginBtn.textContent = 'Login';
+                    loginBtn.href = 'login.html';
+                    document.querySelectorAll('.menu-dashboard, .menu-my-apis').forEach(el => el.remove());
+                    sidebarToggle.style.display = 'none';
+                    sidebar.style.display = 'none';
+                }
+            }
+
+            updateSidebarUserInfo() {
+                if (this.currentUser) {
+                    document.getElementById('sidebar-username').textContent = this.currentUser.name || 'Usuário';
+                    document.getElementById('sidebar-email').textContent = this.currentUser.email || 'Bem-vindo!';
+                }
+            }
+
+            initSidebar() {
+                const toggleBtn = document.querySelector('.sidebar-toggle');
+                const sidebar = document.querySelector('.sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+                const mainContent = document.getElementById('main-content');
+                const logoutBtn = document.getElementById('logout-btn');
+
+                toggleBtn.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                    overlay.classList.toggle('active');
+                    mainContent.classList.toggle('sidebar-open');
+                });
+
+                overlay.addEventListener('click', () => {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                    mainContent.classList.remove('sidebar-open');
+                });
+
+                logoutBtn.addEventListener('click', () => {
+                    this.logout();
+                });
+            }
+
+            logout() {
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userData');
+                this.currentUser = null;
+                this.updateUI();
+                
+                const sidebar = document.querySelector('.sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+                const mainContent = document.getElementById('main-content');
+                
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                mainContent.classList.remove('sidebar-open');
+                
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            window.authSystem = new AuthSystem();
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
@@ -767,3 +1861,4 @@ document.addEventListener('DOMContentLoaded', function() {
         </script>
     </body>
     </html>
+
