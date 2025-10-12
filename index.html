@@ -296,22 +296,17 @@
         }
 
         .login a {
-            background-color: white;
-            border-radius: 24px;
-            color: #1d4ed8;
-            font-size: 1.2rem;
-            text-align: center;
-            width: 90px;
-            padding: 8px 20px;
-            background-color: #e5e7eb;
-            transform: translatey(-2px);
-            border: none;
-            text-decoration: none;
-        }
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
 
-        .login a:hover {
-            text-decoration: none;
-        }
+.login a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+}
 
         /* HERO SECTION */
         .hero {
@@ -700,48 +695,20 @@
             </div>
         </div>
 
-        <nav class="sidebar-nav">
-            <div class="nav-section">
-                <h4>Menu Principal</h4>
-                <a href="dashboard.html" class="nav-item">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="minhas-apis.html" class="nav-item">
-                    <i class="fas fa-code"></i>
-                    <span>Minhas APIs</span>
-                </a>
-            </div>
-
-            <div class="nav-section">
-                <h4>Favoritos</h4>
-                <a href="favoritos.html" class="nav-item">
-                    <i class="fas fa-star"></i>
-                    <span>APIs Favoritas</span>
-                </a>
-                <a href="historico.html" class="nav-item">
-                    <i class="fas fa-history"></i>
-                    <span>Histórico</span>
-                </a>
-            </div>
-
-            <div class="nav-section">
-                <h4>Configurações</h4>
-                <a href="configuracoes.html" class="nav-item">
-                    <i class="fas fa-cog"></i>
-                    <span>Configurações</span>
-                </a>
-                <a href="perfil.html" class="nav-item">
-                    <i class="fas fa-user-edit"></i>
-                    <span>Editar Perfil</span>
-                </a>
-                <a href="seguranca.html" class="nav-item">
-                    <i class="fas fa-shield-alt"></i>
-                    <span>Segurança</span>
-                </a>
-            </div>
-        </nav>
-
+     <nav class="sidebar-nav">
+    <div class="nav-section">
+        <h4>Menu</h4>
+        <!-- REMOVER Dashboard e Minhas APIs -->
+        <a href="favoritos.html" class="nav-item">
+            <i class="fas fa-star"></i>
+            <span>APIs Favoritas</span>
+        </a>
+        <a href="configuracoes.html" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>Configurações</span>
+        </a>
+    </div>
+</nav>
         <div class="sidebar-footer">
             <button class="logout-btn" id="logout-btn">
                 <i class="fas fa-sign-out-alt"></i>
@@ -967,42 +934,31 @@
             }
 
             updateUI() {
-                const loginBtn = document.querySelector('.login a');
-                const nav = document.querySelector('nav ul');
-                const sidebarToggle = document.querySelector('.sidebar-toggle');
-                const sidebar = document.querySelector('.sidebar');
-                
-                if (this.currentUser) {
-                    loginBtn.textContent = 'Minha Conta';
-                    loginBtn.href = 'dashboard.html';
-                    
-                    sidebarToggle.style.display = 'block';
-                    sidebar.style.display = 'flex';
-                    
-                    this.updateSidebarUserInfo();
-                    
-                    document.querySelectorAll('.menu-dashboard, .menu-my-apis').forEach(el => el.remove());
-                    
-                    const dashboardItem = document.createElement('li');
-                    dashboardItem.className = 'menu-dashboard';
-                    dashboardItem.innerHTML = '<a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>';
-                    
-                    const apisItem = document.createElement('li');
-                    apisItem.className = 'menu-my-apis';
-                    apisItem.innerHTML = '<a href="minhas-apis.html"><i class="fas fa-code"></i> Minhas APIs</a>';
-                    
-                    nav.appendChild(dashboardItem);
-                    nav.appendChild(apisItem);
-                    
-                } else {
-                    loginBtn.textContent = 'Login';
-                    loginBtn.href = 'login.html';
-                    document.querySelectorAll('.menu-dashboard, .menu-my-apis').forEach(el => el.remove());
-                    sidebarToggle.style.display = 'none';
-                    sidebar.style.display = 'none';
-                }
-            }
-
+    const loginBtn = document.querySelector('.login a');
+    const nav = document.querySelector('nav ul');
+    const sidebarToggle = document.querySelector('.sidebar-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    
+    if (this.currentUser) {
+        loginBtn.textContent = 'Conta'; // Mudado para "Conta"
+        loginBtn.href = '#';
+        
+        sidebarToggle.style.display = 'block';
+        sidebar.style.display = 'flex';
+        
+        this.updateSidebarUserInfo();
+        
+        // REMOVER os itens do menu principal que não são mais necessários
+        document.querySelectorAll('.menu-dashboard, .menu-my-apis').forEach(el => el.remove());
+        
+    } else {
+        loginBtn.textContent = 'Login';
+        loginBtn.href = 'login.html';
+        document.querySelectorAll('.menu-dashboard, .menu-my-apis').forEach(el => el.remove());
+        sidebarToggle.style.display = 'none';
+        sidebar.style.display = 'none';
+    }
+}
             updateSidebarUserInfo() {
                 if (this.currentUser) {
                     document.getElementById('sidebar-username').textContent = this.currentUser.name || 'Usuário';
@@ -1093,3 +1049,4 @@
     </script>
 </body>
 </html>
+
