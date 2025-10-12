@@ -137,23 +137,18 @@ body {
             nav a:not(.login a):hover::after {
                 width: 100%;
             }
-            .login a{
-                background-color: white;
-                border-radius: 24px;
-                color: #1d4ed8;
-                font-size: 1.2rem;
-                text-align: center;
-                width: 90px;
-                padding: 8px 20px;
-                background-color: #e5e7eb;
-                transform: translatey(-2px);
-                border: none;
-                text-decoration: none;
-            }
-            .login a:hover {
-                text-decoration: none;
-            }
+            .login a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
 
+.login a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+}
             /* Hero Section */
             .hero {
                 padding: 4rem 0;
@@ -993,13 +988,15 @@ pre {
                     <img src="Logo.png" alt="APIHub - Centro de recursos para desenvolvedores de API" class="logo">
                 </div>
                 <nav>
-                    <ul>
-                        <li><a href="index.html">Início</a></li>
-                        <li><a href="apis.html">Catálogo de APIs</a></li> 
-                        <li><a href="suporte.html">Suporte</a></li>
-                    </ul>
-                    <div class="login"><a href="login.html">Login</a></div>
-                </nav>
+    <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="apis.html">Catálogo de APIs</a></li> 
+        <li><a href="suporte.html">Suporte</a></li>
+    </ul>
+    <div class="login">
+        <a href="login.html" id="login-link">Login</a>
+    </div>
+</nav>
             </div>
         </header>
 
@@ -1097,6 +1094,56 @@ pre {
 <!-- Importar a biblioteca do Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+
+  // Sistema de Autenticação
+class AuthSystem {
+    constructor() {
+        this.currentUser = null;
+        this.checkLoginStatus();
+    }
+
+    checkLoginStatus() {
+        const token = localStorage.getItem('authToken');
+        const userData = localStorage.getItem('userData');
+        
+        if (token && userData) {
+            this.currentUser = JSON.parse(userData);
+            this.updateUI();
+            return true;
+        }
+        return false;
+    }
+
+    updateUI() {
+        const loginBtn = document.querySelector('.login a');
+        
+        if (this.currentUser) {
+            loginBtn.textContent = 'Conta';
+            loginBtn.href = '#';
+        } else {
+            loginBtn.textContent = 'Login';
+            loginBtn.href = 'login.html';
+        }
+    }
+
+    logout() {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userData');
+        this.currentUser = null;
+        this.updateUI();
+        window.location.href = 'index.html';
+    }
+}
+
+// Inicializar autenticação
+let authSystem;
+
+document.addEventListener('DOMContentLoaded', function() {
+    authSystem = new AuthSystem();
+    carregarAPIs();
+});
+
+  
 const SUPABASE_URL = "https://bllvhpayuglmkhgvoppv.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsbHZocGF5dWdsbWtoZ3ZvcHB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc3MTg3OTksImV4cCI6MjA3MzI5NDc5OX0.6y-iXrOZFl5ufsB06ZW1mAK6y5wPfTIEH8GhMsE_byw";
 
@@ -1488,6 +1535,7 @@ document.addEventListener('DOMContentLoaded', carregarAPIs);
 </script>
 </body>
 </html>
+
 
 
 
