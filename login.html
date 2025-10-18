@@ -365,6 +365,43 @@ document.querySelector(".inputs").addEventListener("submit", async (e) => {
   }
 });
 
+        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+// Substitua pelos seus dados do Supabase
+const supabase = createClient(
+  "https://bllvhpayuglmkhgvoppv.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsbHZocGF5dWdsbWtoZ3ZvcHB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc3MTg3OTksImV4cCI6MjA3MzI5NDc5OX0.6y-iXrOZFl5ufsB06ZW1mAK6y5wPfTIEH8GhMsE_byw"
+);
+
+// Botão Google
+document.querySelector(".login-button a:nth-child(1)").addEventListener("click", async () => {
+  const { data, error } = await supabase.auth.signInWithOAuth({ provider: "google" });
+  if (error) {
+    console.error(error);
+    showToast("❌ Erro no login com Google", "error");
+  }
+});
+
+// Botão GitHub
+document.querySelector(".login-button a:nth-child(2)").addEventListener("click", async () => {
+  const { data, error } = await supabase.auth.signInWithOAuth({ provider: "github" });
+  if (error) {
+    console.error(error);
+    showToast("❌ Erro no login com GitHub", "error");
+  }
+});
+
+// Verificar sessão ao carregar a página
+window.addEventListener("load", async () => {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session) {
+    // Usuário já logado
+    localStorage.setItem('userData', JSON.stringify(session.user));
+    window.location.href = "index.html";
+  }
+});
+
+
         voltarBtn.addEventListener("click", () => {
     window.history.back();
 });
@@ -372,6 +409,7 @@ document.querySelector(".inputs").addEventListener("submit", async (e) => {
 </body>
 
 </html>
+
 
 
 
