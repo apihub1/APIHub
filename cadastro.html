@@ -293,164 +293,151 @@
         </div>
         <div id="toast"></div>
     </main>
-    <script>
+    <script type="module">
+        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
 const voltarBtn = document.getElementById('return');
-const email = document.getElementById('email');
-const confsenha = document.getElementById('confsenha');
 const nome = document.getElementById('nome');
+const email = document.getElementById('email');
 const senha = document.getElementById('senha');
 const senha2 = document.getElementById('senha2');
 const toggleSenha = document.getElementById('toggleSenha');
 const toggleSenha2 = document.getElementById('toggleSenha2');
 
+// Supabase config
+const supabaseUrl = "https://bllvhpayuglmkhgvoppv.supabase.co";
+const supabaseKey = "sua_public_anon_key_aqui"; // ⚠️ troque pela chave anon
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// =========================
+// Funções auxiliares
+// =========================
+function showToast(msg, type = "default") {
+  const toast = document.getElementById("toast");
+  toast.innerHTML = msg;
+  if (type === "error") toast.style.backgroundColor = "#b91c1c";
+  else if (type === "success") toast.style.backgroundColor = "#16a34a";
+  else toast.style.backgroundColor = "#333";
+
+  toast.className = "show";
+  setTimeout(() => {
+    toast.className = toast.className.replace("show", "");
+  }, 3000);
+}
+
+// Mostrar/ocultar senha
 toggleSenha.addEventListener("click", () => {
-    if (senha.type === "password") {
-        senha.type = "text";
-        toggleSenha.classList.replace("fa-eye", "fa-eye-slash");
-    } else {
-        senha.type = "password";
-        toggleSenha.classList.replace("fa-eye-slash", "fa-eye");
-    }
+  if (senha.type === "password") {
+    senha.type = "text";
+    toggleSenha.classList.replace("fa-eye", "fa-eye-slash");
+  } else {
+    senha.type = "password";
+    toggleSenha.classList.replace("fa-eye-slash", "fa-eye");
+  }
 });
 
 toggleSenha2.addEventListener("click", () => {
-    if (senha2.type === "password") {
-        senha2.type = "text";
-        toggleSenha2.classList.replace("fa-eye", "fa-eye-slash");
-    } else {
-        senha2.type = "password";
-        toggleSenha2.classList.replace("fa-eye-slash", "fa-eye");
-    }
+  if (senha2.type === "password") {
+    senha2.type = "text";
+    toggleSenha2.classList.replace("fa-eye", "fa-eye-slash");
+  } else {
+    senha2.type = "password";
+    toggleSenha2.classList.replace("fa-eye-slash", "fa-eye");
+  }
 });
 
-voltarBtn.addEventListener("click", () => {
-    window.history.back();
-});
+voltarBtn.addEventListener("click", () => window.history.back());
 
-function showToast(msg, type="default") {
-    const toast = document.getElementById("toast");
-    toast.innerHTML = msg;
-    if(type === "error") toast.style.backgroundColor = "#b91c1c";
-    else if(type === "success") toast.style.backgroundColor = "#16a34a";
-    else toast.style.backgroundColor = "#333";
-
-    toast.className = "show";
-    setTimeout(() => {
-        toast.className = toast.className.replace("show", "");
-    }, 3000);
-}
-
+// =========================
+// Cadastro com email/senha (seu backend)
+// =========================
 document.querySelector(".inputs").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    
-    // Validações básicas
-    // Muda todas as ocorrências de 'confsenha' para 'senha2'
-if (!nome.value.trim() || !email.value.trim() || !senha.value.trim() || !senha2.value.trim()) {
+  e.preventDefault();
+
+  if (!nome.value.trim() || !email.value.trim() || !senha.value.trim() || !senha2.value.trim()) {
     showToast("⚠️ Preencha todos os campos!", "error");
     return;
-}
+  }
 
-if (senha.value !== senha2.value) {
+  if (senha.value !== senha2.value) {
     showToast("⚠️ Senhas não correspondem!", "error");
     return;
+  }
+
+  if (senha.value.length < 6) {
+    showToast("⚠️ A senha deve ter pelo menos 6 caracteres!", "error");
+    return;
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email.value)) {
+    showToast("⚠️ E-mail inválido!", "error");
+    return;
+  }
+
+  const submitBtn = document.querySelector('.submit');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Cadastrando...';
+
+  try {
+    const data = { nome: nome.value.trim(), email: email.value.trim(), senha: senha.value };
+    const response = await fetch("https://apihub-br.duckdns.org/cadastro", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      showToast("✅ Cadastro realizado com sucesso!", "success");
+      document.querySelector('.inputs').reset();
+      setTimeout(() => (window.location.href = "login.html"), 2000);
+    } else {
+      showToast(`❌ ${result.message || "Erro no cadastro"}`, "error");
+    }
+  } catch (err) {
+    console.error("Erro:", err);
+    showToast("❌ Erro de conexão com o servidor", "error");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Cadastrar';
+  }
+});
+
+// =========================
+// Login com Google/GitHub (Supabase OAuth)
+// =========================
+const googleBtn = document.querySelector('img[alt="Login com Google"]')?.parentElement;
+const githubBtn = document.querySelector('img[alt="Login com GitHub"]')?.parentElement;
+
+if (googleBtn) {
+  googleBtn.addEventListener("click", async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: "https://apihub1.github.io/APIHub/index.html" }
+    });
+    if (error) showToast("Erro ao entrar com Google: " + error.message, "error");
+  });
 }
 
-    if (senha.value.length < 6) {
-        showToast("⚠️ A senha deve ter pelo menos 6 caracteres!", "error");
-        return;
-    }
+if (githubBtn) {
+  githubBtn.addEventListener("click", async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "github",
+      options: { redirectTo: "https://apihub1.github.io/APIHub/index.html" }
+    });
+    if (error) showToast("Erro ao entrar com GitHub: " + error.message, "error");
+  });
+}
 
-    // Validar email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email.value)) {
-        showToast("⚠️ E-mail inválido!", "error");
-        return;
-    }
-
-    // Mostrar loading
-    const submitBtn = document.querySelector('.submit');
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Cadastrando...';
-
-    try {
-        console.log('📤 Enviando dados para o servidor...');
-        
-        const data = {
-            nome: nome.value.trim(),
-            email: email.value.trim(),
-            senha: senha.value
-        };
-
-        const response = await fetch("https://apihub-br.duckdns.org/cadastro", {
-            method: "POST",
-            headers: { 
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify(data)
-        });
-
-        console.log('📥 Status da resposta:', response.status);
-        
-        const result = await response.json();
-        console.log('📥 Resposta completa:', result);
-
-        if (response.ok) {
-            showToast("✅ Cadastro realizado com sucesso!", "success");
-            // Limpar formulário
-            document.querySelector('.inputs').reset();
-            
-            // Redirecionar após 2 segundos
-            setTimeout(() => {
-                window.location.href = "login.html";
-            }, 2000);
-            
-        } else {
-            showToast(`❌ ${result.message || "Erro no cadastro"}`, "error");
-        }
-
-    } catch (error) {
-        console.error('💥 Erro de rede:', error);
-        showToast("❌ Erro de conexão com o servidor", "error");
-    } finally {
-        // Restaurar botão
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Cadastrar';
-    }
-});
-
-        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-
-// Substitua pelos seus dados do Supabase
-const supabase = createClient(
-  "https://bllvhpayuglmkhgvoppv.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsbHZocGF5dWdsbWtoZ3ZvcHB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc3MTg3OTksImV4cCI6MjA3MzI5NDc5OX0.6y-iXrOZFl5ufsB06ZW1mAK6y5wPfTIEH8GhMsE_byw"
-);
-
-// Botão Google
-document.querySelector(".login-button a:nth-child(1)").addEventListener("click", async () => {
-  const { data, error } = await supabase.auth.signInWithOAuth({ provider: "google" });
-  if (error) {
-    console.error(error);
-    showToast("❌ Erro no login com Google", "error");
-  }
-});
-
-// Botão GitHub
-document.querySelector(".login-button a:nth-child(2)").addEventListener("click", async () => {
-  const { data, error } = await supabase.auth.signInWithOAuth({ provider: "github" });
-  if (error) {
-    console.error(error);
-    showToast("❌ Erro no login com GitHub", "error");
-  }
-});
-
-// Verificar sessão ao carregar a página
+// =========================
+// Verificação de sessão ativa
+// =========================
 window.addEventListener("load", async () => {
   const { data: { session } } = await supabase.auth.getSession();
   if (session) {
-    // Usuário já logado
-    localStorage.setItem('userData', JSON.stringify(session.user));
+    localStorage.setItem("userData", JSON.stringify(session.user));
     window.location.href = "index.html";
   }
 });
@@ -460,6 +447,7 @@ window.addEventListener("load", async () => {
 </body>
 
 </html>
+
 
 
 
