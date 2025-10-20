@@ -677,11 +677,12 @@ footer {
     gap: 1rem;
   }
 
-  nav ul {
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+ nav ul {
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: column;
+}
 
   .hero h1 {
     font-size: 2rem;
@@ -729,6 +730,16 @@ footer {
   .pagination-button {
     padding: 6px 10px;
     min-width: 35px;
+  }
+}
+@media (max-width: 480px) {
+  nav a i {
+    margin-right: 5px;
+  }
+
+  .login a {
+    width: auto;
+    padding: 8px 15px;
   }
 }
 
@@ -1018,7 +1029,7 @@ pre {
 <button class="filter-btn" data-category="Clima"><i class="fas fa-cloud-sun"></i> Clima</button>
 <button class="filter-btn" data-category="Palavras"><i class="fas fa-pencil-alt"></i> Palavras</button>
 <button class="filter-btn" data-category="Nomes"><i class="fas fa-user"></i> Nomes</button>
-<button class="filter-btn" data-category="Financeiro"><i class="fas fa-money-bill-wave"></i> Financeiro</button
+<button class="filter-btn" data-category="Financeiro"><i class="fas fa-money-bill-wave"></i> Financeiro</button>
 <button class="filter-btn" data-category="Tradução"><i class="fas fa-language"></i> Tradução</button>
 <button class="filter-btn" data-category="Produtos"><i class="fas fa-box-open"></i> Produtos</button>
 <button class="filter-btn" data-category="Imagens"><i class="fas fa-image"></i> Imagens</button>
@@ -1532,6 +1543,7 @@ document.addEventListener('DOMContentLoaded', carregarAPIs);
 </script>
 </body>
 </html>
+
 
 
 
