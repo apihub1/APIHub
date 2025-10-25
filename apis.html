@@ -1,71 +1,257 @@
 <!DOCTYPE html>
 <html lang="pt-br" dir="ltr">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0M15TSB52W"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0M15TSB52W"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-0M15TSB52W');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO OTIMIZADO MAS DISCRETO -->
+    <meta name="description" content="Catálogo de APIs - Encontre as melhores APIs para integrar em seus projetos de desenvolvimento.">
+    <meta name="keywords" content="APIs, catálogo, desenvolvimento, programação, integração, REST API">
+    <meta name="author" content="APIHub">
+    <meta name="robots" content="index, follow">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    
+    <title>Catálogo de APIs - APIHub</title>
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #4f46e5;
+            --accent: #8b5cf6;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --background: #f9fafb;
+            --card-bg: #ffffff;
+            --sidebar-bg: #1f2937;
+            --sidebar-hover: #374151;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 
-  gtag('config', 'G-0M15TSB52W');
-</script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Catálogo de APIs - Encontre as melhores APIs para integrar em seus projetos de desenvolvimento.">
-<meta name="keywords" content="APIs, catálogo, desenvolvimento, programação, integração, REST API">
-<meta name="author" content="APIHub">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<title>Catálogo de APIs - APIHub</title>
-<style>
-:root {
-  --primary: #2563eb;
-  --primary-dark: #1d4ed8;
-  --secondary: #4f46e5;
-  --accent: #8b5cf6;
-  --text: #1f2937;
-  --text-light: #6b7280;
-  --background: #f9fafb;
-  --card-bg: #ffffff;
-  --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-  --shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
-  --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            /* Cores para categorias */
+            --color-dados: #3b82f6;
+            --color-datas: #10b981;
+            --color-diversao: #f59e0b;
+            --color-animais: #ef4444;
+            --color-clima: #06b6d4;
+            --color-outros: #8b5cf6;
+            --color-palavras: #D611D6;
+            --color-nomes: #E5A335;
+            --color-financeiro: #059669; 
+        }
 
-  /* Cores para categorias */
-  --color-dados: #3b82f6;
-  --color-datas: #10b981;
-  --color-diversao: #f59e0b;
-  --color-animais: #ef4444;
-  --color-clima: #06b6d4;
-  --color-outros: #8b5cf6;
-  --color-palavras: #D611D6;
-  --color-nomes: #E5A335;
-  --color-financeiro: #059669; 
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--background);
+            overflow-x: hidden;
+            display: flex;
+            min-height: 100vh;
+        }
 
-body {
-  font-family: 'Poppins', sans-serif;
-  line-height: 1.6;
-  color: var(--text);
-  background-color: var(--background);
-  overflow-x: hidden;
-}
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
+        /* SIDEBAR ESTILO DEEPSEEK */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            color: white;
+            display: none;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            right: 0;
+            top: 0;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        }
 
-  header {
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem 1.5rem;
+            border-bottom: 1px solid #374151;
+            text-align: center;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            border: 3px solid #4b5563;
+        }
+
+        .user-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-info p {
+            color: #d1d5db;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 1.5rem 0;
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-section h4 {
+            padding: 0 1.5rem 0.75rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #9ca3af;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: var(--sidebar-hover);
+            color: white;
+            border-left-color: var(--primary);
+        }
+
+        .nav-item i {
+            width: 20px;
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-footer {
+            padding: 1.5rem;
+            border-top: 1px solid #374151;
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.75rem;
+            background: #dc2626;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            gap: 8px;
+        }
+
+        .logout-btn:hover {
+            background: #b91c1c;
+            transform: translateY(-1px);
+        }
+
+        /* TOGGLE SIDEBAR BUTTON */
+        .sidebar-toggle {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: var(--shadow-hover);
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .sidebar-toggle:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        /* OVERLAY */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            transition: margin-right 0.3s ease;
+        }
+
+        .main-content.sidebar-open {
+            margin-right: 280px;
+        }
+
+        /* HEADER STYLES */
+        header {
             background: var(--gradient);
             color: white;
             padding: 1.5rem 0;
@@ -81,914 +267,974 @@ body {
             align-items: center;
         }
 
-            .logo-container {
-                display: flex;
-                align-items: center;
-                gap: 15px;
-            }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-            .logo {
-                height: 50px;
-                width: auto;
-                border-radius: 8px;
-            }
+        .logo {
+            height: 50px;
+            width: auto;
+            border-radius: 8px;
+        }
 
-            .logo-text {
-                font-size: 1.8rem;
-                font-weight: 700;
-            }
-            
-            nav {
-                display: flex;
-                align-items: center;
-                gap: 2rem;
-            }
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
 
-            nav ul {
-                display: flex;
-                list-style: none;
-                gap: 2rem;
-            }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
 
-            nav a {
-                position: relative;
-                display: inline-block;
-                color: white;
-                text-decoration: none;
-                padding: 5px 0;
-            }
+        nav a {
+            position: relative;
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            padding: 5px 0;
+        }
 
-            nav a:not(.login a)::after {
-                content: "";
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                width: 0;
-                height: 2px;
-                background-color: #ffffff;
-                transition: width 0.3s ease;
-            }
+        nav a:not(.login a)::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: #ffffff;
+            transition: width 0.3s ease;
+        }
 
-            nav a:not(.login a):hover::after {
+        nav a:not(.login a):hover::after {
+            width: 100%;
+        }
+
+        .login a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .login a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            text-decoration: none;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+            background: var(--gradient);
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: var(--primary);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* SECTION STYLES */
+        section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        /* Search Section */
+        .search-section {
+            padding: 2rem 0;
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            border-radius: 10px;
+        }
+
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .search-box {
+            display: flex;
+            box-shadow: var(--shadow);
+            border-radius: 50px;
+            overflow: hidden;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .search-button:hover {
+            background: var(--primary-dark);
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: var(--background);
+            border: 1px solid #e5e7eb;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* APIs Grid */
+        .apis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .api-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .api-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .api-card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
+            position: relative;
+        }
+
+        .api-card-category {
+            display: inline-block;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .api-card-title {
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .api-card-description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .api-card-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .api-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .api-detail-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+        }
+
+        .api-detail-item i {
+            margin-right: 10px;
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+
+        .api-card-footer {
+            padding: 1rem 1.5rem;
+            background: #f9fafb;
+            border-top: 1px solid #f3f4f6;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .api-link-container {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 5px;
+            overflow: hidden;
+        }
+
+        .api-link {
+            flex: 1;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-family: monospace;
+        }
+
+        .copy-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .copy-btn.copied {
+            background: #10b981;
+        }
+
+        .how-to-use-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-weight: 500;
+            width: 100%;
+        }
+
+        .how-to-use-btn:hover {
+            background: var(--primary);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-category {
+            display: inline-block;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--text);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-section {
+            margin-bottom: 2rem;
+        }
+
+        .modal-section-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .modal-section-content {
+            background: #f9fafb;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .code-example {
+            background: #1f2937;
+            color: #e5e7eb;
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-top: 0.5rem;
+        }
+
+        .code-example code {
+            display: block;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .parameter-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.5rem;
+        }
+
+        .parameter-table th, .parameter-table td {
+            padding: 8px 12px;
+            text-align: left;
+            border: 1px solid #e5e7eb;
+        }
+
+        .parameter-table th {
+            background-color: #f3f4f6;
+            font-weight: 600;
+        }
+
+        .parameter-table tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0 3rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .pagination-button {
+            background: white;
+            border: 1px solid #e5e7eb;
+            color: var(--text);
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            min-width: 40px;
+        }
+
+        .pagination-button:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .pagination-button.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .pagination-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            box-shadow: var(--shadow);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.success {
+            background: #10b981;
+        }
+
+        .notification.error {
+            background: #ef4444;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--text);
+            color: white;
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links h4 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #374151;
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            .sidebar {
                 width: 100%;
             }
-            .login a {
-    color: white;
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
-}
-
-.login a:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    text-decoration: none;
-}
-            /* Hero Section */
-            .hero {
-                padding: 4rem 0;
-                text-align: center;
-                background: var(--gradient);
-                color: white;
-                margin-bottom: 3rem;
+            
+            .main-content.sidebar-open {
+                margin-right: 0;
             }
-
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 0.6rem;
+                flex-wrap: wrap;
+                justify-content: center;
+                flex-direction: column;
+            }
+            
             .hero h1 {
-                font-size: 3rem;
-                margin-bottom: 1rem;
-                font-weight: 700;
+                font-size: 2.2rem;
             }
-
-            .hero p {
-                font-size: 1.2rem;
-                max-width: 700px;
-                margin: 0 auto 2rem;
-                opacity: 0.9;
+            
+            .apis-grid {
+                grid-template-columns: 1fr;
             }
-
-            .cta-button {
-                display: inline-block;
-                background: white;
-                color: var(--primary);
-                padding: 12px 30px;
-                border-radius: 30px;
-                text-decoration: none;
-                font-weight: 600;
-                transition: all 0.3s ease;
-                box-shadow: var(--shadow);
+            
+            .search-box {
+                flex-direction: column;
+                border-radius: 10px;
             }
-
-            .cta-button:hover {
-                transform: translateY(-3px);
-                box-shadow: var(--shadow-hover);
+            
+            .search-input {
+                border-radius: 10px 10px 0 0;
             }
-
-/* Search Section */
-.search-section {
-  padding: 2rem 0;
-  background: var(--card-bg);
-  box-shadow: var(--shadow);
-  margin-bottom: 2rem;
-  border-radius: 10px;
-}
-
-.search-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.search-box {
-  display: flex;
-  box-shadow: var(--shadow);
-  border-radius: 50px;
-  overflow: hidden;
-}
-
-.search-input {
-  flex: 1;
-  padding: 15px 20px;
-  border: none;
-  font-size: 1rem;
-  outline: none;
-}
-
-.search-button {
-  background: var(--primary);
-  color: white;
-  border: none;
-  padding: 0 25px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.search-button:hover {
-  background: var(--primary-dark);
-}
-
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 1rem;
-  justify-content: center;
-}
-
-.filter-btn {
-  background: var(--background);
-  border: 1px solid #e5e7eb;
-  padding: 8px 16px;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.filter-btn:hover, .filter-btn.active {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
-}
-
-/* APIs Grid */
-.apis-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 2rem;
-  margin-bottom: 3rem;
-}
-
-.api-card {
-  background: var(--card-bg);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  transition: all 0.3s ease;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
-.api-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-hover);
-}
-
-.api-card-header {
-  padding: 1.5rem;
-  border-bottom: 1px solid #f3f4f6;
-  position: relative;
-}
-
-.api-card-category {
-  display: inline-block;
-  color: white;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  margin-bottom: 12px;
-  font-weight: 500;
-}
-
-.api-card-title {
-  font-size: 1.4rem;
-  color: var(--text);
-  margin-bottom: 0.8rem;
-  font-weight: 600;
-}
-
-.api-card-description {
-  color: var(--text-light);
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-
-.api-card-body {
-  padding: 1.5rem;
-  flex-grow: 1;
-}
-
-.api-details {
-  margin-bottom: 1.5rem;
-}
-
-.api-detail-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.8rem;
-  font-size: 0.9rem;
-}
-
-.api-detail-item i {
-  margin-right: 10px;
-  color: var(--primary);
-  width: 20px;
-  text-align: center;
-}
-
-.api-card-footer {
-  padding: 1rem 1.5rem;
-  background: #f9fafb;
-  border-top: 1px solid #f3f4f6;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.api-link-container {
-  display: flex;
-  align-items: center;
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  padding: 5px;
-  overflow: hidden;
-}
-
-.api-link {
-  flex: 1;
-  padding: 8px 12px;
-  font-size: 0.85rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-family: monospace;
-}
-
-.copy-btn {
-  background: var(--primary);
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.8rem;
-  flex-shrink: 0;
-}
-
-.copy-btn:hover {
-  background: var(--primary-dark);
-}
-
-.copy-btn.copied {
-  background: #10b981;
-}
-
-.how-to-use-btn {
-  background: var(--secondary);
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  font-weight: 500;
-  width: 100%;
-}
-
-.how-to-use-btn:hover {
-  background: var(--primary);
-}
-
-/* Modal Styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  padding: 20px;
-}
-
-.modal-overlay.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-.modal {
-  background: white;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 800px;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  transform: translateY(30px);
-  opacity: 0;
-  transition: all 0.3s ease;
-}
-
-.modal-overlay.active .modal {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.modal-header {
-  padding: 1.5rem;
-  border-bottom: 1px solid #e5e7eb;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  background: white;
-  z-index: 10;
-  border-radius: 12px 12px 0 0;
-}
-
-.modal-title {
-  font-size: 1.5rem;
-  color: var(--text);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.modal-category {
-  display: inline-block;
-  color: white;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: var(--text-light);
-  transition: color 0.3s ease;
-}
-
-.modal-close:hover {
-  color: var(--text);
-}
-
-.modal-body {
-  padding: 1.5rem;
-}
-
-.modal-section {
-  margin-bottom: 2rem;
-}
-
-.modal-section-title {
-  font-size: 1.1rem;
-  margin-bottom: 0.8rem;
-  color: var(--primary);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-}
-
-.modal-section-content {
-  background: #f9fafb;
-  padding: 1rem;
-  border-radius: 8px;
-  font-family: monospace;
-  white-space: pre-wrap;
-  overflow-x: auto;
-  font-size: 0.9rem;
-  line-height: 1.5;
-}
-
-.code-example {
-  background: #1f2937;
-  color: #e5e7eb;
-  padding: 1rem;
-  border-radius: 6px;
-  overflow-x: auto;
-  margin-top: 0.5rem;
-}
-
-.code-example code {
-  display: block;
-  font-family: 'Fira Code', monospace;
-}
-
-.parameter-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 0.5rem;
-}
-
-.parameter-table th, .parameter-table td {
-  padding: 8px 12px;
-  text-align: left;
-  border: 1px solid #e5e7eb;
-}
-
-.parameter-table th {
-  background-color: #f3f4f6;
-  font-weight: 600;
-}
-
-.parameter-table tr:nth-child(even) {
-  background-color: #f9fafb;
-}
-
-/* Pagination */
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin: 2rem 0 3rem;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.pagination-button {
-  background: white;
-  border: 1px solid #e5e7eb;
-  color: var(--text);
-  padding: 8px 15px;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-  min-width: 40px;
-}
-
-.pagination-button:hover {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
-}
-
-.pagination-button.active {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
-}
-
-.pagination-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Footer */
-footer {
-  background: var(--text);
-  color: white;
-  padding: 3rem 0 1.5rem;
-  margin-top: 4rem;
-}
-
-.footer-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-
-.footer-logo {
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-
-.footer-links h4 {
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
-}
-
-.footer-links ul {
-  list-style: none;
-}
-
-.footer-links li {
-  margin-bottom: 0.5rem;
-}
-
-.footer-links a {
-  color: #d1d5db;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.footer-links a:hover {
-  color: white;
-}
-
-.copyright {
-  text-align: center;
-  padding-top: 1.5rem;
-  border-top: 1px solid #374151;
-  color: #9ca3af;
-  font-size: 0.9rem;
-}
-
-/* Notification */
-.notification {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 6px;
-  box-shadow: var(--shadow);
-  transform: translateY(100px);
-  opacity: 0;
-  transition: all 0.3s ease;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.notification.success {
-  background: #10b981;
-}
-
-.notification.error {
-  background: #ef4444;
-}
-
-.notification.show {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .header-content {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
- nav ul {
-  gap: 0.6rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  flex-direction: column;
-}
-
-  .hero h1 {
-    font-size: 2rem;
-  }
-
-  .apis-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .search-box {
-    flex-direction: column;
-    border-radius: 10px;
-  }
-
-  .search-input {
-    border-radius: 10px 10px 0 0;
-  }
-
-  .search-button {
-    padding: 12px;
-    border-radius: 0 0 10px 10px;
-  }
-
-  .modal {
-    width: 95%;
-    margin: 20px;
-  }
-
-  .modal-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .modal-close {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-  }
-  
-  .pagination {
-    gap: 0.3rem;
-  }
-  
-  .pagination-button {
-    padding: 6px 10px;
-    min-width: 35px;
-  }
-}
-@media (max-width: 480px) {
-  nav a i {
-    margin-right: 5px;
-  }
-
-  .login a {
-    width: auto;
-    padding: 8px 15px;
-  }
-}
-
-/* Animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate {
-  animation: fadeIn 0.8s ease forwards;
-}
-
-/* Cores para categorias */
-.category-dados {
-  background-color: var(--color-dados);
-}
-
-.category-datas {
-  background-color: var(--color-datas);
-}
-
-.category-diversao {
-  background-color: var(--color-diversao);
-}
-
-.category-animais {
-  background-color: var(--color-animais);
-}
-
-.category-clima {
-  background-color: var(--color-clima);
-}
-
-.category-palavras {
-  background-color: var(--color-palavras);
-}
-
-.category-nomes {
-  background-color: var(--color-nomes);
-}
-
-.category-financeiro {
-  background-color: var(--color-financeiro);
-}
-
-.category-outros {
-  background-color: var(--color-outros);
-}
-
-/* Borda superior colorida baseada na categoria */
-.api-card[data-category="Dados"] {
-  border-top: 4px solid var(--color-dados);
-}
-
-.api-card[data-category="Datas"] {
-  border-top: 4px solid var(--color-datas);
-}
-
-.api-card[data-category="Diversão"] {
-  border-top: 4px solid var(--color-diversao);
-}
-
-.api-card[data-category="Animais"] {
-  border-top: 4px solid var(--color-animais);
-}
-
-.api-card[data-category="Clima"] {
-  border-top: 4px solid var(--color-clima);
-}
-
-.api-card[data-category="Palavras"] {
-  border-top: 4px solid var(--color-palavras);
-}
-
-.api-card[data-category="Nomes"] {
-  border-top: 4px solid var(--color-nomes);
-}
-
-.api-card[data-category="Financeiro"] {
-  border-top: 4px solid var(--color-financeiro);
-}
-
-.api-card[data-category]:not([data-category="Dados"]):not([data-category="Datas"]):not([data-category="Diversão"]):not([data-category="Animais"]):not([data-category="Clima"]):not([data-category="Palavras"]):not([data-category="Nomes"]):not([data-category="Financeiro"]) {
-  border-top: 4px solid var(--color-outros);
-}
-
-/* Melhorias de acessibilidade */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Estilo para código no modal */
-pre {
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-/* Highlight para JSON */
-.json-key {
-  color: #881391;
-}
-
-.json-string {
-  color: #c41a16;
-}
-
-.json-number {
-  color: #1c00cf;
-}
-
-.json-boolean {
-  color: #0d22aa;
-}
-
-.json-null {
-  color: #808080;
-}
-
-/* Skeleton Loading */
-.skeleton {
-  animation: skeleton-loading 1s linear infinite alternate;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.skeleton-header {
-  padding: 1.5rem;
-  border-bottom: 1px solid #f3f4f6;
-}
-
-.skeleton-category {
-  height: 24px;
-  width: 100px;
-  background: #e5e7eb;
-  border-radius: 20px;
-  margin-bottom: 12px;
-}
-
-.skeleton-title {
-  height: 28px;
-  background: #e5e7eb;
-  border-radius: 4px;
-  margin-bottom: 0.8rem;
-}
-
-.skeleton-description {
-  height: 16px;
-  background: #e5e7eb;
-  border-radius: 4px;
-  margin-bottom: 0.4rem;
-}
-
-.skeleton-description.short {
-  width: 70%;
-}
-
-.skeleton-body {
-  padding: 1.5rem;
-  flex-grow: 1;
-}
-
-.skeleton-detail {
-  height: 16px;
-  background: #e5e7eb;
-  border-radius: 4px;
-  margin-bottom: 0.8rem;
-}
-
-.skeleton-footer {
-  padding: 1rem 1.5rem;
-  background: #f9fafb;
-  border-top: 1px solid #f3f4f6;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.skeleton-link {
-  height: 36px;
-  background: #e5e7eb;
-  border-radius: 6px;
-}
-
-.skeleton-button {
-  height: 40px;
-  background: #e5e7eb;
-  border-radius: 6px;
-}
-
-@keyframes skeleton-loading {
-  0% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: 0.3;
-  }
-}
-
-/* Error State */
-.error-state {
-  text-align: center;
-  padding: 3rem 1rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-}
-
-.error-icon {
-  font-size: 3rem;
-  color: #ef4444;
-  margin-bottom: 1rem;
-}
-
-.retry-button {
-  background: var(--primary);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  margin-top: 1rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.retry-button:hover {
-  background: var(--primary-dark);
-}
-</style>
+            
+            .search-button {
+                padding: 12px;
+                border-radius: 0 0 10px 10px;
+            }
+            
+            .modal {
+                width: 95%;
+                margin: 20px;
+            }
+            
+            .modal-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .modal-close {
+                position: absolute;
+                top: 1.5rem;
+                right: 1.5rem;
+            }
+            
+            .pagination {
+                gap: 0.3rem;
+            }
+            
+            .pagination-button {
+                padding: 6px 10px;
+                min-width: 35px;
+            }
+            
+            .sidebar-toggle {
+                right: 15px;
+                top: 15px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav a i {
+                margin-right: 5px;
+            }
+            
+            .login a {
+                width: auto;
+                padding: 8px 15px;
+            }
+        }
+
+        /* ANIMATION */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+
+        /* Cores para categorias */
+        .category-dados {
+            background-color: var(--color-dados);
+        }
+
+        .category-datas {
+            background-color: var(--color-datas);
+        }
+
+        .category-diversao {
+            background-color: var(--color-diversao);
+        }
+
+        .category-animais {
+            background-color: var(--color-animais);
+        }
+
+        .category-clima {
+            background-color: var(--color-clima);
+        }
+
+        .category-palavras {
+            background-color: var(--color-palavras);
+        }
+
+        .category-nomes {
+            background-color: var(--color-nomes);
+        }
+
+        .category-financeiro {
+            background-color: var(--color-financeiro);
+        }
+
+        .category-outros {
+            background-color: var(--color-outros);
+        }
+
+        /* Borda superior colorida baseada na categoria */
+        .api-card[data-category="Dados"] {
+            border-top: 4px solid var(--color-dados);
+        }
+
+        .api-card[data-category="Datas"] {
+            border-top: 4px solid var(--color-datas);
+        }
+
+        .api-card[data-category="Diversão"] {
+            border-top: 4px solid var(--color-diversao);
+        }
+
+        .api-card[data-category="Animais"] {
+            border-top: 4px solid var(--color-animais);
+        }
+
+        .api-card[data-category="Clima"] {
+            border-top: 4px solid var(--color-clima);
+        }
+
+        .api-card[data-category="Palavras"] {
+            border-top: 4px solid var(--color-palavras);
+        }
+
+        .api-card[data-category="Nomes"] {
+            border-top: 4px solid var(--color-nomes);
+        }
+
+        .api-card[data-category="Financeiro"] {
+            border-top: 4px solid var(--color-financeiro);
+        }
+
+        .api-card[data-category]:not([data-category="Dados"]):not([data-category="Datas"]):not([data-category="Diversão"]):not([data-category="Animais"]):not([data-category="Clima"]):not([data-category="Palavras"]):not([data-category="Nomes"]):not([data-category="Financeiro"]) {
+            border-top: 4px solid var(--color-outros);
+        }
+
+        /* Skeleton Loading */
+        .skeleton {
+            animation: skeleton-loading 1s linear infinite alternate;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .skeleton-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .skeleton-category {
+            height: 24px;
+            width: 100px;
+            background: #e5e7eb;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        .skeleton-title {
+            height: 28px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            margin-bottom: 0.8rem;
+        }
+
+        .skeleton-description {
+            height: 16px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            margin-bottom: 0.4rem;
+        }
+
+        .skeleton-description.short {
+            width: 70%;
+        }
+
+        .skeleton-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .skeleton-detail {
+            height: 16px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            margin-bottom: 0.8rem;
+        }
+
+        .skeleton-footer {
+            padding: 1rem 1.5rem;
+            background: #f9fafb;
+            border-top: 1px solid #f3f4f6;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .skeleton-link {
+            height: 36px;
+            background: #e5e7eb;
+            border-radius: 6px;
+        }
+
+        .skeleton-button {
+            height: 40px;
+            background: #e5e7eb;
+            border-radius: 6px;
+        }
+
+        @keyframes skeleton-loading {
+            0% {
+                opacity: 0.7;
+            }
+            100% {
+                opacity: 0.3;
+            }
+        }
+
+        /* Error State */
+        .error-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .error-icon {
+            font-size: 3rem;
+            color: #ef4444;
+            margin-bottom: 1rem;
+        }
+
+        .retry-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .retry-button:hover {
+            background: var(--primary-dark);
+        }
+    </style>
 </head>
 <body>
-<header>
+    <!-- SIDEBAR -->
+    <div class="sidebar-overlay"></div>
+    
+    <button class="sidebar-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <h3 id="sidebar-username">Visitante</h3>
+                    <p id="sidebar-email">Faça login para acessar</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <h4>Menu</h4>
+                <a href="favoritos.html" class="nav-item">
+                    <i class="fas fa-star"></i>
+                    <span>APIs Favoritas</span>
+                </a>
+                <a href="configuracoes.html" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Configurações</span>
+                </a>
+            </div>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <button class="logout-btn" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Sair</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content" id="main-content">
+        <header>
             <div class="container header-content">
                 <div class="logo-container">
                     <img src="Logo.png" alt="APIHub - Centro de recursos para desenvolvedores de API" class="logo">
@@ -1004,555 +1250,607 @@ pre {
             </div>
         </header>
 
-<div class="hero">
-<div class="container">
-<h1>Catálogo de APIs</h1>
-<p>Encontre as melhores APIs para integrar em seus projetos e acelerar seu desenvolvimento</p>
-</div>
-</div>
-
-<div class="container">
-<section class="search-section animate">
-<div class="search-container">
-<div class="search-box">
-<input type="text" class="search-input" placeholder="Buscar por nome, categoria ou descrição...">
-<button class="search-button">
-<i class="fas fa-search"></i>
-</button>
-</div>
-<div class="filters">
-<button class="filter-btn active" data-category="all"><i class="fas fa-layer-group"></i> Todas</button>
-<button class="filter-btn" data-category="Dados"><i class="fas fa-database"></i> Dados</button>
-<button class="filter-btn" data-category="Datas"><i class="fas fa-calendar"></i> Datas</button>
-<button class="filter-btn" data-category="Diversão"><i class="fas fa-gamepad"></i> Diversão</button>
-<button class="filter-btn" data-category="Animais"><i class="fas fa-paw"></i> Animais</button>
-<button class="filter-btn" data-category="Clima"><i class="fas fa-cloud-sun"></i> Clima</button>
-<button class="filter-btn" data-category="Palavras"><i class="fas fa-pencil-alt"></i> Palavras</button>
-<button class="filter-btn" data-category="Nomes"><i class="fas fa-user"></i> Nomes</button>
-<button class="filter-btn" data-category="Financeiro"><i class="fas fa-money-bill-wave"></i> Financeiro</button>
-<button class="filter-btn" data-category="Tradução"><i class="fas fa-language"></i> Tradução</button>
-<button class="filter-btn" data-category="Produtos"><i class="fas fa-box-open"></i> Produtos</button>
-<button class="filter-btn" data-category="Imagens"><i class="fas fa-image"></i> Imagens</button>
-<button class="filter-btn" data-category="Livros"><i class="fas fa-book"></i> Livros</button>
-</div>
-</div>
-</section>
-
-<section class="apis-container">
-<div class="apis-grid" id="apis-grid">
-<!-- API Cards will be generated here -->
-</div>
-
-<div class="pagination" id="pagination">
-<!-- Pagination buttons will be generated here -->
-</div>
-</section>
-</div>
-
-<!-- Modal Structure -->
-<div class="modal-overlay" id="modal-overlay">
-<div class="modal">
-<div class="modal-header">
-<h2 class="modal-title" id="modal-title">Como usar a API</h2>
-<button class="modal-close" id="modal-close">&times;</button>
-</div>
-<div class="modal-body" id="modal-body">
-<!-- Modal content will be inserted here -->
-</div>
-</div>
-</div>
-
-<div class="notification" id="notification">
-<i class="fas fa-check-circle"></i>
-<span>Link copiado para a área de transferência!</span>
-</div>
-
-<footer>
-<div class="container">
-<div class="footer-content">
-<div class="footer-info">
-<div class="footer-logo">APIHub</div>
-<p>Seu centro de recursos para desenvolvimento e integração de APIs.</p>
-</div>
-<div class="footer-links">
-<h4>Links Rápidos</h4>
-<ul>
-<li><a href="index.html">Início</a></li>
-<li><a href="catalogo.html">Catálogo de APIs</a></li>
-<li><a href="#">Documentação</a></li>
-<li><a href="#">Contato</a></li>
-</ul>
-</div>
-<div class="footer-links">
-<h4>Recursos</h4>
-<ul>
-<li><a href="#">Tutoriais</a></li>
-<li><a href="#">Blog</a></li>
-<li><a href="#">Fórum</a></li>
-<li><a href="#">Suporte</a></li>
-</ul>
-</div>
-</div>
-<div class="copyright">
-<p>&copy; 2025 APIHub - Todos os direitos reservados.</p>
-</div>
-</div>
-</footer>
-
-<!-- Importar a biblioteca do Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-
-  // Sistema de Autenticação
-class AuthSystem {
-    constructor() {
-        this.currentUser = null;
-        this.checkLoginStatus();
-    }
-
-    checkLoginStatus() {
-        const token = localStorage.getItem('authToken');
-        const userData = localStorage.getItem('userData');
-        
-        if (token && userData) {
-            this.currentUser = JSON.parse(userData);
-            this.updateUI();
-            return true;
-        }
-        return false;
-    }
-
-    updateUI() {
-        const loginBtn = document.querySelector('.login a');
-        
-        if (this.currentUser) {
-            loginBtn.textContent = 'Conta';
-            loginBtn.href = '#';
-        } else {
-            loginBtn.textContent = 'Login';
-            loginBtn.href = 'login.html';
-        }
-    }
-
-    logout() {
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('userData');
-        this.currentUser = null;
-        this.updateUI();
-        window.location.href = 'index.html';
-    }
-}
-
-// Inicializar autenticação
-let authSystem;
-
-document.addEventListener('DOMContentLoaded', function() {
-    authSystem = new AuthSystem();
-    carregarAPIs();
-});
-
-  
-const SUPABASE_URL = "https://bllvhpayuglmkhgvoppv.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsbHZocGF5dWdsbWtoZ3ZvcHB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc3MTg3OTksImV4cCI6MjA3MzI5NDc5OX0.6y-iXrOZFl5ufsB06ZW1mAK6y5wPfTIEH8GhMsE_byw";
-
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-let todasAPIs = [];
-let currentPage = 1;
-const itemsPerPage = 6;
-let totalPages = 1;
-
-// --- Helpers ---
-function tryParseJSON(value) {
-  if (!value) return null;
-  if (typeof value !== 'string') return value;
-  try { return JSON.parse(value); } catch (e) { return null; }
-}
-
-function prettyPrintJSON(value) {
-  const parsed = tryParseJSON(value);
-  if (parsed !== null) return JSON.stringify(parsed, null, 2);
-  return String(value || '');
-}
-
-function getPrimaryCategory(api) {
-  if (api.category) return api.category;
-  if (api.tags) {
-    const first = String(api.tags).split(',')[0].trim();
-    return first || 'Outros';
-  }
-  return 'Outros';
-}
-
-// --- Skeleton Loading ---
-function mostrarSkeletonCards() {
-  const grid = document.getElementById("apis-grid");
-  grid.innerHTML = '';
-  
-  for (let i = 0; i < itemsPerPage; i++) {
-    const skeletonCard = document.createElement("div");
-    skeletonCard.classList.add("skeleton");
-    skeletonCard.innerHTML = `
-      <div class="skeleton-header">
-        <div class="skeleton-category"></div>
-        <div class="skeleton-title"></div>
-        <div class="skeleton-description"></div>
-        <div class="skeleton-description short"></div>
-      </div>
-      <div class="skeleton-body">
-        <div class="skeleton-detail"></div>
-        <div class="skeleton-detail"></div>
-        <div class="skeleton-detail"></div>
-        <div class="skeleton-detail"></div>
-      </div>
-      <div class="skeleton-footer">
-        <div class="skeleton-link"></div>
-        <div class="skeleton-button"></div>
-      </div>
-    `;
-    grid.appendChild(skeletonCard);
-  }
-}
-
-// --- Error Handling ---
-function mostrarMensagemErro(mensagem, isError = true) {
-  const notification = document.getElementById('notification');
-  notification.innerHTML = `
-    <i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
-    <span>${mensagem}</span>
-  `;
-  notification.className = `notification ${isError ? 'error' : 'success'} show`;
-  
-  setTimeout(() => {
-    notification.classList.remove('show');
-  }, 5000);
-}
-
-function mostrarEstadoErro(mensagem) {
-  const grid = document.getElementById("apis-grid");
-  grid.innerHTML = `
-    <div class="error-state">
-      <div class="error-icon">
-        <i class="fas fa-exclamation-triangle"></i>
-      </div>
-      <h3>Ocorreu um erro</h3>
-      <p>${mensagem}</p>
-      <button class="retry-button" onclick="carregarAPIs()">
-        <i class="fas fa-redo"></i> Tentar novamente
-      </button>
-    </div>
-  `;
-  
-  document.getElementById("pagination").innerHTML = '';
-}
-
-// --- Carregar APIs ---
-async function carregarAPIs() {
-  const grid = document.getElementById("apis-grid");
-  if (grid) {
-    grid.innerHTML = '';
-    mostrarSkeletonCards();
-  }
-
-  try {
-    const { data, error } = await supabase.from("apis").select("*").order("name");
-    
-    if (error) {
-      throw new Error(`Erro no Supabase: ${error.message}`);
-    }
-    
-    todasAPIs = data || [];
-    
-    if (todasAPIs.length === 0) {
-      grid.innerHTML = "<p style='text-align: center; padding: 2rem;'>Nenhuma API encontrada no banco de dados.</p>";
-      document.getElementById("pagination").innerHTML = '';
-      return;
-    }
-    
-    totalPages = Math.ceil(todasAPIs.length / itemsPerPage);
-    atualizarPaginacao();
-    aplicarFiltroPesquisa();
-    
-  } catch (erro) {
-    console.error("Erro ao buscar APIs:", erro);
-    mostrarEstadoErro(erro.message || "Falha ao carregar as APIs. Verifique sua conexão e tente novamente.");
-  }
-}
-
-// --- Paginação ---
-function atualizarPaginacao() {
-  const paginationContainer = document.getElementById("pagination");
-  if (!paginationContainer) return;
-  
-  let paginationHTML = '';
-  
-  // Botão anterior
-  paginationHTML += `
-    <button class="pagination-button" onclick="mudarPagina(${currentPage - 1})" 
-            ${currentPage === 1 ? 'disabled' : ''}>
-      &laquo;
-    </button>
-  `;
-  
-  // Botões de página
-  for (let i = 1; i <= totalPages; i++) {
-    if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
-      paginationHTML += `
-        <button class="pagination-button ${currentPage === i ? 'active' : ''}" 
-                onclick="mudarPagina(${i})">
-          ${i}
-        </button>
-      `;
-    } else if (i === currentPage - 2 || i === currentPage + 2) {
-      paginationHTML += `<span class="pagination-ellipsis">...</span>`;
-    }
-  }
-  
-  // Botão próximo
-  paginationHTML += `
-    <button class="pagination-button" onclick="mudarPagina(${currentPage + 1})" 
-            ${currentPage === totalPages ? 'disabled' : ''}>
-      &raquo;
-    </button>
-  `;
-  
-  paginationContainer.innerHTML = paginationHTML;
-}
-
-function mudarPagina(pagina) {
-  if (pagina < 1 || pagina > totalPages) return;
-  
-  currentPage = pagina;
-  aplicarFiltroPesquisa();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// --- Renderização ---
-function getCategoryClass(category) {
-  const map = { 
-    'Dados': 'category-dados', 
-    'Datas': 'category-datas', 
-    'Diversão': 'category-diversao', 
-    'Animais': 'category-animais', 
-    'Clima': 'category-clima',
-    'Palavras': 'category-palavras',
-    'Nomes': 'category-nomes',
-    'Financeiro': 'category-financeiro'
-  };
-  return map[category] || 'category-outros';
-}
-
-function renderizarAPIs(lista) {
-  const grid = document.getElementById("apis-grid");
-  if (!grid) return;
-  grid.innerHTML = "";
-
-  if (!lista || lista.length === 0) {
-    grid.innerHTML = "<p style='text-align: center; padding: 2rem;'>Nenhuma API encontrada.</p>";
-    document.getElementById("pagination").innerHTML = '';
-    return;
-  }
-
-  // Aplicar paginação
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const apisPaginadas = lista.slice(startIndex, endIndex);
-  
-  totalPages = Math.ceil(lista.length / itemsPerPage);
-  atualizarPaginacao();
-
-  apisPaginadas.forEach(api => {
-    const card = document.createElement("div");
-    card.classList.add("api-card", "animate");
-    const categoryLabel = getPrimaryCategory(api);
-    card.setAttribute("data-category", categoryLabel);
-
-    // ÍCONES ATUALIZADOS PARA TODAS AS CATEGORIAS
-    let icon = "fas fa-code";
-    if (categoryLabel === "Dados") icon = "fas fa-database";
-    if (categoryLabel === "Datas") icon = "fas fa-calendar";
-    if (categoryLabel === "Diversão") icon = "fas fa-gamepad";
-    if (categoryLabel === "Animais") icon = "fas fa-paw";
-    if (categoryLabel === "Clima") icon = "fas fa-cloud-sun";
-    if (categoryLabel === "Palavras") icon = "fas fa-pencil-alt";
-    if (categoryLabel === "Nomes") icon = "fas fa-user";
-    if (categoryLabel === "Financeiro") icon = "fas fa-money-bill-wave";
-
-    const fullEndpoint = `${api.base_url || ''}${api.endpoint_path || ''}`;
-
-    card.innerHTML = `
-      <div class="api-card-header">
-        <span class="api-card-category ${getCategoryClass(categoryLabel)}">
-          <i class="${icon}"></i> ${categoryLabel}
-        </span>
-        <h3 class="api-card-title">${api.name || 'Sem nome'}</h3>
-        <p class="api-card-description">${api.description || ''}</p>
-      </div>
-      <div class="api-card-body">
-        <div class="api-details">
-          <div class="api-detail-item"><i class="fas fa-link"></i><span><strong>Endpoint:</strong> ${fullEndpoint || '—'}</span></div>
-          <div class="api-detail-item"><i class="fas fa-lock"></i><span><strong>Autenticação:</strong> ${api.authentication_type || 'Nenhuma'}</span></div>
-          <div class="api-detail-item"><i class="fas fa-shield-alt"></i><span><strong>HTTPS:</strong> ${api.https ? 'Sim' : 'Não'}</span></div>
-          <div class="api-detail-item"><i class="fas fa-exchange-alt"></i><span><strong>CORS:</strong> ${api.cors ? 'Suportado' : 'Não suportado'}</span></div>
+        <div class="hero">
+            <div class="container">
+                <h1>Catálogo de APIs</h1>
+                <p>Encontre as melhores APIs para integrar em seus projetos e acelerar seu desenvolvimento</p>
+            </div>
         </div>
-      </div>
-      <div class="api-card-footer">
-        <div class="api-link-container">
-          <span class="api-link" title="${fullEndpoint}">${fullEndpoint}</span>
-          <button class="copy-btn" data-url="${fullEndpoint}"><i class="fas fa-copy"></i> Copiar</button>
+
+        <main class="container">
+            <section class="search-section animate">
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" class="search-input" placeholder="Buscar por nome, categoria ou descrição...">
+                        <button class="search-button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="filters">
+                        <button class="filter-btn active" data-category="all"><i class="fas fa-layer-group"></i> Todas</button>
+                        <button class="filter-btn" data-category="Dados"><i class="fas fa-database"></i> Dados</button>
+                        <button class="filter-btn" data-category="Datas"><i class="fas fa-calendar"></i> Datas</button>
+                        <button class="filter-btn" data-category="Diversão"><i class="fas fa-gamepad"></i> Diversão</button>
+                        <button class="filter-btn" data-category="Animais"><i class="fas fa-paw"></i> Animais</button>
+                        <button class="filter-btn" data-category="Clima"><i class="fas fa-cloud-sun"></i> Clima</button>
+                        <button class="filter-btn" data-category="Palavras"><i class="fas fa-pencil-alt"></i> Palavras</button>
+                        <button class="filter-btn" data-category="Nomes"><i class="fas fa-user"></i> Nomes</button>
+                        <button class="filter-btn" data-category="Financeiro"><i class="fas fa-money-bill-wave"></i> Financeiro</button>
+                        <button class="filter-btn" data-category="Tradução"><i class="fas fa-language"></i> Tradução</button>
+                        <button class="filter-btn" data-category="Produtos"><i class="fas fa-box-open"></i> Produtos</button>
+                        <button class="filter-btn" data-category="Imagens"><i class="fas fa-image"></i> Imagens</button>
+                        <button class="filter-btn" data-category="Livros"><i class="fas fa-book"></i> Livros</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="apis-container">
+                <div class="apis-grid" id="apis-grid">
+                    <!-- API Cards will be generated here -->
+                </div>
+
+                <div class="pagination" id="pagination">
+                    <!-- Pagination buttons will be generated here -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Modal Structure -->
+        <div class="modal-overlay" id="modal-overlay">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="modal-title">Como usar a API</h2>
+                    <button class="modal-close" id="modal-close">&times;</button>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <!-- Modal content will be inserted here -->
+                </div>
+            </div>
         </div>
-        <button class="how-to-use-btn" onclick="abrirModal('${api.id}')"><i class="fas fa-book"></i> Como usar</button>
-      </div>
-    `;
-    grid.appendChild(card);
-  });
 
-  document.querySelectorAll('.copy-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const url = e.currentTarget.getAttribute('data-url');
-      copiarParaAreaDeTransferencia(url);
-    });
-  });
-}
+        <div class="notification" id="notification">
+            <i class="fas fa-check-circle"></i>
+            <span>Link copiado para a área de transferência!</span>
+        </div>
 
-// --- Modal ---
-function abrirModal(id) {
-  const api = todasAPIs.find(a => a.id === id);
-  if (!api) {
-    mostrarMensagemErro("API não encontrada.");
-    return;
-  }
-
-  const fullEndpoint = `${api.base_url || ''}${api.endpoint_path || ''}`;
-  const method = api.method || 'GET';
-  const responseFormatted = prettyPrintJSON(api.response_format);
-  const usageExample = api.usage_example || '';
-
-  let parametersTable = '';
-  const params = tryParseJSON(api.parameters);
-  if (params && typeof params === 'object' && Object.keys(params).length > 0) {
-    parametersTable = '<table class="parameter-table"><tr><th>Parâmetro</th><th>Descrição</th></tr>';
-    for (const [key, value] of Object.entries(params)) {
-      parametersTable += `<tr><td><code>${key}</code></td><td>${value}</td></tr>`;
-    }
-    parametersTable += '</table>';
-  } else if (api.parameters && typeof api.parameters === 'string') {
-    parametersTable = `<pre>${api.parameters}</pre>`;
-  } else {
-    parametersTable = '<p>Nenhum parâmetro necessário ou informações não disponíveis.</p>';
-  }
-
-  document.getElementById("modal-title").innerHTML = `
-    ${api.name || 'Sem nome'}
-    <span class="modal-category ${getCategoryClass(getPrimaryCategory(api))}">${getPrimaryCategory(api)}</span>
-  `;
-
-  document.getElementById("modal-body").innerHTML = `
-    <div class="modal-section">
-      <h3 class="modal-section-title"><i class="fas fa-info-circle"></i> Descrição</h3>
-      <p>${api.description || ''}</p>
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-info">
+                        <div class="footer-logo">APIHub</div>
+                        <p>Seu centro de recursos para desenvolvimento e integração de APIs.</p>
+                    </div>
+                    <div class="footer-links">
+                        <h4>Links Rápidos</h4>
+                        <ul>
+                            <li><a href="index.html">Início</a></li>
+                            <li><a href="apis.html">Catálogo de APIs</a></li>
+                            <li><a href="#">Documentação</a></li>
+                            <li><a href="#">Contato</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-links">
+                        <h4>Recursos</h4>
+                        <ul>
+                            <li><a href="#">Tutoriais</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Fórum</a></li>
+                            <li><a href="#">Suporte</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2025 APIHub - Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </footer>
     </div>
 
-    <div class="modal-section">
-      <h3 class="modal-section-title"><i class="fas fa-link"></i> Endpoint</h3>
-      <div class="modal-section-content">${fullEndpoint}</div>
-    </div>
+    <!-- Importar a biblioteca do Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Sistema de Autenticação
+        class AuthSystem {
+            constructor() {
+                this.currentUser = null;
+                this.checkLoginStatus();
+            }
 
-    <div class="modal-section">
-      <h3 class="modal-section-title"><i class="fas fa-code"></i> Método HTTP</h3>
-      <div class="modal-section-content">${method}</div>
-    </div>
+            checkLoginStatus() {
+                const token = localStorage.getItem('authToken');
+                const userData = localStorage.getItem('userData');
+                
+                if (token && userData) {
+                    this.currentUser = JSON.parse(userData);
+                    this.updateUI();
+                    this.initSidebar();
+                    return true;
+                }
+                return false;
+            }
 
-    <div class="modal-section">
-      <h3 class="modal-section-title"><i class="fas fa-cog"></i> Parâmetros</h3>
-      ${parametersTable}
-    </div>
+            updateUI() {
+                const loginBtn = document.querySelector('.login a');
+                const sidebarToggle = document.querySelector('.sidebar-toggle');
+                const sidebar = document.querySelector('.sidebar');
+                
+                if (this.currentUser) {
+                    loginBtn.textContent = ''; // Mudado para vazio
+                    loginBtn.href = '#';
+                    
+                    sidebarToggle.style.display = 'block';
+                    sidebar.style.display = 'flex';
+                    
+                    this.updateSidebarUserInfo();
+                    
+                } else {
+                    loginBtn.textContent = 'Login';
+                    loginBtn.href = 'login.html';
+                    sidebarToggle.style.display = 'none';
+                    sidebar.style.display = 'none';
+                }
+            }
 
-    <div class="modal-section">
-      <h3 class="modal-section-title"><i class="fas fa-code"></i> Exemplo de Uso</h3>
-      <div class="code-example"><pre>${usageExample || 'Nenhum exemplo disponível.'}</pre></div>
-    </div>
+            updateSidebarUserInfo() {
+                if (this.currentUser) {
+                    document.getElementById('sidebar-username').textContent = this.currentUser.name || 'Usuário';
+                    document.getElementById('sidebar-email').textContent = this.currentUser.email || 'Bem-vindo!';
+                }
+            }
 
-    <div class="modal-section">
-      <h3 class="modal-section-title"><i class="fas fa-reply"></i> Resposta</h3>
-      <div class="code-example"><pre>${responseFormatted || 'Nenhum exemplo de resposta disponível.'}</pre></div>
-    </div>
-  `;
+            initSidebar() {
+                const toggleBtn = document.querySelector('.sidebar-toggle');
+                const sidebar = document.querySelector('.sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+                const mainContent = document.getElementById('main-content');
+                const logoutBtn = document.getElementById('logout-btn');
 
-  document.getElementById("modal-overlay").classList.add("active");
-}
+                toggleBtn.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                    overlay.classList.toggle('active');
+                    mainContent.classList.toggle('sidebar-open');
+                });
 
-// --- Utils ---
-function copiarParaAreaDeTransferencia(texto) {
-  navigator.clipboard.writeText(texto).then(() => {
-    mostrarMensagemErro("Link copiado para a área de transferência!", false);
-  }).catch(err => {
-    console.error('Falha ao copiar texto: ', err);
-    mostrarMensagemErro("Falha ao copiar o link.");
-  });
-}
+                overlay.addEventListener('click', () => {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                    mainContent.classList.remove('sidebar-open');
+                });
 
-// --- Modal close ---
-document.getElementById("modal-close").addEventListener("click", () => {
-  document.getElementById("modal-overlay").classList.remove("active");
-});
-document.getElementById("modal-overlay").addEventListener("click", e => {
-  if (e.target === document.getElementById("modal-overlay")) {
-    document.getElementById("modal-overlay").classList.remove("active");
-  }
-});
+                logoutBtn.addEventListener('click', () => {
+                    this.logout();
+                });
+            }
 
-// --- Filtros ---
-document.querySelectorAll(".filter-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    currentPage = 1; // Reset para a primeira página ao mudar filtro
-    aplicarFiltroPesquisa();
-  });
-});
+            logout() {
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userData');
+                this.currentUser = null;
+                this.updateUI();
+                
+                const sidebar = document.querySelector('.sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+                const mainContent = document.getElementById('main-content');
+                
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                mainContent.classList.remove('sidebar-open');
+                
+                window.location.href = 'index.html';
+            }
+        }
 
-// --- Pesquisa ---
-function aplicarFiltroPesquisa() {
-  const searchInput = document.querySelector('.search-input');
-  const termo = searchInput.value.toLowerCase();
-  const categoriaAtiva = document.querySelector('.filter-btn.active').getAttribute('data-category');
-  let filtradas = todasAPIs;
+        // Configuração do Supabase
+        const SUPABASE_URL = "https://bllvhpayuglmkhgvoppv.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsbHZocGF5dWdsbWtoZ3ZvcHB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc3MTg3OTksImV4cCI6MjA3MzI5NDc5OX0.6y-iXrOZFl5ufsB06ZW1mAK6y5wPfTIEH8GhMsE_byw";
 
-  if (categoriaAtiva !== 'all') {
-    filtradas = filtradas.filter(api => getPrimaryCategory(api) === categoriaAtiva);
-  }
-  
-  if (termo) {
-    filtradas = filtradas.filter(api =>
-      (api.name || '').toLowerCase().includes(termo) ||
-      (api.description || '').toLowerCase().includes(termo) ||
-      (getPrimaryCategory(api) || '').toLowerCase().includes(termo)
-    );
-  }
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  renderizarAPIs(filtradas);
-}
+        let todasAPIs = [];
+        let currentPage = 1;
+        const itemsPerPage = 6;
+        let totalPages = 1;
 
-// Inicializar a pesquisa
-document.querySelector('.search-input').addEventListener('input', aplicarFiltroPesquisa);
-document.querySelector('.search-button').addEventListener('click', aplicarFiltroPesquisa);
+        // --- Helpers ---
+        function tryParseJSON(value) {
+            if (!value) return null;
+            if (typeof value !== 'string') return value;
+            try { return JSON.parse(value); } catch (e) { return null; }
+        }
 
-// --- Iniciar ---
-document.addEventListener('DOMContentLoaded', carregarAPIs);
-</script>
+        function prettyPrintJSON(value) {
+            const parsed = tryParseJSON(value);
+            if (parsed !== null) return JSON.stringify(parsed, null, 2);
+            return String(value || '');
+        }
+
+        function getPrimaryCategory(api) {
+            if (api.category) return api.category;
+            if (api.tags) {
+                const first = String(api.tags).split(',')[0].trim();
+                return first || 'Outros';
+            }
+            return 'Outros';
+        }
+
+        // --- Skeleton Loading ---
+        function mostrarSkeletonCards() {
+            const grid = document.getElementById("apis-grid");
+            grid.innerHTML = '';
+            
+            for (let i = 0; i < itemsPerPage; i++) {
+                const skeletonCard = document.createElement("div");
+                skeletonCard.classList.add("skeleton");
+                skeletonCard.innerHTML = `
+                    <div class="skeleton-header">
+                        <div class="skeleton-category"></div>
+                        <div class="skeleton-title"></div>
+                        <div class="skeleton-description"></div>
+                        <div class="skeleton-description short"></div>
+                    </div>
+                    <div class="skeleton-body">
+                        <div class="skeleton-detail"></div>
+                        <div class="skeleton-detail"></div>
+                        <div class="skeleton-detail"></div>
+                        <div class="skeleton-detail"></div>
+                    </div>
+                    <div class="skeleton-footer">
+                        <div class="skeleton-link"></div>
+                        <div class="skeleton-button"></div>
+                    </div>
+                `;
+                grid.appendChild(skeletonCard);
+            }
+        }
+
+        // --- Error Handling ---
+        function mostrarMensagemErro(mensagem, isError = true) {
+            const notification = document.getElementById('notification');
+            notification.innerHTML = `
+                <i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
+                <span>${mensagem}</span>
+            `;
+            notification.className = `notification ${isError ? 'error' : 'success'} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+
+        function mostrarEstadoErro(mensagem) {
+            const grid = document.getElementById("apis-grid");
+            grid.innerHTML = `
+                <div class="error-state">
+                    <div class="error-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>Ocorreu um erro</h3>
+                    <p>${mensagem}</p>
+                    <button class="retry-button" onclick="carregarAPIs()">
+                        <i class="fas fa-redo"></i> Tentar novamente
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById("pagination").innerHTML = '';
+        }
+
+        // --- Carregar APIs ---
+        async function carregarAPIs() {
+            const grid = document.getElementById("apis-grid");
+            if (grid) {
+                grid.innerHTML = '';
+                mostrarSkeletonCards();
+            }
+
+            try {
+                const { data, error } = await supabase.from("apis").select("*").order("name");
+                
+                if (error) {
+                    throw new Error(`Erro no Supabase: ${error.message}`);
+                }
+                
+                todasAPIs = data || [];
+                
+                if (todasAPIs.length === 0) {
+                    grid.innerHTML = "<p style='text-align: center; padding: 2rem;'>Nenhuma API encontrada no banco de dados.</p>";
+                    document.getElementById("pagination").innerHTML = '';
+                    return;
+                }
+                
+                totalPages = Math.ceil(todasAPIs.length / itemsPerPage);
+                atualizarPaginacao();
+                aplicarFiltroPesquisa();
+                
+            } catch (erro) {
+                console.error("Erro ao buscar APIs:", erro);
+                mostrarEstadoErro(erro.message || "Falha ao carregar as APIs. Verifique sua conexão e tente novamente.");
+            }
+        }
+
+        // --- Paginação ---
+        function atualizarPaginacao() {
+            const paginationContainer = document.getElementById("pagination");
+            if (!paginationContainer) return;
+            
+            let paginationHTML = '';
+            
+            // Botão anterior
+            paginationHTML += `
+                <button class="pagination-button" onclick="mudarPagina(${currentPage - 1})" 
+                        ${currentPage === 1 ? 'disabled' : ''}>
+                    &laquo;
+                </button>
+            `;
+            
+            // Botões de página
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    paginationHTML += `
+                        <button class="pagination-button ${currentPage === i ? 'active' : ''}" 
+                                onclick="mudarPagina(${i})">
+                            ${i}
+                        </button>
+                    `;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    paginationHTML += `<span class="pagination-ellipsis">...</span>`;
+                }
+            }
+            
+            // Botão próximo
+            paginationHTML += `
+                <button class="pagination-button" onclick="mudarPagina(${currentPage + 1})" 
+                        ${currentPage === totalPages ? 'disabled' : ''}>
+                    &raquo;
+                </button>
+            `;
+            
+            paginationContainer.innerHTML = paginationHTML;
+        }
+
+        function mudarPagina(pagina) {
+            if (pagina < 1 || pagina > totalPages) return;
+            
+            currentPage = pagina;
+            aplicarFiltroPesquisa();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- Renderização ---
+        function getCategoryClass(category) {
+            const map = { 
+                'Dados': 'category-dados', 
+                'Datas': 'category-datas', 
+                'Diversão': 'category-diversao', 
+                'Animais': 'category-animais', 
+                'Clima': 'category-clima',
+                'Palavras': 'category-palavras',
+                'Nomes': 'category-nomes',
+                'Financeiro': 'category-financeiro'
+            };
+            return map[category] || 'category-outros';
+        }
+
+        function renderizarAPIs(lista) {
+            const grid = document.getElementById("apis-grid");
+            if (!grid) return;
+            grid.innerHTML = "";
+
+            if (!lista || lista.length === 0) {
+                grid.innerHTML = "<p style='text-align: center; padding: 2rem;'>Nenhuma API encontrada.</p>";
+                document.getElementById("pagination").innerHTML = '';
+                return;
+            }
+
+            // Aplicar paginação
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const apisPaginadas = lista.slice(startIndex, endIndex);
+            
+            totalPages = Math.ceil(lista.length / itemsPerPage);
+            atualizarPaginacao();
+
+            apisPaginadas.forEach(api => {
+                const card = document.createElement("div");
+                card.classList.add("api-card", "animate");
+                const categoryLabel = getPrimaryCategory(api);
+                card.setAttribute("data-category", categoryLabel);
+
+                // ÍCONES ATUALIZADOS PARA TODAS AS CATEGORIAS
+                let icon = "fas fa-code";
+                if (categoryLabel === "Dados") icon = "fas fa-database";
+                if (categoryLabel === "Datas") icon = "fas fa-calendar";
+                if (categoryLabel === "Diversão") icon = "fas fa-gamepad";
+                if (categoryLabel === "Animais") icon = "fas fa-paw";
+                if (categoryLabel === "Clima") icon = "fas fa-cloud-sun";
+                if (categoryLabel === "Palavras") icon = "fas fa-pencil-alt";
+                if (categoryLabel === "Nomes") icon = "fas fa-user";
+                if (categoryLabel === "Financeiro") icon = "fas fa-money-bill-wave";
+
+                const fullEndpoint = `${api.base_url || ''}${api.endpoint_path || ''}`;
+
+                card.innerHTML = `
+                    <div class="api-card-header">
+                        <span class="api-card-category ${getCategoryClass(categoryLabel)}">
+                            <i class="${icon}"></i> ${categoryLabel}
+                        </span>
+                        <h3 class="api-card-title">${api.name || 'Sem nome'}</h3>
+                        <p class="api-card-description">${api.description || ''}</p>
+                    </div>
+                    <div class="api-card-body">
+                        <div class="api-details">
+                            <div class="api-detail-item"><i class="fas fa-link"></i><span><strong>Endpoint:</strong> ${fullEndpoint || '—'}</span></div>
+                            <div class="api-detail-item"><i class="fas fa-lock"></i><span><strong>Autenticação:</strong> ${api.authentication_type || 'Nenhuma'}</span></div>
+                            <div class="api-detail-item"><i class="fas fa-shield-alt"></i><span><strong>HTTPS:</strong> ${api.https ? 'Sim' : 'Não'}</span></div>
+                            <div class="api-detail-item"><i class="fas fa-exchange-alt"></i><span><strong>CORS:</strong> ${api.cors ? 'Suportado' : 'Não suportado'}</span></div>
+                        </div>
+                    </div>
+                    <div class="api-card-footer">
+                        <div class="api-link-container">
+                            <span class="api-link" title="${fullEndpoint}">${fullEndpoint}</span>
+                            <button class="copy-btn" data-url="${fullEndpoint}"><i class="fas fa-copy"></i> Copiar</button>
+                        </div>
+                        <button class="how-to-use-btn" onclick="abrirModal('${api.id}')"><i class="fas fa-book"></i> Como usar</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            document.querySelectorAll('.copy-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const url = e.currentTarget.getAttribute('data-url');
+                    copiarParaAreaDeTransferencia(url);
+                });
+            });
+        }
+
+        // --- Modal ---
+        function abrirModal(id) {
+            const api = todasAPIs.find(a => a.id === id);
+            if (!api) {
+                mostrarMensagemErro("API não encontrada.");
+                return;
+            }
+
+            const fullEndpoint = `${api.base_url || ''}${api.endpoint_path || ''}`;
+            const method = api.method || 'GET';
+            const responseFormatted = prettyPrintJSON(api.response_format);
+            const usageExample = api.usage_example || '';
+
+            let parametersTable = '';
+            const params = tryParseJSON(api.parameters);
+            if (params && typeof params === 'object' && Object.keys(params).length > 0) {
+                parametersTable = '<table class="parameter-table"><tr><th>Parâmetro</th><th>Descrição</th></tr>';
+                for (const [key, value] of Object.entries(params)) {
+                    parametersTable += `<tr><td><code>${key}</code></td><td>${value}</td></tr>`;
+                }
+                parametersTable += '</table>';
+            } else if (api.parameters && typeof api.parameters === 'string') {
+                parametersTable = `<pre>${api.parameters}</pre>`;
+            } else {
+                parametersTable = '<p>Nenhum parâmetro necessário ou informações não disponíveis.</p>';
+            }
+
+            document.getElementById("modal-title").innerHTML = `
+                ${api.name || 'Sem nome'}
+                <span class="modal-category ${getCategoryClass(getPrimaryCategory(api))}">${getPrimaryCategory(api)}</span>
+            `;
+
+            document.getElementById("modal-body").innerHTML = `
+                <div class="modal-section">
+                    <h3 class="modal-section-title"><i class="fas fa-info-circle"></i> Descrição</h3>
+                    <p>${api.description || ''}</p>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title"><i class="fas fa-link"></i> Endpoint</h3>
+                    <div class="modal-section-content">${fullEndpoint}</div>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title"><i class="fas fa-code"></i> Método HTTP</h3>
+                    <div class="modal-section-content">${method}</div>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title"><i class="fas fa-cog"></i> Parâmetros</h3>
+                    ${parametersTable}
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title"><i class="fas fa-code"></i> Exemplo de Uso</h3>
+                    <div class="code-example"><pre>${usageExample || 'Nenhum exemplo disponível.'}</pre></div>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title"><i class="fas fa-reply"></i> Resposta</h3>
+                    <div class="code-example"><pre>${responseFormatted || 'Nenhum exemplo de resposta disponível.'}</pre></div>
+                </div>
+            `;
+
+            document.getElementById("modal-overlay").classList.add("active");
+        }
+
+        // --- Utils ---
+        function copiarParaAreaDeTransferencia(texto) {
+            navigator.clipboard.writeText(texto).then(() => {
+                mostrarMensagemErro("Link copiado para a área de transferência!", false);
+            }).catch(err => {
+                console.error('Falha ao copiar texto: ', err);
+                mostrarMensagemErro("Falha ao copiar o link.");
+            });
+        }
+
+        // --- Modal close ---
+        document.getElementById("modal-close").addEventListener("click", () => {
+            document.getElementById("modal-overlay").classList.remove("active");
+        });
+        document.getElementById("modal-overlay").addEventListener("click", e => {
+            if (e.target === document.getElementById("modal-overlay")) {
+                document.getElementById("modal-overlay").classList.remove("active");
+            }
+        });
+
+        // --- Filtros ---
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                currentPage = 1; // Reset para a primeira página ao mudar filtro
+                aplicarFiltroPesquisa();
+            });
+        });
+
+        // --- Pesquisa ---
+        function aplicarFiltroPesquisa() {
+            const searchInput = document.querySelector('.search-input');
+            const termo = searchInput.value.toLowerCase();
+            const categoriaAtiva = document.querySelector('.filter-btn.active').getAttribute('data-category');
+            let filtradas = todasAPIs;
+
+            if (categoriaAtiva !== 'all') {
+                filtradas = filtradas.filter(api => getPrimaryCategory(api) === categoriaAtiva);
+            }
+            
+            if (termo) {
+                filtradas = filtradas.filter(api =>
+                    (api.name || '').toLowerCase().includes(termo) ||
+                    (api.description || '').toLowerCase().includes(termo) ||
+                    (getPrimaryCategory(api) || '').toLowerCase().includes(termo)
+                );
+            }
+
+            renderizarAPIs(filtradas);
+        }
+
+        // Inicializar a pesquisa
+        document.querySelector('.search-input').addEventListener('input', aplicarFiltroPesquisa);
+        document.querySelector('.search-button').addEventListener('click', aplicarFiltroPesquisa);
+
+        // --- Inicialização ---
+        document.addEventListener('DOMContentLoaded', function() {
+            window.authSystem = new AuthSystem();
+            carregarAPIs();
+            
+            // Animações de entrada
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
