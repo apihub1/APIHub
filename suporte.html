@@ -1,24 +1,29 @@
 <!DOCTYPE html>
 <html lang="pt-br" dir="ltr">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0M15TSB52W"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-0M15TSB52W');
-</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0M15TSB52W"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-0M15TSB52W');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO OTIMIZADO MAS DISCRETO -->
     <meta name="description" content="Suporte APIHub - Obtenha ajuda para usar nossas APIs, tire dúvidas e entre em contato com nossa equipe.">
     <meta name="keywords" content="suporte API, ajuda desenvolvimento, contato APIHub, dúvidas API">
     <meta name="author" content="APIHub">
+    <meta name="robots" content="index, follow">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    
     <title>Suporte - APIHub</title>
+    
     <style>
         :root {
             --primary: #2563eb;
@@ -29,6 +34,8 @@
             --text-light: #6b7280;
             --background: #f9fafb;
             --card-bg: #ffffff;
+            --sidebar-bg: #1f2937;
+            --sidebar-hover: #374151;
             --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
             --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -46,15 +53,194 @@
             color: var(--text);
             background-color: var(--background);
             overflow-x: hidden;
+            display: flex;
+            min-height: 100vh;
         }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
-        /* Header Styles */
-       header {
+        /* SIDEBAR ESTILO DEEPSEEK */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            color: white;
+            display: none;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            right: 0;
+            top: 0;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem 1.5rem;
+            border-bottom: 1px solid #374151;
+            text-align: center;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            border: 3px solid #4b5563;
+        }
+
+        .user-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-info p {
+            color: #d1d5db;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 1.5rem 0;
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-section h4 {
+            padding: 0 1.5rem 0.75rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #9ca3af;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: var(--sidebar-hover);
+            color: white;
+            border-left-color: var(--primary);
+        }
+
+        .nav-item i {
+            width: 20px;
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-footer {
+            padding: 1.5rem;
+            border-top: 1px solid #374151;
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.75rem;
+            background: #dc2626;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            gap: 8px;
+        }
+
+        .logout-btn:hover {
+            background: #b91c1c;
+            transform: translateY(-1px);
+        }
+
+        /* TOGGLE SIDEBAR BUTTON */
+        .sidebar-toggle {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: var(--shadow-hover);
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .sidebar-toggle:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        /* OVERLAY */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            transition: margin-right 0.3s ease;
+        }
+
+        .main-content.sidebar-open {
+            margin-right: 280px;
+        }
+
+        /* HEADER STYLES */
+        header {
             background: var(--gradient);
             color: white;
             padding: 1.5rem 0;
@@ -118,41 +304,58 @@
         }
 
         .login a {
-    color: white;
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
-}
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
 
-.login a:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    text-decoration: none;
-}
+        .login a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            text-decoration: none;
+        }
 
-        /* Hero Section */
+        /* HERO SECTION */
         .hero {
-            padding: 3rem 0;
+            padding: 4rem 0;
             text-align: center;
             background: var(--gradient);
             color: white;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
         }
 
         .hero h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin-bottom: 1rem;
             font-weight: 700;
         }
 
         .hero p {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             max-width: 700px;
-            margin: 0 auto;
+            margin: 0 auto 2rem;
             opacity: 0.9;
         }
 
-        /* Section Styles */
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: var(--primary);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* SECTION STYLES */
         section {
             padding: 4rem 0;
         }
@@ -179,7 +382,6 @@
             border-radius: 2px;
         }
 
-        /* Content Sections */
         .content-section {
             background: var(--card-bg);
             border-radius: 12px;
@@ -396,7 +598,7 @@
             font-size: 1.3rem;
         }
 
-        /* Footer */
+        /* FOOTER */
         footer {
             background: var(--text);
             color: white;
@@ -459,34 +661,6 @@
             font-size: 0.9rem;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            nav ul {
-              gap: 0.6rem;
-              flex-wrap: wrap;
-              justify-content: center;
-              flex-direction: column;
-            }
-
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .support-options {
-                grid-template-columns: 1fr;
-            }
-            
-            .section-title h2 {
-                font-size: 1.8rem;
-            }
-        }
-
         /* Notification */
         .notification {
             position: fixed;
@@ -507,252 +681,495 @@
             transform: translateY(0);
             opacity: 1;
         }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+            }
+            
+            .main-content.sidebar-open {
+                margin-right: 0;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 0.6rem;
+                flex-wrap: wrap;
+                justify-content: center;
+                flex-direction: column;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .support-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .sidebar-toggle {
+                right: 15px;
+                top: 15px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav a i {
+                margin-right: 5px;
+            }
+            
+            .login a {
+                width: auto;
+                padding: 8px 15px;
+            }
+        }
+
+        /* ANIMATION */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
     </style>
 </head>
 <body>
-   <header>
+    <!-- SIDEBAR -->
+    <div class="sidebar-overlay"></div>
+    
+    <button class="sidebar-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <h3 id="sidebar-username">Visitante</h3>
+                    <p id="sidebar-email">Faça login para acessar</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <h4>Menu</h4>
+                <a href="favoritos.html" class="nav-item">
+                    <i class="fas fa-star"></i>
+                    <span>APIs Favoritas</span>
+                </a>
+                <a href="configuracoes.html" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Configurações</span>
+                </a>
+            </div>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <button class="logout-btn" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Sair</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content" id="main-content">
+        <header>
             <div class="container header-content">
                 <div class="logo-container">
                     <img src="Logo.png" alt="APIHub - Centro de recursos para desenvolvedores de API" class="logo">
                 </div>
                 <nav>
                     <ul>
-                        <li><a href="index.html"><i class="fas fa-home"></i>  Início</a></li>
-                        <li><a href="apis.html"><i class="fas fa-th-list"></i>  Catálogo de APIs</a></li> 
-                        <li><a href="suporte.html"><i class="fas fa-headset"></i>  Suporte</a></li>
+                        <li><a href="index.html"><i class="fas fa-home"></i> Início</a></li>
+                        <li><a href="apis.html"><i class="fas fa-th-list"></i> Catálogo de APIs</a></li> 
+                        <li><a href="suporte.html"><i class="fas fa-headset"></i> Suporte</a></li>
                     </ul>
                     <div class="login"><a href="login.html">Login</a></div>
                 </nav>
             </div>
         </header>
-    <div class="hero">
-        <div class="container">
-            <h1>Suporte APIHub</h1>
-            <p>Estamos aqui para ajudar você a tirar o máximo proveito das APIs</p>
+
+        <div class="hero">
+            <div class="container">
+                <h1>Suporte APIHub</h1>
+                <p>Estamos aqui para ajudar você a tirar o máximo proveito das APIs</p>
+            </div>
         </div>
+
+        <main class="container">
+            <section class="support-options animate">
+                <div class="support-card">
+                    <div class="support-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Suporte por E-mail</h3>
+                    <p>Entre em contato conosco diretamente por e-mail para assistência personalizada</p>
+                    <a href="mailto:jose.silva2399@etec.sp.gov.br" target="_blank" class="support-btn">Enviar E-mail</a>
+                </div>
+                
+                <div class="support-card">
+                    <div class="support-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>Documentação</h3>
+                    <p>Acesse nossa documentação completa com guias detalhados e exemplos de uso</p>
+                    <a href="documentacao-oficial-apihub.pdf" target="_blank" class="support-btn">Acessar Documentação</a>
+                </div> 
+                
+                <div class="support-card">
+                    <div class="support-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Comunidade</h3>
+                    <p>Junte-se à nossa comunidade de desenvolvedores para compartilhar conhecimento</p>
+                    <a href="#" class="support-btn">Participar</a>
+                </div>
+            </section>
+
+            <section class="animate delay-1">
+                <div class="section-title">
+                    <h2>Entre em Contato</h2>
+                </div>
+                
+                <div class="content-section">
+                    <form action="https://formsubmit.co/apihub.contato@gmail.com" method="POST" id="support-form">
+                        <div class="form-group">
+                            <label for="name">Nome</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Seu nome completo" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="seu@email.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Assunto</label>
+                            <select id="subject" name="subject" class="form-control" required>
+                                <option value="">Selecione o assunto</option>
+                                <option value="Dúvida sobre uso de API">Dúvida sobre uso de API</option>
+                                <option value="Problema técnico">Problema técnico</option>
+                                <option value="Sugestão">Sugestão</option>
+                                <option value="Referências/Créditos">Referências/Créditos</option>
+                                <option value="Remoção de API">Remoção de API</option>
+                                <option value="Outro">Outro</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Mensagem</label>
+                            <textarea id="message" name="message" class="form-control" placeholder="Descreva sua dúvida ou problema em detalhes..." required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn" target="_blank">Enviar Mensagem</button>
+                    </form>
+                </div>
+            </section>
+
+            <section class="animate delay-2">
+                <div class="section-title">
+                    <h2>Perguntas Frequentes</h2>
+                </div>
+                
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Como começar a usar uma API do catálogo?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                <p>Para começar a usar uma API do nosso catálogo, primeiro localize a API desejada na página de catálogo. Clique no botão "Copiar" para obter o endpoint da API. Veja na descrição da API como usar ela. Coloque em seu sistema/site/software e bom proveito!</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Preciso pagar para usar as APIs?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                <p>O APIHub é um catálogo que reúne informações sobre APIs disponíveis publicamente. Algumas APIs são gratuitas, enquanto outras são pagas, isso varia dependendo da complexidade.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Por que algumas APIs são tão lentas?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                <p>Infelizmente, o APIHub ainda não tem nenhum lucro monetário, nenhum investimento aplicado e nenhum dinheiro arrecadado. Por isso, algumas de nossas APIs são hospedadas em serviços gratuitos, tornando-as mais lentas por não ficarem sempre ativas, tendo sempre que iniciar o servidor após um tempo de inatividade.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Tenho uma API no APIHub, como receber reconhecimento/remover?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                <p>Primeiramente perdão, pois nós da APIHub muitas vezes achamos as APIs open, mas não seus criadores.<br> Mas para receber o seu crédito ou solicitar a remoção dela é bem simples, apenas nos envie um <a style="color: blue; text-decoration: none;" href="#support-form">e-mail</a> solicitando o reconhecimento ou a remoção da API. Juntamente com o e-mail, também nos envie provas de que tal API é sua ou foi criada por você. E seu caso estará resolvido!</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Como resolver erros comuns de autenticação?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                <p>Erros de autenticação geralmente ocorrem por esses motivos:</p>
+                                <ul>
+                                    <li>Chave de API ausente ou inválida</li>
+                                    <li>Permissões insuficientes para a operação solicitada</li>
+                                    <li>IP não autorizado (quando há restrições por endereço IP)</li>
+                                </ul>
+                                <p>Verifique se você está incluindo a chave de API no cabeçalho ou parâmetro correto.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="benefits animate delay-3">
+                <div class="container">
+                    <div class="section-title">
+                        <h2 style="color: white;">Por que escolher o APIHub?</h2>
+                    </div>
+                    <div class="benefits-grid">
+                        <div class="benefit-item">
+                            <i class="benefit-icon fas fa-headset"></i>
+                            <h3>Suporte Especializado</h3>
+                            <p>Nossa equipe está pronta para ajudar você com qualquer dúvida técnica</p>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="benefit-icon fas fa-rocket"></i>
+                            <h3>Resposta Rápida</h3>
+                            <p>Respondemos a todas as consultas em até 48 horas</p>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="benefit-icon fas fa-graduation-cap"></i>
+                            <h3>Recursos Educativos</h3>
+                            <p>Disponibilizamos tutoriais e guias para facilitar seu aprendizado</p>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="benefit-icon fas fa-shield-alt"></i>
+                            <h3>Segurança</h3>
+                            <p>Garantimos a privacidade e segurança dos seus dados</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <div class="notification" id="notification">Sua mensagem foi enviada com sucesso!</div>
+
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-info">
+                        <div class="footer-logo">APIHub</div>
+                        <p>Seu centro de recursos para desenvolvimento e integração de APIs.</p>
+                        <div class="contact-info">
+                            <p><i class="fas fa-envelope"></i> apihub.contato@gmail.com</p>
+                            <p><i class="fas fa-clock"></i> Segunda a sexta, das 9h às 18h</p>
+                        </div>
+                    </div>
+                    <div class="footer-links">
+                        <h4>Links Rápidos</h4>
+                        <ul>
+                            <li><a href="index.html">Início</a></li>
+                            <li><a href="apis.html">APIs</a></li>
+                            <li><a href="suporte.html">Suporte</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2025 APIHub - Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </footer>
     </div>
 
-    <main class="container">
-        <section class="support-options">
-            <div class="support-card">
-                <div class="support-icon">
-                    <i class="fas fa-envelope"></i>
-                </div>
-                <h3>Suporte por E-mail</h3>
-                <p>Entre em contato conosco diretamente por e-mail para assistência personalizada</p>
-                <a href="mailto:jose.silva2399@etec.sp.gov.br" target="_blank" class="support-btn">Enviar E-mail</a>
-            </div>
-            
-            <div class="support-card">
-                <div class="support-icon">
-                    <i class="fas fa-book"></i>
-                </div>
-                <h3>Documentação</h3>
-                <p>Acesse nossa documentação completa com guias detalhados e exemplos de uso</p>
-                <a href="documentacao-oficial-apihub.pdf" target="_blank" class="support-btn">Acessar Documentação</a>
-            </div> 
-            
-            <div class="support-card">
-                <div class="support-icon">
-                    <i class="fas fa-comments"></i>
-                </div>
-                <h3>Comunidade</h3>
-                <p>Junte-se à nossa comunidade de desenvolvedores para compartilhar conhecimento</p>
-                <a href="#" class="support-btn">Participar</a>
-            </div>
-        </section>
-
-        <section>
-            <div class="section-title">
-                <h2>Entre em Contato</h2>
-            </div>
-            
-           <div class="content-section">
-    <form action="https://formsubmit.co/apihub.contato@gmail.com" method="POST" id="support-form">
-        <div class="form-group">
-            <label for="name">Nome</label>
-            <input type="text" id="name" name="name" class="form-control" placeholder="Seu nome completo" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="email">E-mail</label>
-            <input type="email" id="email" name="email" class="form-control" placeholder="seu@email.com" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="subject">Assunto</label>
-            <select id="subject" name="subject" class="form-control" required>
-                <option value="">Selecione o assunto</option>
-                <option value="Dúvida sobre uso de API">Dúvida sobre uso de API</option>
-                <option value="Problema técnico">Problema técnico</option>
-                <option value="Sugestão">Sugestão</option>
-                <option value="Referências/Créditos">Referências/Créditos</option>
-                <option value="Remoção de API">Remoção de API</option>
-                <option value="Outro">Outro</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label for="message">Mensagem</label>
-            <textarea id="message" name="message" class="form-control" placeholder="Descreva sua dúvida ou problema em detalhes..." required></textarea>
-        </div>
-        
-        <button type="submit" class="submit-btn" target="_blank">Enviar Mensagem</button>
-    </form>
-</div>
-
-
-        <section>
-            <div class="section-title">
-                <h2>Perguntas Frequentes</h2>
-            </div>
-            
-            <div class="faq-list">
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Como começar a usar uma API do catálogo?</span>
-                        <i class="fas fa-chevron-down faq-icon"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            <p>Para começar a usar uma API do nosso catálogo, primeiro localize a API desejada na página de catálogo. Clique no botão "Copiar" para obter o endpoint da API. Veja na descrição da API como usar ela. Coloque em seu sistema/site/software e bom proveito!</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Preciso pagar para usar as APIs?</span>
-                        <i class="fas fa-chevron-down faq-icon"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            <p>O APIHub é um catálogo que reúne informações sobre APIs disponíveis publicamente. Algumas APIs são gratuitas, enquanto outras são pagas, isso varia dependendo da complexidade.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Por que algumas APIs são tão lentas?</span>
-                        <i class="fas fa-chevron-down faq-icon"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            <p>Infelizmente, o APIHub ainda não tem nenhum lucro monetário, nenhum investimento aplicado e nenhum dinheiro arrecadado. Por isso, algumas de nossas APIs são hospedadas em serviços gratuitos, tornando-as mais lentas por não ficarem sempre ativas, tendo sempre que iniciar o servidor após um tempo de inatividade.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Tenho uma API no APIHub, como receber reconhecimento/remover?</span>
-                        <i class="fas fa-chevron-down faq-icon"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            <p>Primeiramente perdão, pois nós da APIHub muitas vezes achamos as APIs open, mas não seus criadores.<br> Mas para receber o seu crédito ou solicitar a remoção dela é bem simples, apenas nos envie um <a style="color: blue; text-decoration: none;" href="#support-form">e-mail</a> solicitando o reconhecimento ou a remoção da API. Juntamente com o e-mail, também nos envie provas de que tal API é sua ou foi criada por você. E seu caso estará resolvido!</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Como resolver erros comuns de autenticação?</span>
-                        <i class="fas fa-chevron-down faq-icon"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            <p>Erros de autenticação geralmente ocorrem por esses motivos:</p>
-                            <ul>
-                                <li>Chave de API ausente ou inválida</li>
-                                <li>Permissões insuficientes para a operação solicitada</li>
-                                <li>IP não autorizado (quando há restrições por endereço IP)</li>
-                            </ul>
-                            <p>Verifique se você está incluindo a chave de API no cabeçalho ou parâmetro correto.</p>
-                        </div>
-                    </div>
-                </div>
-
-        </section>
-
-        <section class="benefits">
-            <div class="container">
-                <div class="section-title">
-                    <h2 style="color: white;">Por que escolher o APIHub?</h2>
-                </div>
-                <div class="benefits-grid">
-                    <div class="benefit-item">
-                        <i class="benefit-icon fas fa-headset"></i>
-                        <h3>Suporte Especializado</h3>
-                        <p>Nossa equipe está pronta para ajudar você com qualquer dúvida técnica</p>
-                    </div>
-                    <div class="benefit-item">
-                        <i class="benefit-icon fas fa-rocket"></i>
-                        <h3>Resposta Rápida</h3>
-                        <p>Respondemos a todas as consultas em até 48 horas</p>
-                    </div>
-                    <div class="benefit-item">
-                        <i class="benefit-icon fas fa-graduation-cap"></i>
-                        <h3>Recursos Educativos</h3>
-                        <p>Disponibilizamos tutoriais e guias para facilitar seu aprendizado</p>
-                    </div>
-                    <div class="benefit-item">
-                        <i class="benefit-icon fas fa-shield-alt"></i>
-                        <h3>Segurança</h3>
-                        <p>Garantimos a privacidade e segurança dos seus dados</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-info">
-                    <div class="footer-logo">APIHub</div>
-                    <p>Seu centro de recursos para desenvolvimento e integração de APIs.</p>
-                    <div class="contact-info">
-                        <p><i class="fas fa-envelope"></i> apihub.contato@gmail.com</p>
-                        <p><i class="fas fa-clock"></i> Segunda a sexta, das 9h às 18h</p>
-                    </div>
-                </div>
-                <div class="footer-links">
-                    <h4>Links Rápidos</h4>
-                    <ul>
-                        <li><a href="index.html">Início</a></li>
-                        <li><a href="apis.html">APIs</a></li>
-                        <li><a href="contato.html">Suporte</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2025 APIHub - Todos os direitos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
-    <div class="notification" id="notification">Sua mensagem foi enviada com sucesso!</div>
-
     <script>
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const item = question.parentElement;
-                item.classList.toggle('active');
-            });
-        });
+        // Sistema de Autenticação
+        class AuthSystem {
+            constructor() {
+                this.currentUser = null;
+                this.checkLoginStatus();
+            }
 
+            checkLoginStatus() {
+                const token = localStorage.getItem('authToken');
+                const userData = localStorage.getItem('userData');
+                
+                if (token && userData) {
+                    this.currentUser = JSON.parse(userData);
+                    this.updateUI();
+                    this.initSidebar();
+                    return true;
+                }
+                return false;
+            }
 
-        const emailLink = document.querySelector('a[href^="mailto"]');
-        emailLink.addEventListener('click', () => {
-            const notification = document.getElementById('notification');
-            notification.textContent = 'Redirecionando para seu cliente de e-mail...';
-            notification.classList.add('show');
+            updateUI() {
+                const loginBtn = document.querySelector('.login a');
+                const sidebarToggle = document.querySelector('.sidebar-toggle');
+                const sidebar = document.querySelector('.sidebar');
+                
+                if (this.currentUser) {
+                    loginBtn.textContent = ''; // Mudado para vazio
+                    loginBtn.href = '#';
+                    
+                    sidebarToggle.style.display = 'block';
+                    sidebar.style.display = 'flex';
+                    
+                    this.updateSidebarUserInfo();
+                    
+                } else {
+                    loginBtn.textContent = 'Login';
+                    loginBtn.href = 'login.html';
+                    sidebarToggle.style.display = 'none';
+                    sidebar.style.display = 'none';
+                }
+            }
+
+            updateSidebarUserInfo() {
+                if (this.currentUser) {
+                    document.getElementById('sidebar-username').textContent = this.currentUser.name || 'Usuário';
+                    document.getElementById('sidebar-email').textContent = this.currentUser.email || 'Bem-vindo!';
+                }
+            }
+
+            initSidebar() {
+                const toggleBtn = document.querySelector('.sidebar-toggle');
+                const sidebar = document.querySelector('.sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+                const mainContent = document.getElementById('main-content');
+                const logoutBtn = document.getElementById('logout-btn');
+
+                toggleBtn.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                    overlay.classList.toggle('active');
+                    mainContent.classList.toggle('sidebar-open');
+                });
+
+                overlay.addEventListener('click', () => {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                    mainContent.classList.remove('sidebar-open');
+                });
+
+                logoutBtn.addEventListener('click', () => {
+                    this.logout();
+                });
+            }
+
+            logout() {
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userData');
+                this.currentUser = null;
+                this.updateUI();
+                
+                const sidebar = document.querySelector('.sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+                const mainContent = document.getElementById('main-content');
+                
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                mainContent.classList.remove('sidebar-open');
+                
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            window.authSystem = new AuthSystem();
             
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
+            // FAQ functionality
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', () => {
+                    const item = question.parentElement;
+                    item.classList.toggle('active');
+                });
+            });
+
+            // Email notification
+            const emailLink = document.querySelector('a[href^="mailto"]');
+            emailLink.addEventListener('click', () => {
+                const notification = document.getElementById('notification');
+                notification.textContent = 'Redirecionando para seu cliente de e-mail...';
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            });
+
+            // Animações de entrada
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('section').forEach(section => {
+                observer.observe(section);
+            });
         });
     </script>
 </body>
