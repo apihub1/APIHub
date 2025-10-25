@@ -41,6 +41,10 @@
             --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 
             /* Cores para categorias */
+            --color-imagens: #EC4899;
+            --color-livros: #8B4513;
+            --color-produtos: #059669;
+            --color-traducao: #7C3AED;
             --color-dados: #3b82f6;
             --color-datas: #10b981;
             --color-diversao: #f59e0b;
@@ -998,6 +1002,22 @@
         }
 
         /* Cores para categorias */
+        .category-imagens {
+            background-color: var(--color-imagens);
+        }
+
+        .category-livros {
+            background-color: var(--color-livros);
+        }
+
+        .category-produtos {
+            background-color: var(--color-produtos);
+        }
+
+        .category-traducao {
+            background-color: var(--color-traducao);
+        }
+
         .category-dados {
             background-color: var(--color-dados);
         }
@@ -1035,6 +1055,22 @@
         }
 
         /* Borda superior colorida baseada na categoria */
+        .api-card[data-category="Imagens"] {
+            border-top: 4px solid var(--color-imagens);
+        }
+
+        .api-card[data-category="Livros"] {
+            border-top: 4px solid var(--color-livros);
+        }
+
+        .api-card[data-category="Produtos"] {
+            border-top: 4px solid var(--color-produtos);
+        }
+
+        .api-card[data-category="Tradução"] {
+            border-top: 4px solid var(--color-traducao);
+        }
+
         .api-card[data-category="Dados"] {
             border-top: 4px solid var(--color-dados);
         }
@@ -1067,7 +1103,7 @@
             border-top: 4px solid var(--color-financeiro);
         }
 
-        .api-card[data-category]:not([data-category="Dados"]):not([data-category="Datas"]):not([data-category="Diversão"]):not([data-category="Animais"]):not([data-category="Clima"]):not([data-category="Palavras"]):not([data-category="Nomes"]):not([data-category="Financeiro"]) {
+        .api-card[data-category]:not([data-category="Imagens"]):not([data-category="Livros"]):not([data-category="Produtos"]):not([data-category="Tradução"]):not([data-category="Dados"]):not([data-category="Datas"]):not([data-category="Diversão"]):not([data-category="Animais"]):not([data-category="Clima"]):not([data-category="Palavras"]):not([data-category="Nomes"]):not([data-category="Financeiro"]) {
             border-top: 4px solid var(--color-outros);
         }
 
@@ -1268,6 +1304,10 @@
                     </div>
                     <div class="filters">
                         <button class="filter-btn active" data-category="all"><i class="fas fa-layer-group"></i> Todas</button>
+                        <button class="filter-btn" data-category="Imagens"><i class="fas fa-image"></i> Imagens</button>
+                        <button class="filter-btn" data-category="Livros"><i class="fas fa-book"></i> Livros</button>
+                        <button class="filter-btn" data-category="Produtos"><i class="fas fa-box-open"></i> Produtos</button>
+                        <button class="filter-btn" data-category="Tradução"><i class="fas fa-language"></i> Tradução</button>
                         <button class="filter-btn" data-category="Dados"><i class="fas fa-database"></i> Dados</button>
                         <button class="filter-btn" data-category="Datas"><i class="fas fa-calendar"></i> Datas</button>
                         <button class="filter-btn" data-category="Diversão"><i class="fas fa-gamepad"></i> Diversão</button>
@@ -1276,10 +1316,6 @@
                         <button class="filter-btn" data-category="Palavras"><i class="fas fa-pencil-alt"></i> Palavras</button>
                         <button class="filter-btn" data-category="Nomes"><i class="fas fa-user"></i> Nomes</button>
                         <button class="filter-btn" data-category="Financeiro"><i class="fas fa-money-bill-wave"></i> Financeiro</button>
-                        <button class="filter-btn" data-category="Tradução"><i class="fas fa-language"></i> Tradução</button>
-                        <button class="filter-btn" data-category="Produtos"><i class="fas fa-box-open"></i> Produtos</button>
-                        <button class="filter-btn" data-category="Imagens"><i class="fas fa-image"></i> Imagens</button>
-                        <button class="filter-btn" data-category="Livros"><i class="fas fa-book"></i> Livros</button>
                     </div>
                 </div>
             </section>
@@ -1619,6 +1655,10 @@
         // --- Renderização ---
         function getCategoryClass(category) {
             const map = { 
+                'Imagens': 'category-imagens',
+                'Livros': 'category-livros',
+                'Produtos': 'category-produtos',
+                'Tradução': 'category-traducao',
                 'Dados': 'category-dados', 
                 'Datas': 'category-datas', 
                 'Diversão': 'category-diversao', 
@@ -1658,6 +1698,10 @@
 
                 // ÍCONES ATUALIZADOS PARA TODAS AS CATEGORIAS
                 let icon = "fas fa-code";
+                if (categoryLabel === "Imagens") icon = "fas fa-image";
+                if (categoryLabel === "Livros") icon = "fas fa-book";
+                if (categoryLabel === "Produtos") icon = "fas fa-box-open";
+                if (categoryLabel === "Tradução") icon = "fas fa-language";
                 if (categoryLabel === "Dados") icon = "fas fa-database";
                 if (categoryLabel === "Datas") icon = "fas fa-calendar";
                 if (categoryLabel === "Diversão") icon = "fas fa-gamepad";
