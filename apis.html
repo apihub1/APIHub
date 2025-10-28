@@ -1826,16 +1826,6 @@
             }
         });
 
-        // --- Filtros ---
-        document.querySelectorAll(".filter-btn").forEach(btn => {
-            btn.addEventListener("click", () => {
-                document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-                btn.classList.add("active");
-                currentPage = 1; // Reset para a primeira página ao mudar filtro
-                aplicarFiltroPesquisa();
-            });
-        });
-
         // --- Pesquisa ---
         function aplicarFiltroPesquisa() {
             const searchInput = document.querySelector('.search-input');
@@ -1889,6 +1879,7 @@
     </script>
 </body>
 </html>
+
 
 
 
