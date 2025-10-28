@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br" dir="ltr">
 <head>
@@ -1826,30 +1827,27 @@
             }
         });
 
-        // --- Pesquisa ---
-        function aplicarFiltroPesquisa() {
-            const searchInput = document.querySelector('.search-input');
-            const termo = searchInput.value.toLowerCase();
-            const categoriaAtiva = document.querySelector('.filter-btn.active').getAttribute('data-category');
-            let filtradas = todasAPIs;
-
-            if (categoriaAtiva !== 'all') {
-                filtradas = filtradas.filter(api => getPrimaryCategory(api) === categoriaAtiva);
-            }
-            
-            if (termo) {
-                filtradas = filtradas.filter(api =>
-                    (api.name || '').toLowerCase().includes(termo) ||
-                    (api.description || '').toLowerCase().includes(termo) ||
-                    (getPrimaryCategory(api) || '').toLowerCase().includes(termo)
-                );
-            }
-
-            renderizarAPIs(filtradas);
-        }
-
         // Inicializar a pesquisa
         document.querySelector('.search-input').addEventListener('input', aplicarFiltroPesquisa);
+
+        // --- Filtro e Pesquisa ---
+function aplicarFiltroPesquisa() {
+    const searchInput = document.querySelector('.search-input');
+    const termo = searchInput.value.toLowerCase();
+    
+    let filtradas = todasAPIs;
+    
+    // Apenas pesquisa por texto, sem filtros de categoria
+    if (termo) {
+        filtradas = filtradas.filter(api =>
+            (api.name || '').toLowerCase().includes(termo) ||
+            (api.description || '').toLowerCase().includes(termo) ||
+            (getPrimaryCategory(api) || '').toLowerCase().includes(termo)
+        );
+    }
+
+    renderizarAPIs(filtradas);
+}
         document.querySelector('.search-button').addEventListener('click', aplicarFiltroPesquisa);
 
         // --- Inicialização ---
@@ -1879,7 +1877,5 @@
     </script>
 </body>
 </html>
-
-
 
 
