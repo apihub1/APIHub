@@ -1571,115 +1571,126 @@
     }
 
     // --- Sistema de Favoritos CORRIGIDO ---
-    class FavoriteSystem {
-        constructor() {
-            this.currentUser = null;
-            this.userFavorites = new Set();
-        }
+    // --- Sistema de Favoritos CORRIGIDO com URL do backend ---
+class FavoriteSystem {
+    constructor() {
+        this.currentUser = null;
+        this.userFavorites = new Set();
+        this.backendUrl = "https://apihub-br.duckdns.org"; // ✅ URL do seu backend
+    }
 
-        async init() {
-            this.currentUser = window.authSystem?.currentUser;
-            if (this.currentUser) {
-                await this.loadUserFavorites();
-            }
-        }
-
-        // CORRIGIDO: Agora chama SEU backend
-        async loadUserFavorites() {
-            if (!this.currentUser) return;
-
-            try {
-                const response = await fetch(`/favoritos/${this.currentUser.id}`);
-                
-                if (!response.ok) throw new Error('Erro ao carregar favoritos');
-                
-                const data = await response.json();
-                
-                // Extrai os api_ids da resposta
-                this.userFavorites = new Set(data.map(fav => fav.apis.id));
-                this.updateFavoriteButtons();
-            } catch (error) {
-                console.error('Erro ao carregar favoritos:', error);
-            }
-        }
-
-        updateFavoriteButtons() {
-            document.querySelectorAll('.favorite-btn').forEach(btn => {
-                const apiId = btn.getAttribute('data-api-id');
-                const icon = btn.querySelector('i');
-                
-                if (this.userFavorites.has(apiId)) {
-                    btn.classList.add('favorited');
-                    icon.classList.add('fas');
-                    icon.classList.remove('far');
-                    btn.title = 'Remover dos favoritos';
-                } else {
-                    btn.classList.remove('favorited');
-                    icon.classList.add('far');
-                    icon.classList.remove('fas');
-                    btn.title = 'Adicionar aos favoritos';
-                }
-            });
-        }
-
-        // CORRIGIDO: Agora chama SEU backend
-        async toggleFavorite(apiId) {
-            if (!this.currentUser) {
-                mostrarMensagemLogin();
-                return false;
-            }
-
-            try {
-                const isFavorited = this.userFavorites.has(apiId);
-                
-                if (isFavorited) {
-                    // Remove favorito - chamando SEU backend
-                    const response = await fetch('/favoritos', {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            user_id: this.currentUser.id,
-                            api_id: apiId
-                        })
-                    });
-
-                    if (!response.ok) throw new Error('Erro ao remover favorito');
-                    
-                    this.userFavorites.delete(apiId);
-                    mostrarMensagemErro('API removida dos favoritos', false);
-                } else {
-                    const response = await fetch('/favoritos', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            user_id: this.currentUser.id,
-                            api_id: apiId
-                        })
-                    });
-
-                    if (!response.ok) throw new Error('Erro ao favoritar');
-                    
-                    this.userFavorites.add(apiId);
-                    mostrarMensagemErro('API adicionada aos favoritos!', false);
-                }
-
-                this.updateFavoriteButtons();
-                return true;
-            } catch (error) {
-                console.error('Erro ao alternar favorito:', error);
-                mostrarMensagemErro('Erro ao salvar favorito', true);
-                return false;
-            }
-        }
-
-        isFavorite(apiId) {
-            return this.userFavorites.has(apiId);
+    async init() {
+        this.currentUser = window.authSystem?.currentUser;
+        if (this.currentUser) {
+            await this.loadUserFavorites();
         }
     }
+
+    // CORRIGIDO: Agora chama SEU backend com URL completa
+    async loadUserFavorites() {
+        if (!this.currentUser) return;
+
+        try {
+            const response = await fetch(`${this.backendUrl}/favoritos/${this.currentUser.id}`);
+            
+            if (!response.ok) throw new Error('Erro ao carregar favoritos');
+            
+            const data = await response.json();
+            
+            // Extrai os api_ids da resposta
+            this.userFavorites = new Set(data.map(fav => fav.apis.id));
+            this.updateFavoriteButtons();
+        } catch (error) {
+            console.error('Erro ao carregar favoritos:', error);
+            console.error('Detalhes do erro:', error.message);
+        }
+    }
+
+    updateFavoriteButtons() {
+        document.querySelectorAll('.favorite-btn').forEach(btn => {
+            const apiId = btn.getAttribute('data-api-id');
+            const icon = btn.querySelector('i');
+            
+            if (this.userFavorites.has(apiId)) {
+                btn.classList.add('favorited');
+                icon.classList.add('fas');
+                icon.classList.remove('far');
+                btn.title = 'Remover dos favoritos';
+            } else {
+                btn.classList.remove('favorited');
+                icon.classList.add('far');
+                icon.classList.remove('fas');
+                btn.title = 'Adicionar aos favoritos';
+            }
+        });
+    }
+
+    // CORRIGIDO: Agora chama SEU backend com URL completa
+    async toggleFavorite(apiId) {
+        if (!this.currentUser) {
+            mostrarMensagemLogin();
+            return false;
+        }
+
+        try {
+            const isFavorited = this.userFavorites.has(apiId);
+            
+            if (isFavorited) {
+                // Remove favorito - chamando SEU backend
+                const response = await fetch(`${this.backendUrl}/favoritos`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user_id: this.currentUser.id,
+                        api_id: apiId
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Erro ao remover favorito');
+                }
+                
+                this.userFavorites.delete(apiId);
+                mostrarMensagemErro('API removida dos favoritos', false);
+            } else {
+                // Adiciona favorito - chamando SEU backend
+                const response = await fetch(`${this.backendUrl}/favoritos`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user_id: this.currentUser.id,
+                        api_id: apiId
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Erro ao favoritar');
+                }
+                
+                this.userFavorites.add(apiId);
+                mostrarMensagemErro('API adicionada aos favoritos!', false);
+            }
+
+            this.updateFavoriteButtons();
+            return true;
+        } catch (error) {
+            console.error('Erro ao alternar favorito:', error);
+            console.error('Detalhes do erro:', error.message);
+            mostrarMensagemErro(error.message || 'Erro ao salvar favorito', true);
+            return false;
+        }
+    }
+
+    isFavorite(apiId) {
+        return this.userFavorites.has(apiId);
+    }
+}
 
     // Instância global do sistema de favoritos
     window.favoriteSystem = new FavoriteSystem();
@@ -2126,3 +2137,4 @@
 </script>
 </body>
 </html>
+
