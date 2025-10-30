@@ -2208,31 +2208,47 @@ class FavoriteSystem {
     document.querySelector('.search-button').addEventListener('click', aplicarFiltroPesquisa);
 
     // --- Inicialização ---
-    document.addEventListener('DOMContentLoaded', async function() {
-        window.authSystem = new AuthSystem();
-        window.favoriteSystem = new FavoriteSystem();
-        
-        await carregarAPIs();
-        
-        if (window.authSystem.currentUser) {
-            await window.favoriteSystem.init();
-        }
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('section').forEach(section => {
-            observer.observe(section);
+    // --- Inicialização ---
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('🚀 Inicializando aplicação...');
+    
+    // 1. Inicializar AuthSystem PRIMEIRO
+    window.authSystem = new AuthSystem();
+    console.log('✅ AuthSystem inicializado:', window.authSystem.currentUser);
+    
+    // 2. Inicializar FavoriteSystem DEPOIS  
+    window.favoriteSystem = new FavoriteSystem();
+    
+    // 3. Carregar APIs
+    await carregarAPIs();
+    
+    // 4. SÓ DEPOIS inicializar favoritos se usuário estiver logado
+    if (window.authSystem.currentUser && window.authSystem.currentUser.id) {
+        console.log('👤 Usuário logado, inicializando favoritos...');
+        await window.favoriteSystem.init();
+    } else {
+        console.log('👤 Usuário não logado, limpando favoritos...');
+        window.favoriteSystem.userFavorites.clear();
+        window.favoriteSystem.updateFavoriteButtons();
+    }
+    
+    // Resto do seu código de observadores...
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+            }
         });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('section').forEach(section => {
+        observer.observe(section);
     });
+});
 </script>
 </body>
 </html>
+
 
 
 
