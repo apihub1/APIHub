@@ -333,191 +333,180 @@
         <div id="toast"></div>
     </main>
 
-    <script type="module">
-        // Importação do Supabase
-        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+   <script type="module">
+    // Importação do Supabase
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-        // Configuração do Supabase
-        const supabaseUrl = "https://bllvhpayuglmkhgvoppv.supabase.co";
-        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsbHZocGF5dWdsbWtoZ3ZvcHB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc3MTg3OTksImV4cCI6MjA3MzI5NDc5OX0.6y-iXrOZFl5ufsB06ZW1mAK6y5wPfTIEH8GhMsE_byw";
-        const supabase = createClient(supabaseUrl, supabaseKey);
+    // Configuração do Supabase
+    const supabaseUrl = "https://bllvhpayuglmkhgvoppv.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsbHZocGF5dWdsbWtoZ3ZvcHB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc3MTg3OTksImV4cCI6MjA3MzI5NDc5OX0.6y-iXrOZFl5ufsB06ZW1mAK6y5wPfTIEH8GhMsE_byw";
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
-        // Elementos DOM
-        const voltarBtn = document.getElementById('return');
-        const emailInput = document.getElementById('email');
-        const senhaInput = document.getElementById('senha');
-        const toggleSenhaBtn = document.getElementById('toggleSenha');
-        const submitBtn = document.getElementById('submitBtn');
-        const googleLoginBtn = document.getElementById('googleLogin');
-        const githubLoginBtn = document.getElementById('githubLogin');
-        const loginForm = document.querySelector('.inputs');
+    // Elementos DOM
+    const voltarBtn = document.getElementById('return');
+    const emailInput = document.getElementById('email');
+    const senhaInput = document.getElementById('senha');
+    const toggleSenhaBtn = document.getElementById('toggleSenha');
+    const submitBtn = document.getElementById('submitBtn');
+    const googleLoginBtn = document.getElementById('googleLogin');
+    const githubLoginBtn = document.getElementById('githubLogin');
+    const loginForm = document.querySelector('.inputs');
 
-        // =========================
-        // Funções Auxiliares
-        // =========================
-        function showToast(msg, type = "default") {
-            const toast = document.getElementById("toast");
-            toast.innerHTML = msg;
+    // =========================
+    // Funções Auxiliares
+    // =========================
+    function showToast(msg, type = "default") {
+        const toast = document.getElementById("toast");
+        toast.innerHTML = msg;
+        
+        if (type === "error") {
+            toast.style.backgroundColor = "#b91c1c";
+        } else if (type === "success") {
+            toast.style.backgroundColor = "#16a34a";
+        } else {
+            toast.style.backgroundColor = "#333";
+        }
+
+        toast.className = "show";
+        setTimeout(() => {
+            toast.className = toast.className.replace("show", "");
+        }, 3000);
+    }
+
+    function togglePasswordVisibility() {
+        if (senhaInput.type === "password") {
+            senhaInput.type = "text";
+            toggleSenhaBtn.innerHTML = '<i class="fa fa-eye-slash"></i>';
+        } else {
+            senhaInput.type = "password";
+            toggleSenhaBtn.innerHTML = '<i class="fa fa-eye"></i>';
+        }
+    }
+
+    function setLoadingState(loading) {
+        if (loading) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Entrando...';
+        } else {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Confirmar';
+        }
+    }
+
+    // =========================
+    // Event Listeners
+    // =========================
+    toggleSenhaBtn.addEventListener("click", togglePasswordVisibility);
+
+    voltarBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.history.back();
+    });
+
+    // Login com email/senha - VERSÃO SIMPLIFICADA E FUNCIONAL
+    loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const email = emailInput.value.trim();
+        const senha = senhaInput.value;
+
+        // Validações
+        if (!email || !senha) {
+            showToast("⚠️ Preencha todos os campos!", "error");
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showToast("⚠️ E-mail inválido!", "error");
+            return;
+        }
+
+        setLoadingState(true);
+
+        try {
+            console.log("🔐 Enviando login para:", email);
             
-            if (type === "error") {
-                toast.style.backgroundColor = "#b91c1c";
-            } else if (type === "success") {
-                toast.style.backgroundColor = "#16a34a";
-            } else {
-                toast.style.backgroundColor = "#333";
-            }
-
-            toast.className = "show";
-            setTimeout(() => {
-                toast.className = toast.className.replace("show", "");
-            }, 3000);
-        }
-
-        function togglePasswordVisibility() {
-            if (senhaInput.type === "password") {
-                senhaInput.type = "text";
-                toggleSenhaBtn.innerHTML = '<i class="fa fa-eye-slash"></i>';
-            } else {
-                senhaInput.type = "password";
-                toggleSenhaBtn.innerHTML = '<i class="fa fa-eye"></i>';
-            }
-        }
-
-        function setLoadingState(loading) {
-            if (loading) {
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Entrando...';
-            } else {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Confirmar';
-            }
-        }
-
-        // =========================
-        // Event Listeners
-        // =========================
-        toggleSenhaBtn.addEventListener("click", togglePasswordVisibility);
-
-        voltarBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            window.history.back();
-        });
-
-        // Login com email/senha - VERSÃO CORRIGIDA COM DEBUG
-        loginForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const email = emailInput.value.trim();
-            const senha = senhaInput.value;
-
-            // Validações
-            if (!email || !senha) {
-                showToast("⚠️ Preencha todos os campos!", "error");
-                return;
-            }
-
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                showToast("⚠️ E-mail inválido!", "error");
-                return;
-            }
-
-            setLoadingState(true);
-
-            try {
-                console.log("🔐 Enviando login para:", email);
-                
-                const response = await fetch("https://apihub-br.duckdns.org/login", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
-                    },
-                    body: JSON.stringify({ email, senha })
-                });
-
-                const result = await response.json();
-                
-                console.log("🔍 RESPOSTA COMPLETA DO LOGIN:", result);
-
-                if (response.ok) {
-                    console.log("✅ Login bem-sucedido! Estrutura do resultado:", {
-                        temUser: !!result.user,
-                        userEstrutura: result.user,
-                        temId: result.user?.id,
-                        temName: result.user?.name,
-                        temNome: result.user?.nome
-                    });
-
-                    // ⚠️ CORREÇÃO: Salvar os dados CORRETAMENTE
-                    const userDataToSave = {
-                        id: result.user?.id, // 👈 ESTE É O CAMPO MAIS IMPORTANTE!
-                        name: result.user?.name || result.user?.nome || 'Usuário',
-                        email: result.user?.email || email
-                    };
-
-                    console.log("💾 Salvando no localStorage:", userDataToSave);
-
-                    localStorage.setItem('authToken', result.token || 'authenticated');
-                    localStorage.setItem('userData', JSON.stringify(userDataToSave));
-
-                    // Verificação final
-                    console.log("📋 Verificação final do localStorage:", {
-                        authToken: localStorage.getItem('authToken'),
-                        userData: JSON.parse(localStorage.getItem('userData') || '{}')
-                    });
-
-                    showToast("✅ Login realizado com sucesso!", "success");
-                    setTimeout(() => {
-                        window.location.href = "index.html";
-                    }, 1500);
-                } else {
-                    console.error("❌ Erro no login:", result);
-                    showToast(`❌ ${result.message || "Credenciais inválidas!"}`, "error");
-                }
-            } catch (error) {
-                console.error("💥 Erro de conexão:", error);
-                showToast("❌ Erro ao conectar com o servidor", "error");
-            } finally {
-                setLoadingState(false);
-            }
-        });
-
-        // Login com OAuth
-        googleLoginBtn.addEventListener("click", async (e) => {
-            e.preventDefault();
-            const { error } = await supabase.auth.signInWithOAuth({ 
-                provider: "google",
-                options: {
-                    redirectTo: window.location.origin + "/index.html"
-                }
+            const response = await fetch("https://apihub-br.duckdns.org/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({ email, senha })
             });
-            if (error) {
-                showToast("❌ Erro no login com Google", "error");
-            }
-        });
 
-        githubLoginBtn.addEventListener("click", async (e) => {
-            e.preventDefault();
-            const { error } = await supabase.auth.signInWithOAuth({ 
-                provider: "github",
-                options: {
-                    redirectTo: window.location.origin + "/index.html"
-                }
-            });
-            if (error) {
-                showToast("❌ Erro no login com GitHub", "error");
-            }
-        });
+            const result = await response.json();
+            
+            console.log("🔍 RESPOSTA COMPLETA DO LOGIN:", result);
 
-        // Verificar sessão ao carregar a página
-        window.addEventListener("load", async () => {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session) {
-                localStorage.setItem('userData', JSON.stringify(session.user));
-                window.location.href = "index.html";
+            if (response.ok) {
+                console.log("✅ Login bem-sucedido!");
+                
+                // ⚠️ CORREÇÃO SIMPLES: Salvar exatamente o que o backend retorna
+                const userDataToSave = {
+                    id: result.user.id, // O backend SEMPRE retorna user.id
+                    name: result.user.name,
+                    email: result.user.email
+                };
+
+                console.log("💾 Salvando no localStorage:", userDataToSave);
+
+                localStorage.setItem('authToken', 'authenticated');
+                localStorage.setItem('userData', JSON.stringify(userDataToSave));
+
+                showToast("✅ Login realizado com sucesso!", "success");
+                setTimeout(() => {
+                    window.location.href = "index.html";
+                }, 1500);
+            } else {
+                console.error("❌ Erro no login:", result);
+                showToast(`❌ ${result.message || "Credenciais inválidas!"}`, "error");
+            }
+        } catch (error) {
+            console.error("💥 Erro de conexão:", error);
+            showToast("❌ Erro ao conectar com o servidor", "error");
+        } finally {
+            setLoadingState(false);
+        }
+    });
+
+    // Login com OAuth
+    googleLoginBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const { error } = await supabase.auth.signInWithOAuth({ 
+            provider: "google",
+            options: {
+                redirectTo: window.location.origin + "/index.html"
             }
         });
-    </script>
+        if (error) {
+            showToast("❌ Erro no login com Google", "error");
+        }
+    });
+
+    githubLoginBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const { error } = await supabase.auth.signInWithOAuth({ 
+            provider: "github",
+            options: {
+                redirectTo: window.location.origin + "/index.html"
+            }
+        });
+        if (error) {
+            showToast("❌ Erro no login com GitHub", "error");
+        }
+    });
+
+    // Verificar sessão ao carregar a página
+    window.addEventListener("load", async () => {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+            localStorage.setItem('userData', JSON.stringify(session.user));
+            window.location.href = "index.html";
+        }
+    });
+</script>
 </body>
 </html>
+
