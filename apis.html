@@ -1683,16 +1683,23 @@
         }
     }
 
-    // Instância global
-    window.favoriteSystem = new FavoriteSystem();
-
     // Funções auxiliares
     function mostrarMensagemLogin() {
         const notification = document.getElementById('notification');
         notification.innerHTML = `
             <i class="fas fa-exclamation-triangle"></i>
             <span>Faça login para salvar APIs favoritas</span>
-            <button class="login-prompt-btn" onclick="window.location.href='login.html'">Fazer Login</button>
+            <button class="login-prompt-btn" onclick="window.location.href='login.html'" style="
+                background: rgba(255,255,255,0.2);
+                border: 1px solid rgba(255,255,255,0.3);
+                color: white;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 0.8rem;
+                cursor: pointer;
+                margin-left: 10px;
+                transition: all 0.3s ease;
+            ">Fazer Login</button>
         `;
         notification.className = 'notification warning show';
         
@@ -1714,11 +1721,358 @@
         }, 5000);
     }
 
-    // ... (INSIRA AQUI TODAS AS SUAS OUTRAS FUNÇÕES ORIGINAIS:
-    // carregarAPIs(), renderizarAPIs(), abrirModal(), etc.
-    // MAS REMOVA QUALQUER CÓDIGO DUPLICADO)
+    // Funções para carregar e renderizar APIs
+    async function carregarAPIs() {
+        const grid = document.getElementById('apis-grid');
+        
+        // Mostrar skeleton loading
+        grid.innerHTML = `
+            <div class="skeleton">
+                <div class="skeleton-header">
+                    <div class="skeleton-category"></div>
+                    <div class="skeleton-title"></div>
+                    <div class="skeleton-description"></div>
+                    <div class="skeleton-description short"></div>
+                </div>
+                <div class="skeleton-body">
+                    <div class="skeleton-detail"></div>
+                    <div class="skeleton-detail"></div>
+                    <div class="skeleton-detail"></div>
+                </div>
+                <div class="skeleton-footer">
+                    <div class="skeleton-link"></div>
+                    <div class="skeleton-button"></div>
+                </div>
+            </div>
+        `.repeat(6);
 
-    // INICIALIZAÇÃO ÚNICA E FINAL
+        try {
+            console.log('📡 Buscando APIs do Supabase...');
+            
+            const { data: apis, error } = await supabase
+                .from('apis')
+                .select('*')
+                .order('name');
+
+            if (error) {
+                console.error('❌ Erro ao carregar APIs:', error);
+                throw error;
+            }
+
+            console.log(`✅ ${apis.length} APIs carregadas com sucesso`);
+            todasAPIs = apis;
+            totalPages = Math.ceil(todasAPIs.length / itemsPerPage);
+            
+            renderizarAPIs();
+            setupPagination();
+            setupSearch();
+            
+        } catch (error) {
+            console.error('❌ Erro ao carregar APIs:', error);
+            grid.innerHTML = `
+                <div class="error-state">
+                    <div class="error-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>Erro ao carregar APIs</h3>
+                    <p>Não foi possível carregar o catálogo de APIs. Verifique sua conexão e tente novamente.</p>
+                    <button class="retry-button" onclick="carregarAPIs()">
+                        <i class="fas fa-redo"></i>
+                        Tentar Novamente
+                    </button>
+                </div>
+            `;
+        }
+    }
+
+    // Função para renderizar as APIs na grid
+    function renderizarAPIs(apisFiltradas = null) {
+        const grid = document.getElementById('apis-grid');
+        const apisParaRenderizar = apisFiltradas || todasAPIs;
+        
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const apisPagina = apisParaRenderizar.slice(startIndex, endIndex);
+
+        grid.innerHTML = '';
+
+        if (apisPagina.length === 0) {
+            grid.innerHTML = `
+                <div class="error-state">
+                    <div class="error-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Nenhuma API encontrada</h3>
+                    <p>Tente ajustar os termos da sua busca ou filtros.</p>
+                </div>
+            `;
+            return;
+        }
+
+        apisPagina.forEach(api => {
+            const card = document.createElement('div');
+            card.classList.add('api-card', 'animate');
+            
+            const category = api.category || 'Outros';
+            card.setAttribute('data-category', category);
+            
+            const isFavorited = window.favoriteSystem.isFavorite(api.id);
+            const favoriteClass = isFavorited ? 'favorited' : '';
+            const isLoggedIn = !!window.authSystem.currentUser;
+
+            // Determinar ícone baseado na categoria
+            let icon = "fas fa-code";
+            if (category === "Imagens") icon = "fas fa-image";
+            if (category === "Livros") icon = "fas fa-book";
+            if (category === "Produtos") icon = "fas fa-box-open";
+            if (category === "Tradução") icon = "fas fa-language";
+            if (category === "Dados") icon = "fas fa-database";
+            if (category === "Datas") icon = "fas fa-calendar";
+            if (category === "Diversão") icon = "fas fa-gamepad";
+            if (category === "Animais") icon = "fas fa-paw";
+            if (category === "Clima") icon = "fas fa-cloud-sun";
+            if (category === "Palavras") icon = "fas fa-pencil-alt";
+            if (category === "Nomes") icon = "fas fa-user";
+            if (category === "Financeiro") icon = "fas fa-money-bill-wave";
+
+            const fullEndpoint = `${api.base_url || ''}${api.endpoint_path || ''}`;
+
+            card.innerHTML = `
+                <div class="api-card-header">
+                    <span class="api-card-category category-${category.toLowerCase()}">
+                        <i class="${icon}"></i> ${category}
+                    </span>
+                    
+                    <button class="favorite-btn ${favoriteClass}" 
+                            data-api-id="${api.id}" 
+                            ${!isLoggedIn ? 'disabled' : ''}
+                            title="${!isLoggedIn ? 'Faça login para favoritar' : (isFavorited ? 'Remover dos favoritos' : 'Adicionar aos favoritos')}">
+                        <i class="${isFavorited ? 'fas' : 'far'} fa-star"></i>
+                    </button>
+
+                    <h3 class="api-card-title">${api.name || 'Sem nome'}</h3>
+                    <p class="api-card-description">${api.description || ''}</p>
+                </div>
+                <div class="api-card-body">
+                    <div class="api-details">
+                        <div class="api-detail-item">
+                            <i class="fas fa-link"></i>
+                            <span><strong>Endpoint:</strong> ${fullEndpoint || '—'}</span>
+                        </div>
+                        <div class="api-detail-item">
+                            <i class="fas fa-lock"></i>
+                            <span><strong>Autenticação:</strong> ${api.authentication_type || 'Nenhuma'}</span>
+                        </div>
+                        <div class="api-detail-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span><strong>HTTPS:</strong> ${api.https ? 'Sim' : 'Não'}</span>
+                        </div>
+                        <div class="api-detail-item">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span><strong>CORS:</strong> ${api.cors ? 'Suportado' : 'Não suportado'}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="api-card-footer">
+                    <div class="api-link-container">
+                        <span class="api-link" title="${fullEndpoint}">${fullEndpoint}</span>
+                        <button class="copy-btn" data-url="${fullEndpoint}">
+                            <i class="fas fa-copy"></i> Copiar
+                        </button>
+                    </div>
+                    <button class="how-to-use-btn" onclick="abrirModal('${api.id}')">
+                        <i class="fas fa-book"></i> Como usar
+                    </button>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        // Adicionar event listeners
+        adicionarEventListeners();
+    }
+
+    function adicionarEventListeners() {
+        // Event listeners para botões de copiar
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const url = e.currentTarget.getAttribute('data-url');
+                copiarParaAreaDeTransferencia(url);
+            });
+        });
+
+        // Event listeners para botões de favorito
+        document.querySelectorAll('.favorite-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const apiId = e.currentTarget.getAttribute('data-api-id');
+                await window.favoriteSystem.toggleFavorite(apiId);
+            });
+        });
+    }
+
+    function copiarParaAreaDeTransferencia(texto) {
+        navigator.clipboard.writeText(texto).then(() => {
+            mostrarMensagem('Link copiado para a área de transferência!', false);
+        }).catch(err => {
+            console.error('Falha ao copiar texto: ', err);
+            mostrarMensagem('Falha ao copiar o link.', true);
+        });
+    }
+
+    // Função para abrir modal
+    function abrirModal(apiId) {
+        const api = todasAPIs.find(a => a.id === apiId);
+        if (!api) {
+            mostrarMensagem('API não encontrada.', true);
+            return;
+        }
+
+        const fullEndpoint = `${api.base_url || ''}${api.endpoint_path || ''}`;
+        const method = api.method || 'GET';
+        const responseFormatted = api.response_format ? JSON.stringify(JSON.parse(api.response_format), null, 2) : 'Nenhum exemplo disponível';
+        const usageExample = api.usage_example || 'Nenhum exemplo disponível';
+
+        const category = api.category || 'Outros';
+
+        document.getElementById('modal-title').innerHTML = `
+            ${api.name || 'Sem nome'}
+            <span class="modal-category category-${category.toLowerCase()}">${category}</span>
+        `;
+
+        document.getElementById('modal-body').innerHTML = `
+            <div class="modal-section">
+                <h3 class="modal-section-title"><i class="fas fa-info-circle"></i> Descrição</h3>
+                <p>${api.description || 'Sem descrição'}</p>
+            </div>
+
+            <div class="modal-section">
+                <h3 class="modal-section-title"><i class="fas fa-link"></i> Endpoint</h3>
+                <div class="modal-section-content">${fullEndpoint}</div>
+            </div>
+
+            <div class="modal-section">
+                <h3 class="modal-section-title"><i class="fas fa-code"></i> Método HTTP</h3>
+                <div class="modal-section-content">${method}</div>
+            </div>
+
+            <div class="modal-section">
+                <h3 class="modal-section-title"><i class="fas fa-cog"></i> Parâmetros</h3>
+                <div class="modal-section-content">${api.parameters || 'Nenhum parâmetro necessário'}</div>
+            </div>
+
+            <div class="modal-section">
+                <h3 class="modal-section-title"><i class="fas fa-code"></i> Exemplo de Uso</h3>
+                <div class="code-example"><pre>${usageExample}</pre></div>
+            </div>
+
+            <div class="modal-section">
+                <h3 class="modal-section-title"><i class="fas fa-reply"></i> Resposta</h3>
+                <div class="code-example"><pre>${responseFormatted}</pre></div>
+            </div>
+        `;
+
+        document.getElementById('modal-overlay').classList.add('active');
+    }
+
+    // Fechar modal
+    document.getElementById('modal-close').addEventListener('click', () => {
+        document.getElementById('modal-overlay').classList.remove('active');
+    });
+
+    document.getElementById('modal-overlay').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('modal-overlay')) {
+            document.getElementById('modal-overlay').classList.remove('active');
+        }
+    });
+
+    // Paginação
+    function setupPagination() {
+        atualizarPaginacao();
+    }
+
+    function atualizarPaginacao() {
+        const paginationContainer = document.getElementById('pagination');
+        if (!paginationContainer) return;
+
+        let paginationHTML = '';
+
+        // Botão anterior
+        paginationHTML += `
+            <button class="pagination-button" onclick="mudarPagina(${currentPage - 1})" 
+                    ${currentPage === 1 ? 'disabled' : ''}>
+                &laquo;
+            </button>
+        `;
+
+        // Números das páginas
+        for (let i = 1; i <= totalPages; i++) {
+            if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                paginationHTML += `
+                    <button class="pagination-button ${currentPage === i ? 'active' : ''}" 
+                            onclick="mudarPagina(${i})">
+                        ${i}
+                    </button>
+                `;
+            } else if (i === currentPage - 2 || i === currentPage + 2) {
+                paginationHTML += `<span style="padding: 8px 15px;">...</span>`;
+            }
+        }
+
+        // Botão próximo
+        paginationHTML += `
+            <button class="pagination-button" onclick="mudarPagina(${currentPage + 1})" 
+                    ${currentPage === totalPages ? 'disabled' : ''}>
+                &raquo;
+            </button>
+        `;
+
+        paginationContainer.innerHTML = paginationHTML;
+    }
+
+    function mudarPagina(pagina) {
+        if (pagina < 1 || pagina > totalPages) return;
+        
+        currentPage = pagina;
+        renderizarAPIs();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Busca e filtros
+    function setupSearch() {
+        const searchInput = document.querySelector('.search-input');
+        const searchButton = document.querySelector('.search-button');
+
+        searchInput.addEventListener('input', aplicarFiltroPesquisa);
+        searchButton.addEventListener('click', aplicarFiltroPesquisa);
+    }
+
+    function aplicarFiltroPesquisa() {
+        const searchInput = document.querySelector('.search-input');
+        const termo = searchInput.value.toLowerCase().trim();
+        
+        let apisFiltradas = todasAPIs;
+        
+        if (termo) {
+            apisFiltradas = apisFiltradas.filter(api =>
+                (api.name && api.name.toLowerCase().includes(termo)) ||
+                (api.description && api.description.toLowerCase().includes(termo)) ||
+                (api.category && api.category.toLowerCase().includes(termo)) ||
+                (api.tags && api.tags.toLowerCase().includes(termo))
+            );
+        }
+
+        currentPage = 1;
+        renderizarAPIs(apisFiltradas);
+        atualizarPaginacao();
+    }
+
+    // Instância global do sistema de favoritos
+    window.favoriteSystem = new FavoriteSystem();
+
+    // INICIALIZAÇÃO
     document.addEventListener('DOMContentLoaded', async function() {
         console.log('🚀 Inicializando aplicação...');
         
@@ -1741,10 +2095,29 @@
             window.favoriteSystem.userFavorites.clear();
             window.favoriteSystem.updateFavoriteButtons();
         }
+
+        // Animações de entrada
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
     });
+
+    // Funções globais para acesso via HTML
+    window.mudarPagina = mudarPagina;
+    window.abrirModal = abrirModal;
+    window.carregarAPIs = carregarAPIs;
 </script>
 </body>
 </html>
+
 
 
 
