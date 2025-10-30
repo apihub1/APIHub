@@ -1588,26 +1588,28 @@
         }
 
         async loadUserFavorites() {
-            if (!this.currentUser || !this.currentUser.id) {
-                console.error('❌ User ID não disponível para carregar favoritos');
-                return;
-            }
+    if (!this.currentUser || !this.currentUser.id) {
+        console.error('❌ User ID não disponível para carregar favoritos');
+        return;
+    }
 
-            try {
-                console.log('🔍 Carregando favoritos para user:', this.currentUser.id);
-                const response = await fetch(`${this.backendUrl}/favoritos/${this.currentUser.id}`);
-                
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                
-                const data = await response.json();
-                console.log('✅ Favoritos carregados:', data);
-                
-                this.userFavorites = new Set(data.map(fav => fav.apis.id));
-                this.updateFavoriteButtons();
-            } catch (error) {
-                console.error('❌ Erro ao carregar favoritos:', error);
-            }
-        }
+    try {
+        console.log('🔍 Carregando favoritos para user:', this.currentUser.id);
+        
+        // CORRIGIDO: URL com barra no final
+        const response = await fetch(`${this.backendUrl}/favoritos/${this.currentUser.id}/`);
+        
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        
+        const data = await response.json();
+        console.log('✅ Favoritos carregados:', data);
+        
+        this.userFavorites = new Set(data.map(fav => fav.apis.id));
+        this.updateFavoriteButtons();
+    } catch (error) {
+        console.error('❌ Erro ao carregar favoritos:', error);
+    }
+}
 
         async toggleFavorite(apiId) {
             if (!this.currentUser || !this.currentUser.id) {
@@ -2117,10 +2119,3 @@
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
