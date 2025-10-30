@@ -1639,8 +1639,30 @@ async function diagnosticarProblema() {
 }
 
 // Execute o diagnóstico após o carregamento
+
 document.addEventListener('DOMContentLoaded', async function() {
-    // ... seu código existente ...
+    console.log('🚀 Inicializando aplicação...');
+    
+    // 1. Inicializar AuthSystem PRIMEIRO
+    window.authSystem = new AuthSystem();
+    console.log('✅ AuthSystem inicializado:', window.authSystem.currentUser);
+    
+    // 2. Inicializar FavoriteSystem DEPOIS
+    window.favoriteSystem = new FavoriteSystem();
+    
+    // 3. Carregar APIs
+    await carregarAPIs();
+    
+    // 4. SÓ DEPOIS inicializar favoritos se usuário estiver logado
+    if (window.authSystem.currentUser && window.authSystem.currentUser.id) {
+        console.log('👤 Usuário logado, inicializando favoritos...');
+        await window.favoriteSystem.init();
+    } else {
+        console.log('👤 Usuário não logado, limpando favoritos...');
+        window.favoriteSystem.userFavorites.clear();
+        window.favoriteSystem.updateFavoriteButtons();
+    }
+});
     
     // Adicione esta linha para executar o diagnóstico
     setTimeout(diagnosticarProblema, 1000);
@@ -1654,15 +1676,19 @@ class FavoriteSystem {
     }
 
     async init() {
-        this.currentUser = window.authSystem?.currentUser;
-        console.log('🔍 DEBUG - Usuário no FavoriteSystem:', this.currentUser);
-        
-        if (this.currentUser && this.currentUser.id) {
-            await this.loadUserFavorites();
-        } else {
-            console.warn('⚠️ Usuário não tem ID definido:', this.currentUser);
-        }
+    // ✅ SINCRONIZAÇÃO CORRETA com o AuthSystem
+    this.currentUser = window.authSystem?.currentUser;
+    console.log('🔍 FavoriteSystem init - Usuário:', this.currentUser);
+    
+    if (this.currentUser && this.currentUser.id) {
+        console.log('✅ User ID disponível:', this.currentUser.id);
+        await this.loadUserFavorites();
+    } else {
+        console.warn('❌ User ID não disponível para favoritos');
+        this.userFavorites.clear();
+        this.updateFavoriteButtons();
     }
+}
 
     async loadUserFavorites() {
         // ✅ VERIFICAÇÃO DUPLA do user ID
@@ -2207,6 +2233,7 @@ class FavoriteSystem {
 </script>
 </body>
 </html>
+
 
 
 
