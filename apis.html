@@ -1453,12 +1453,29 @@
             const token = localStorage.getItem('authToken');
             const userData = localStorage.getItem('userData');
             
+            console.log('🔍 Verificando status de login:', { token, userData });
+            
             if (token && userData) {
-                this.currentUser = JSON.parse(userData);
-                this.updateUI();
-                this.initSidebar();
-                return true;
+                try {
+                    this.currentUser = JSON.parse(userData);
+                    console.log('✅ Usuário logado:', this.currentUser);
+                    
+                    if (!this.currentUser.id) {
+                        console.warn('⚠️ Usuário sem ID, limpando sessão inválida');
+                        this.logout();
+                        return false;
+                    }
+                    
+                    this.updateUI();
+                    this.initSidebar();
+                    return true;
+                } catch (error) {
+                    console.error('❌ Erro ao parsear userData:', error);
+                    this.logout();
+                    return false;
+                }
             }
+            console.log('❌ Nenhum usuário logado');
             return false;
         }
 
@@ -1470,12 +1487,9 @@
             if (this.currentUser) {
                 loginBtn.textContent = '';
                 loginBtn.href = '#';
-                
                 sidebarToggle.style.display = 'block';
                 sidebar.style.display = 'flex';
-                
                 this.updateSidebarUserInfo();
-                
             } else {
                 loginBtn.textContent = 'Login';
                 loginBtn.href = 'login.html';
@@ -1521,9 +1535,11 @@
             this.currentUser = null;
             this.updateUI();
             
-            window.favoriteSystem.currentUser = null;
-            window.favoriteSystem.userFavorites.clear();
-            window.favoriteSystem.updateFavoriteButtons();
+            if (window.favoriteSystem) {
+                window.favoriteSystem.currentUser = null;
+                window.favoriteSystem.userFavorites.clear();
+                window.favoriteSystem.updateFavoriteButtons();
+            }
             
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.sidebar-overlay');
@@ -1533,7 +1549,9 @@
             overlay.classList.remove('active');
             mainContent.classList.remove('sidebar-open');
             
-            aplicarFiltroPesquisa();
+            if (typeof aplicarFiltroPesquisa === 'function') {
+                aplicarFiltroPesquisa();
+            }
         }
     }
 
@@ -2248,6 +2266,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 </script>
 </body>
 </html>
+
 
 
 
