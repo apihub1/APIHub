@@ -1040,160 +1040,154 @@
     <script>
         // Sistema de Autenticação
        // Sistema de Autenticação - VERSÃO CORRIGIDA
-class AuthSystem {
-    constructor() {
-        this.currentUser = null;
-        this.checkLoginStatus();
-    }
+<script>
+    // Sistema de autenticação - Sidebar só após login
+    class AuthSystem {
+        constructor() {
+            this.currentUser = null;
+            this.checkLoginStatus();
+        }
 
-    checkLoginStatus() {
-        const token = localStorage.getItem('authToken');
-        const userData = localStorage.getItem('userData');
-        
-        console.log('🔍 Verificando status de login:', { token, userData });
-        
-        if (token && userData) {
-            try {
-                this.currentUser = JSON.parse(userData);
-                console.log('✅ Usuário logado:', this.currentUser);
-                
-                // ✅ GARANTIR que o ID está disponível
-                if (!this.currentUser.id) {
-                    console.warn('⚠️ Usuário sem ID, limpando sessão inválida');
+        checkLoginStatus() {
+            const token = localStorage.getItem('authToken');
+            const userData = localStorage.getItem('userData');
+            
+            console.log('🔍 Verificando status de login:', { token, userData });
+            
+            if (token && userData) {
+                try {
+                    this.currentUser = JSON.parse(userData);
+                    console.log('✅ Usuário logado:', this.currentUser);
+                    
+                    // ✅ GARANTIR que o ID está disponível
+                    if (!this.currentUser.id) {
+                        console.warn('⚠️ Usuário sem ID, limpando sessão inválida');
+                        this.logout();
+                        return false;
+                    }
+                    
+                    this.updateUI();
+                    this.initSidebar();
+                    return true;
+                } catch (error) {
+                    console.error('❌ Erro ao parsear userData:', error);
                     this.logout();
                     return false;
                 }
+            }
+            console.log('❌ Nenhum usuário logado');
+            return false;
+        }
+
+        updateUI() {
+            const loginBtn = document.querySelector('.login a');
+            const sidebarToggle = document.querySelector('.sidebar-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            
+            if (this.currentUser) {
+                loginBtn.textContent = '';
+                loginBtn.href = '#';
                 
-                this.updateUI();
-                this.initSidebar();
-                return true;
-            } catch (error) {
-                console.error('❌ Erro ao parsear userData:', error);
-                this.logout();
-                return false;
+                sidebarToggle.style.display = 'block';
+                sidebar.style.display = 'flex';
+                
+                this.updateSidebarUserInfo();
+                
+            } else {
+                loginBtn.textContent = 'Login';
+                loginBtn.href = 'login.html';
+                sidebarToggle.style.display = 'none';
+                sidebar.style.display = 'none';
             }
         }
-        console.log('❌ Nenhum usuário logado');
-        return false;
-    }
 
-    // ... o RESTANTE do seu código atual do AuthSystem permanece IGUAL
-}
-
-            updateUI() {
-                const loginBtn = document.querySelector('.login a');
-                const sidebarToggle = document.querySelector('.sidebar-toggle');
-                const sidebar = document.querySelector('.sidebar');
-                
-                if (this.currentUser) {
-                    loginBtn.textContent = ''; // Mudado para vazio
-                    loginBtn.href = '#';
-                    
-                    sidebarToggle.style.display = 'block';
-                    sidebar.style.display = 'flex';
-                    
-                    this.updateSidebarUserInfo();
-                    
-                } else {
-                    loginBtn.textContent = 'Login';
-                    loginBtn.href = 'login.html';
-                    sidebarToggle.style.display = 'none';
-                    sidebar.style.display = 'none';
-                }
+        updateSidebarUserInfo() {
+            if (this.currentUser) {
+                document.getElementById('sidebar-username').textContent = this.currentUser.name || 'Usuário';
+                document.getElementById('sidebar-email').textContent = this.currentUser.email || 'Bem-vindo!';
             }
+        }
 
-            updateSidebarUserInfo() {
-                if (this.currentUser) {
-                    document.getElementById('sidebar-username').textContent = this.currentUser.name || 'Usuário';
-                    document.getElementById('sidebar-email').textContent = this.currentUser.email || 'Bem-vindo!';
-                }
-            }
+        initSidebar() {
+            const toggleBtn = document.querySelector('.sidebar-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            const mainContent = document.getElementById('main-content');
+            const logoutBtn = document.getElementById('logout-btn');
 
-            initSidebar() {
-                const toggleBtn = document.querySelector('.sidebar-toggle');
-                const sidebar = document.querySelector('.sidebar');
-                const overlay = document.querySelector('.sidebar-overlay');
-                const mainContent = document.getElementById('main-content');
-                const logoutBtn = document.getElementById('logout-btn');
+            toggleBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                mainContent.classList.toggle('sidebar-open');
+            });
 
-                toggleBtn.addEventListener('click', () => {
-                    sidebar.classList.toggle('active');
-                    overlay.classList.toggle('active');
-                    mainContent.classList.toggle('sidebar-open');
-                });
-
-                overlay.addEventListener('click', () => {
-                    sidebar.classList.remove('active');
-                    overlay.classList.remove('active');
-                    mainContent.classList.remove('sidebar-open');
-                });
-
-                logoutBtn.addEventListener('click', () => {
-                    this.logout();
-                });
-            }
-
-            logout() {
-                localStorage.removeItem('authToken');
-                localStorage.removeItem('userData');
-                this.currentUser = null;
-                this.updateUI();
-                
-                const sidebar = document.querySelector('.sidebar');
-                const overlay = document.querySelector('.sidebar-overlay');
-                const mainContent = document.getElementById('main-content');
-                
+            overlay.addEventListener('click', () => {
                 sidebar.classList.remove('active');
                 overlay.classList.remove('active');
                 mainContent.classList.remove('sidebar-open');
-                
-                window.location.href = 'index.html';
-            }
+            });
+
+            logoutBtn.addEventListener('click', () => {
+                this.logout();
+            });
         }
 
-        // Inicialização
-        document.addEventListener('DOMContentLoaded', function() {
-            window.authSystem = new AuthSystem();
+        logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userData');
+            this.currentUser = null;
+            this.updateUI();
             
-            // FAQ functionality
-            document.querySelectorAll('.faq-question').forEach(question => {
-                question.addEventListener('click', () => {
-                    const item = question.parentElement;
-                    item.classList.toggle('active');
-                });
-            });
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            const mainContent = document.getElementById('main-content');
+            
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            mainContent.classList.remove('sidebar-open');
+            
+            window.location.href = 'index.html';
+        }
+    }
 
-            // Email notification
-            const emailLink = document.querySelector('a[href^="mailto"]');
-            emailLink.addEventListener('click', () => {
-                const notification = document.getElementById('notification');
-                notification.textContent = 'Redirecionando para seu cliente de e-mail...';
-                notification.classList.add('show');
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', function() {
+        window.authSystem = new AuthSystem();
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
                 
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 3000);
-            });
-
-            // Animações de entrada
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate');
-                    }
-                });
-            }, observerOptions);
-
-            document.querySelectorAll('section').forEach(section => {
-                observer.observe(section);
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
             });
         });
-    </script>
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    });
+</script>
 </body>
 </html>
