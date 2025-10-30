@@ -1572,6 +1572,80 @@
 
     // --- Sistema de Favoritos CORRIGIDO ---
     // --- Sistema de Favoritos CORRIGIDO com URL do backend ---
+    // --- CÓDIGO DE DIAGNÓSTICO ---
+async function diagnosticarProblema() {
+    console.log('🔍 INICIANDO DIAGNÓSTICO...');
+    
+    const backendUrl = "https://apihub-br.duckdns.org";
+    
+    try {
+        // Teste 1: Health Check
+        console.log('🧪 Testando Health Check...');
+        const healthResponse = await fetch(`${backendUrl}/health`);
+        console.log('Health Check Status:', healthResponse.status);
+        
+        if (healthResponse.ok) {
+            const healthData = await healthResponse.json();
+            console.log('✅ Health Check OK:', healthData);
+        } else {
+            console.error('❌ Health Check FALHOU:', healthResponse.status);
+        }
+
+        // Teste 2: Tentativa de conexão básica
+        console.log('🧪 Testando conexão básica...');
+        const testResponse = await fetch(backendUrl, { 
+            method: 'HEAD',
+            mode: 'no-cors' // Modo simples para testar conectividade
+        });
+        console.log('Conexão básica:', testResponse.type);
+
+        // Teste 3: Verificar se usuário está logado
+        const user = window.authSystem?.currentUser;
+        console.log('👤 Usuário logado:', user);
+        
+        if (user) {
+            console.log('🔑 User ID:', user.id);
+            
+            // Teste 4: Tentar carregar favoritos
+            console.log('🧪 Testando rota de favoritos...');
+            try {
+                const favResponse = await fetch(`${backendUrl}/favoritos/${user.id}`);
+                console.log('Favoritos Status:', favResponse.status);
+                
+                if (favResponse.ok) {
+                    const favData = await favResponse.json();
+                    console.log('✅ Favoritos carregados:', favData);
+                } else {
+                    console.error('❌ Favoritos FALHOU:', favResponse.status);
+                }
+            } catch (favError) {
+                console.error('❌ Erro na rota de favoritos:', favError.message);
+            }
+        }
+
+    } catch (error) {
+        console.error('💥 ERRO CRÍTICO NO DIAGNÓSTICO:', error);
+        console.error('Tipo do erro:', error.name);
+        console.error('Mensagem:', error.message);
+        
+        // Verificar tipo específico de erro
+        if (error.name === 'TypeError') {
+            console.error('🔧 Provável problema de CORS ou URL incorreta');
+        }
+        if (error.name === 'NetworkError') {
+            console.error('🔧 Problema de rede - backend offline');
+        }
+    }
+}
+
+// Execute o diagnóstico após o carregamento
+document.addEventListener('DOMContentLoaded', async function() {
+    // ... seu código existente ...
+    
+    // Adicione esta linha para executar o diagnóstico
+    setTimeout(diagnosticarProblema, 1000);
+});
+    
 class FavoriteSystem {
     constructor() {
         this.currentUser = null;
@@ -2137,4 +2211,5 @@ class FavoriteSystem {
 </script>
 </body>
 </html>
+
 
