@@ -929,24 +929,46 @@
 
     <script>
         // Sistema de autenticação - Sidebar só após login
-        class AuthSystem {
-            constructor() {
-                this.currentUser = null;
-                this.checkLoginStatus();
-            }
+       // Sistema de Autenticação - VERSÃO CORRIGIDA
+class AuthSystem {
+    constructor() {
+        this.currentUser = null;
+        this.checkLoginStatus();
+    }
 
-            checkLoginStatus() {
-                const token = localStorage.getItem('authToken');
-                const userData = localStorage.getItem('userData');
+    checkLoginStatus() {
+        const token = localStorage.getItem('authToken');
+        const userData = localStorage.getItem('userData');
+        
+        console.log('🔍 Verificando status de login:', { token, userData });
+        
+        if (token && userData) {
+            try {
+                this.currentUser = JSON.parse(userData);
+                console.log('✅ Usuário logado:', this.currentUser);
                 
-                if (token && userData) {
-                    this.currentUser = JSON.parse(userData);
-                    this.updateUI();
-                    this.initSidebar();
-                    return true;
+                // ✅ GARANTIR que o ID está disponível
+                if (!this.currentUser.id) {
+                    console.warn('⚠️ Usuário sem ID, limpando sessão inválida');
+                    this.logout();
+                    return false;
                 }
+                
+                this.updateUI();
+                this.initSidebar();
+                return true;
+            } catch (error) {
+                console.error('❌ Erro ao parsear userData:', error);
+                this.logout();
                 return false;
             }
+        }
+        console.log('❌ Nenhum usuário logado');
+        return false;
+    }
+
+    // ... o RESTANTE do seu código atual do AuthSystem permanece IGUAL
+}
 
             updateUI() {
     const loginBtn = document.querySelector('.login a');
@@ -1064,6 +1086,7 @@
     </script>
 </body>
 </html>
+
 
 
 
