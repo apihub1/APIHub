@@ -736,11 +736,6 @@
             margin-top: 0.5rem;
         }
 
-        .code-example code {
-            display: block;
-            font-family: 'Fira Code', monospace;
-        }
-
         .parameter-table {
             width: 100%;
             border-collapse: collapse;
@@ -1438,831 +1433,724 @@
                 </div>
             </div>
         </footer>
+    </div>
 
     <!-- Importar a biblioteca do Supabase -->
-        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-    // Sistema de Autenticação
-    class AuthSystem {
-        constructor() {
-            this.currentUser = null;
-            this.checkLoginStatus();
-        }
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Sistema de Autenticação - IDÊNTICO ao do index.html
+        class AuthSystem {
+            constructor() {
+                this.currentUser = null;
+                this.checkLoginStatus();
+            }
 
-        checkLoginStatus() {
-            const token = localStorage.getItem('authToken');
-            const userData = localStorage.getItem('userData');
-            
-            console.log('🔍 Verificando status de login:', { token, userData });
-            
-            if (token && userData) {
-                try {
-                    this.currentUser = JSON.parse(userData);
-                    console.log('✅ Usuário logado:', this.currentUser);
-                    
-                    if (!this.currentUser.id) {
-                        console.warn('⚠️ Usuário sem ID, limpando sessão inválida');
+            checkLoginStatus() {
+                const token = localStorage.getItem('authToken');
+                const userData = localStorage.getItem('userData');
+                
+                console.log('🔍 Verificando status de login:', { token, userData });
+                
+                if (token && userData) {
+                    try {
+                        this.currentUser = JSON.parse(userData);
+                        console.log('✅ Usuário logado:', this.currentUser);
+                        
+                        // ✅ GARANTIR que o ID está disponível
+                        if (!this.currentUser.id) {
+                            console.warn('⚠️ Usuário sem ID, limpando sessão inválida');
+                            this.logout();
+                            return false;
+                        }
+                        
+                        this.updateUI();
+                        this.initSidebar();
+                        return true;
+                    } catch (error) {
+                        console.error('❌ Erro ao parsear userData:', error);
                         this.logout();
                         return false;
                     }
+                }
+                console.log('❌ Nenhum usuário logado');
+                return false;
+            }
+
+            updateUI() {
+                const loginBtn = document.querySelector('.login a');
+                const sidebarToggle = document.querySelector('.sidebar-toggle');
+                const sidebar = document.querySelector('.sidebar');
+                
+                if (this.currentUser) {
+                    loginBtn.textContent = '';
+                    loginBtn.href = '#';
                     
-                    this.updateUI();
-                    this.initSidebar();
-                    return true;
-                } catch (error) {
-                    console.error('❌ Erro ao parsear userData:', error);
-                    this.logout();
-                    return false;
+                    sidebarToggle.style.display = 'block';
+                    sidebar.style.display = 'flex';
+                    
+                    this.updateSidebarUserInfo();
+                    
+                } else {
+                    loginBtn.textContent = 'Login';
+                    loginBtn.href = 'login.html';
+                    sidebarToggle.style.display = 'none';
+                    sidebar.style.display = 'none';
                 }
             }
-            console.log('❌ Nenhum usuário logado');
-            return false;
-        }
 
-        updateUI() {
-            const loginBtn = document.querySelector('.login a');
-            const sidebarToggle = document.querySelector('.sidebar-toggle');
-            const sidebar = document.querySelector('.sidebar');
-            
-            if (this.currentUser) {
-                loginBtn.textContent = '';
-                loginBtn.href = '#';
-                sidebarToggle.style.display = 'block';
-                sidebar.style.display = 'flex';
-                this.updateSidebarUserInfo();
-            } else {
-                loginBtn.textContent = 'Login';
-                loginBtn.href = 'login.html';
-                sidebarToggle.style.display = 'none';
-                sidebar.style.display = 'none';
+            updateSidebarUserInfo() {
+                if (this.currentUser) {
+                    document.getElementById('sidebar-username').textContent = this.currentUser.name || 'Usuário';
+                    document.getElementById('sidebar-email').textContent = this.currentUser.email || 'Bem-vindo!';
+                }
             }
-        }
 
-        updateSidebarUserInfo() {
-            if (this.currentUser) {
-                document.getElementById('sidebar-username').textContent = this.currentUser.name || 'Usuário';
-                document.getElementById('sidebar-email').textContent = this.currentUser.email || 'Bem-vindo!';
+            initSidebar() {
+                const toggleBtn = document.querySelector('.sidebar-toggle');
+                const sidebar = document.querySelector('.sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+                const mainContent = document.getElementById('main-content');
+                const logoutBtn = document.getElementById('logout-btn');
+
+                toggleBtn.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                    overlay.classList.toggle('active');
+                    mainContent.classList.toggle('sidebar-open');
+                });
+
+                overlay.addEventListener('click', () => {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                    mainContent.classList.remove('sidebar-open');
+                });
+
+                logoutBtn.addEventListener('click', () => {
+                    this.logout();
+                });
             }
-        }
 
-        initSidebar() {
-            const toggleBtn = document.querySelector('.sidebar-toggle');
-            const sidebar = document.querySelector('.sidebar');
-            const overlay = document.querySelector('.sidebar-overlay');
-            const mainContent = document.getElementById('main-content');
-            const logoutBtn = document.getElementById('logout-btn');
-
-            toggleBtn.addEventListener('click', () => {
-                sidebar.classList.toggle('active');
-                overlay.classList.toggle('active');
-                mainContent.classList.toggle('sidebar-open');
-            });
-
-            overlay.addEventListener('click', () => {
+            logout() {
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userData');
+                this.currentUser = null;
+                this.updateUI();
+                
+                const sidebar = document.querySelector('.sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+                const mainContent = document.getElementById('main-content');
+                
                 sidebar.classList.remove('active');
                 overlay.classList.remove('active');
                 mainContent.classList.remove('sidebar-open');
+                
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Configuração do Supabase
+        const SUPABASE_URL = "https://bllvhpayuglmkhgvoppv.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsbHZocGF5dWdsbWtoZ3ZvcHB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc3MTg3OTksImV4cCI6MjA3MzI5NDc5OX0.6y-iXrOZFl5ufsB06ZW1mAK6y5wPfTIEH8GhMsE_byw";
+
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let todasAPIs = [];
+        let currentPage = 1;
+        const itemsPerPage = 6;
+        let totalPages = 1;
+
+        // --- Sistema de Favoritos Simplificado ---
+        class FavoriteSystem {
+            constructor() {
+                this.currentUser = null;
+                this.userFavorites = new Set();
+                this.backendUrl = "https://apihub-br.duckdns.org";
+            }
+
+            async init() {
+                this.currentUser = window.authSystem?.currentUser;
+                console.log('🔍 FavoriteSystem init - Usuário:', this.currentUser);
+                
+                if (this.currentUser && this.currentUser.id) {
+                    console.log('✅ User ID disponível:', this.currentUser.id);
+                    await this.loadUserFavorites();
+                } else {
+                    console.warn('❌ User ID não disponível para favoritos');
+                    this.userFavorites.clear();
+                    this.updateFavoriteButtons();
+                }
+            }
+
+            async loadUserFavorites() {
+                if (!this.currentUser || !this.currentUser.id) {
+                    console.error('❌ User ID não disponível para carregar favoritos');
+                    return;
+                }
+
+                try {
+                    console.log('🔍 Carregando favoritos para user:', this.currentUser.id);
+                    const response = await fetch(`${this.backendUrl}/favoritos/${this.currentUser.id}`);
+                    
+                    if (!response.ok) throw new Error(`HTTP ${response.status} - ${response.statusText}`);
+                    
+                    const data = await response.json();
+                    console.log('✅ Favoritos carregados:', data);
+                    
+                    this.userFavorites = new Set(data.map(fav => fav.apis.id));
+                    this.updateFavoriteButtons();
+                } catch (error) {
+                    console.error('❌ Erro ao carregar favoritos:', error);
+                }
+            }
+
+            async toggleFavorite(apiId) {
+                if (!this.currentUser || !this.currentUser.id) {
+                    console.error('❌ User ID não disponível para favoritar');
+                    this.mostrarMensagemLogin();
+                    return false;
+                }
+
+                try {
+                    const isFavorited = this.userFavorites.has(apiId);
+                    console.log(`🔍 Alternando favorito: API ${apiId}, Favoritado: ${isFavorited}, User: ${this.currentUser.id}`);
+                    
+                    if (isFavorited) {
+                        const response = await fetch(`${this.backendUrl}/favoritos`, {
+                            method: 'DELETE',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                user_id: this.currentUser.id,
+                                api_id: apiId
+                            })
+                        });
+
+                        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                        
+                        this.userFavorites.delete(apiId);
+                        this.mostrarMensagem('API removida dos favoritos', false);
+                    } else {
+                        const response = await fetch(`${this.backendUrl}/favoritos`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                user_id: this.currentUser.id,
+                                api_id: apiId
+                            })
+                        });
+
+                        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                        
+                        this.userFavorites.add(apiId);
+                        this.mostrarMensagem('API adicionada aos favoritos!', false);
+                    }
+
+                    this.updateFavoriteButtons();
+                    return true;
+                } catch (error) {
+                    console.error('❌ Erro ao alternar favorito:', error);
+                    this.mostrarMensagem('Erro ao salvar favorito', true);
+                    return false;
+                }
+            }
+
+            updateFavoriteButtons() {
+                document.querySelectorAll('.favorite-btn').forEach(btn => {
+                    const apiId = btn.getAttribute('data-api-id');
+                    const icon = btn.querySelector('i');
+                    
+                    if (this.userFavorites.has(apiId)) {
+                        btn.classList.add('favorited');
+                        icon.classList.add('fas');
+                        icon.classList.remove('far');
+                        btn.title = 'Remover dos favoritos';
+                    } else {
+                        btn.classList.remove('favorited');
+                        icon.classList.add('far');
+                        icon.classList.remove('fas');
+                        btn.title = 'Adicionar aos favoritos';
+                    }
+                });
+            }
+
+            isFavorite(apiId) {
+                return this.userFavorites.has(apiId);
+            }
+
+            mostrarMensagem(mensagem, isError = true) {
+                const notification = document.getElementById('notification');
+                notification.innerHTML = `
+                    <i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
+                    <span>${mensagem}</span>
+                `;
+                notification.className = `notification ${isError ? 'error' : 'success'} show`;
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 5000);
+            }
+
+            mostrarMensagemLogin() {
+                const notification = document.getElementById('notification');
+                notification.innerHTML = `
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Faça login para salvar APIs favoritas</span>
+                    <button class="login-prompt-btn" onclick="window.location.href='login.html'" style="
+                        background: rgba(255,255,255,0.2);
+                        border: 1px solid rgba(255,255,255,0.3);
+                        color: white;
+                        padding: 4px 8px;
+                        border-radius: 4px;
+                        font-size: 0.8rem;
+                        cursor: pointer;
+                        margin-left: 10px;
+                        transition: all 0.3s ease;
+                    ">Fazer Login</button>
+                `;
+                notification.className = 'notification warning show';
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 5000);
+            }
+        }
+
+        // Instância global do sistema de favoritos
+        window.favoriteSystem = new FavoriteSystem();
+
+        // --- Funções auxiliares ---
+        function tryParseJSON(value) {
+            if (!value) return null;
+            if (typeof value !== 'string') return value;
+            try { return JSON.parse(value); } catch (e) { return null; }
+        }
+
+        function prettyPrintJSON(value) {
+            const parsed = tryParseJSON(value);
+            if (parsed !== null) return JSON.stringify(parsed, null, 2);
+            return String(value || '');
+        }
+
+        function getPrimaryCategory(api) {
+            if (api.category) return api.category;
+            if (api.tags) {
+                const first = String(api.tags).split(',')[0].trim();
+                return first || 'Outros';
+            }
+            return 'Outros';
+        }
+
+        function getCategoryClass(category) {
+            const map = { 
+                'Imagens': 'category-imagens',
+                'Livros': 'category-livros',
+                'Produtos': 'category-produtos',
+                'Tradução': 'category-traducao',
+                'Dados': 'category-dados', 
+                'Datas': 'category-datas', 
+                'Diversão': 'category-diversao', 
+                'Animais': 'category-animais', 
+                'Clima': 'category-clima',
+                'Palavras': 'category-palavras',
+                'Nomes': 'category-nomes',
+                'Financeiro': 'category-financeiro'
+            };
+            return map[category] || 'category-outros';
+        }
+
+        // --- Carregar APIs ---
+        async function carregarAPIs() {
+            const grid = document.getElementById("apis-grid");
+            if (grid) {
+                grid.innerHTML = '';
+                mostrarSkeletonCards();
+            }
+
+            try {
+                const { data, error } = await supabase.from("apis").select("*").order("name");
+                
+                if (error) {
+                    throw new Error(`Erro no Supabase: ${error.message}`);
+                }
+                
+                todasAPIs = data || [];
+                
+                if (todasAPIs.length === 0) {
+                    grid.innerHTML = "<p style='text-align: center; padding: 2rem;'>Nenhuma API encontrada no banco de dados.</p>";
+                    document.getElementById("pagination").innerHTML = '';
+                    return;
+                }
+                
+                totalPages = Math.ceil(todasAPIs.length / itemsPerPage);
+                atualizarPaginacao();
+                aplicarFiltroPesquisa();
+                
+            } catch (erro) {
+                console.error("Erro ao buscar APIs:", erro);
+                mostrarEstadoErro(erro.message || "Falha ao carregar as APIs. Verifique sua conexão e tente novamente.");
+            }
+        }
+
+        function mostrarSkeletonCards() {
+            const grid = document.getElementById("apis-grid");
+            grid.innerHTML = '';
+            
+            for (let i = 0; i < itemsPerPage; i++) {
+                const skeletonCard = document.createElement("div");
+                skeletonCard.classList.add("skeleton");
+                skeletonCard.innerHTML = `
+                    <div class="skeleton-header">
+                        <div class="skeleton-category"></div>
+                        <div class="skeleton-title"></div>
+                        <div class="skeleton-description"></div>
+                        <div class="skeleton-description short"></div>
+                    </div>
+                    <div class="skeleton-body">
+                        <div class="skeleton-detail"></div>
+                        <div class="skeleton-detail"></div>
+                        <div class="skeleton-detail"></div>
+                        <div class="skeleton-detail"></div>
+                    </div>
+                    <div class="skeleton-footer">
+                        <div class="skeleton-link"></div>
+                        <div class="skeleton-button"></div>
+                    </div>
+                `;
+                grid.appendChild(skeletonCard);
+            }
+        }
+
+        function mostrarEstadoErro(mensagem) {
+            const grid = document.getElementById("apis-grid");
+            grid.innerHTML = `
+                <div class="error-state">
+                    <div class="error-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>Ocorreu um erro</h3>
+                    <p>${mensagem}</p>
+                    <button class="retry-button" onclick="carregarAPIs()">
+                        <i class="fas fa-redo"></i> Tentar novamente
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById("pagination").innerHTML = '';
+        }
+
+        // --- Paginação ---
+        function atualizarPaginacao() {
+            const paginationContainer = document.getElementById("pagination");
+            if (!paginationContainer) return;
+            
+            let paginationHTML = '';
+            
+            paginationHTML += `
+                <button class="pagination-button" onclick="mudarPagina(${currentPage - 1})" 
+                        ${currentPage === 1 ? 'disabled' : ''}>
+                    &laquo;
+                </button>
+            `;
+            
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    paginationHTML += `
+                        <button class="pagination-button ${currentPage === i ? 'active' : ''}" 
+                                onclick="mudarPagina(${i})">
+                            ${i}
+                        </button>
+                    `;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    paginationHTML += `<span class="pagination-ellipsis">...</span>`;
+                }
+            }
+            
+            paginationHTML += `
+                <button class="pagination-button" onclick="mudarPagina(${currentPage + 1})" 
+                        ${currentPage === totalPages ? 'disabled' : ''}>
+                    &raquo;
+                </button>
+            `;
+            
+            paginationContainer.innerHTML = paginationHTML;
+        }
+
+        function mudarPagina(pagina) {
+            if (pagina < 1 || pagina > totalPages) return;
+            
+            currentPage = pagina;
+            aplicarFiltroPesquisa();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- Renderização das APIs ---
+        function renderizarAPIs(lista) {
+            const grid = document.getElementById("apis-grid");
+            if (!grid) return;
+            grid.innerHTML = "";
+
+            if (!lista || lista.length === 0) {
+                grid.innerHTML = `
+                    <div class="error-state">
+                        <div class="error-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>Nenhuma API encontrada</h3>
+                        <p>Tente ajustar os termos da sua busca ou filtros.</p>
+                    </div>
+                `;
+                document.getElementById("pagination").innerHTML = '';
+                return;
+            }
+
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const apisPaginadas = lista.slice(startIndex, endIndex);
+            
+            totalPages = Math.ceil(lista.length / itemsPerPage);
+            atualizarPaginacao();
+
+            apisPaginadas.forEach(api => {
+                const card = document.createElement("div");
+                card.classList.add("api-card", "animate");
+                const categoryLabel = getPrimaryCategory(api);
+                card.setAttribute("data-category", categoryLabel);
+
+                const isFavorited = window.favoriteSystem.isFavorite(api.id);
+                const favoriteClass = isFavorited ? 'favorited' : '';
+                const isLoggedIn = !!window.authSystem.currentUser;
+
+                let icon = "fas fa-code";
+                if (categoryLabel === "Imagens") icon = "fas fa-image";
+                if (categoryLabel === "Livros") icon = "fas fa-book";
+                if (categoryLabel === "Produtos") icon = "fas fa-box-open";
+                if (categoryLabel === "Tradução") icon = "fas fa-language";
+                if (categoryLabel === "Dados") icon = "fas fa-database";
+                if (categoryLabel === "Datas") icon = "fas fa-calendar";
+                if (categoryLabel === "Diversão") icon = "fas fa-gamepad";
+                if (categoryLabel === "Animais") icon = "fas fa-paw";
+                if (categoryLabel === "Clima") icon = "fas fa-cloud-sun";
+                if (categoryLabel === "Palavras") icon = "fas fa-pencil-alt";
+                if (categoryLabel === "Nomes") icon = "fas fa-user";
+                if (categoryLabel === "Financeiro") icon = "fas fa-money-bill-wave";
+
+                const fullEndpoint = `${api.base_url || ''}${api.endpoint_path || ''}`;
+
+                card.innerHTML = `
+                    <div class="api-card-header">
+                        <span class="api-card-category ${getCategoryClass(categoryLabel)}">
+                            <i class="${icon}"></i> ${categoryLabel}
+                        </span>
+                        
+                        <button class="favorite-btn ${favoriteClass}" 
+                                data-api-id="${api.id}" 
+                                ${!isLoggedIn ? 'disabled' : ''}
+                                title="${!isLoggedIn ? 'Faça login para favoritar' : (isFavorited ? 'Remover dos favoritos' : 'Adicionar aos favoritos')}">
+                            <i class="${isFavorited ? 'fas' : 'far'} fa-star"></i>
+                        </button>
+
+                        <h3 class="api-card-title">${api.name || 'Sem nome'}</h3>
+                        <p class="api-card-description">${api.description || ''}</p>
+                    </div>
+                    <div class="api-card-body">
+                        <div class="api-details">
+                            <div class="api-detail-item">
+                                <i class="fas fa-link"></i>
+                                <span><strong>Endpoint:</strong> ${fullEndpoint || '—'}</span>
+                            </div>
+                            <div class="api-detail-item">
+                                <i class="fas fa-lock"></i>
+                                <span><strong>Autenticação:</strong> ${api.authentication_type || 'Nenhuma'}</span>
+                            </div>
+                            <div class="api-detail-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span><strong>HTTPS:</strong> ${api.https ? 'Sim' : 'Não'}</span>
+                            </div>
+                            <div class="api-detail-item">
+                                <i class="fas fa-exchange-alt"></i>
+                                <span><strong>CORS:</strong> ${api.cors ? 'Suportado' : 'Não suportado'}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="api-card-footer">
+                        <div class="api-link-container">
+                            <span class="api-link" title="${fullEndpoint}">${fullEndpoint}</span>
+                            <button class="copy-btn" data-url="${fullEndpoint}">
+                                <i class="fas fa-copy"></i> Copiar
+                            </button>
+                        </div>
+                        <button class="how-to-use-btn" onclick="abrirModal('${api.id}')">
+                            <i class="fas fa-book"></i> Como usar
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
             });
 
-            logoutBtn.addEventListener('click', () => {
-                this.logout();
+            adicionarEventListeners();
+        }
+
+        function adicionarEventListeners() {
+            document.querySelectorAll('.copy-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const url = e.currentTarget.getAttribute('data-url');
+                    copiarParaAreaDeTransferencia(url);
+                });
+            });
+
+            document.querySelectorAll('.favorite-btn').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const apiId = e.currentTarget.getAttribute('data-api-id');
+                    await window.favoriteSystem.toggleFavorite(apiId);
+                });
             });
         }
 
-        logout() {
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('userData');
-            this.currentUser = null;
-            this.updateUI();
+        function copiarParaAreaDeTransferencia(texto) {
+            navigator.clipboard.writeText(texto).then(() => {
+                window.favoriteSystem.mostrarMensagem("Link copiado para a área de transferência!", false);
+            }).catch(err => {
+                console.error('Falha ao copiar texto: ', err);
+                window.favoriteSystem.mostrarMensagem("Falha ao copiar o link.");
+            });
+        }
+
+        // --- Modal ---
+        function abrirModal(id) {
+            const api = todasAPIs.find(a => a.id === id);
+            if (!api) {
+                window.favoriteSystem.mostrarMensagem("API não encontrada.");
+                return;
+            }
+
+            const fullEndpoint = `${api.base_url || ''}${api.endpoint_path || ''}`;
+            const method = api.method || 'GET';
+            const responseFormatted = prettyPrintJSON(api.response_format);
+            const usageExample = api.usage_example || '';
+
+            let parametersTable = '';
+            const params = tryParseJSON(api.parameters);
+            if (params && typeof params === 'object' && Object.keys(params).length > 0) {
+                parametersTable = '<table class="parameter-table"><tr><th>Parâmetro</th><th>Descrição</th></tr>';
+                for (const [key, value] of Object.entries(params)) {
+                    parametersTable += `<tr><td><code>${key}</code></td><td>${value}</td></tr>`;
+                }
+                parametersTable += '</table>';
+            } else if (api.parameters && typeof api.parameters === 'string') {
+                parametersTable = `<pre>${api.parameters}</pre>`;
+            } else {
+                parametersTable = '<p>Nenhum parâmetro necessário ou informações não disponíveis.</p>';
+            }
+
+            document.getElementById("modal-title").innerHTML = `
+                ${api.name || 'Sem nome'}
+                <span class="modal-category ${getCategoryClass(getPrimaryCategory(api))}">${getPrimaryCategory(api)}</span>
+            `;
+
+            document.getElementById("modal-body").innerHTML = `
+                <div class="modal-section">
+                    <h3 class="modal-section-title"><i class="fas fa-info-circle"></i> Descrição</h3>
+                    <p>${api.description || ''}</p>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title"><i class="fas fa-link"></i> Endpoint</h3>
+                    <div class="modal-section-content">${fullEndpoint}</div>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title"><i class="fas fa-code"></i> Método HTTP</h3>
+                    <div class="modal-section-content">${method}</div>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title"><i class="fas fa-cog"></i> Parâmetros</h3>
+                    ${parametersTable}
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title"><i class="fas fa-code"></i> Exemplo de Uso</h3>
+                    <div class="code-example"><pre>${usageExample || 'Nenhum exemplo disponível.'}</pre></div>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title"><i class="fas fa-reply"></i> Resposta</h3>
+                    <div class="code-example"><pre>${responseFormatted || 'Nenhum exemplo de resposta disponível.'}</pre></div>
+                </div>
+            `;
+
+            document.getElementById("modal-overlay").classList.add("active");
+        }
+
+        document.getElementById("modal-close").addEventListener("click", () => {
+            document.getElementById("modal-overlay").classList.remove("active");
+        });
+        document.getElementById("modal-overlay").addEventListener("click", e => {
+            if (e.target === document.getElementById("modal-overlay")) {
+                document.getElementById("modal-overlay").classList.remove("active");
+            }
+        });
+
+        // --- Filtro de pesquisa ---
+        document.querySelector('.search-input').addEventListener('input', aplicarFiltroPesquisa);
+
+        function aplicarFiltroPesquisa() {
+            const searchInput = document.querySelector('.search-input');
+            const termo = searchInput.value.toLowerCase();
             
-            if (window.favoriteSystem) {
-                window.favoriteSystem.currentUser = null;
+            let filtradas = todasAPIs;
+            
+            if (termo) {
+                filtradas = filtradas.filter(api =>
+                    (api.name || '').toLowerCase().includes(termo) ||
+                    (api.description || '').toLowerCase().includes(termo) ||
+                    (getPrimaryCategory(api) || '').toLowerCase().includes(termo)
+                );
+            }
+
+            renderizarAPIs(filtradas);
+        }
+
+        document.querySelector('.search-button').addEventListener('click', aplicarFiltroPesquisa);
+
+        // --- Inicialização ---
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🚀 Inicializando aplicação...');
+            
+            // 1. Inicializar AuthSystem PRIMEIRO (IDÊNTICO ao index.html)
+            window.authSystem = new AuthSystem();
+            console.log('✅ AuthSystem inicializado:', window.authSystem.currentUser);
+            
+            // 2. Inicializar FavoriteSystem DEPOIS  
+            window.favoriteSystem = new FavoriteSystem();
+            
+            // 3. Carregar APIs
+            await carregarAPIs();
+            
+            // 4. SÓ DEPOIS inicializar favoritos se usuário estiver logado
+            if (window.authSystem.currentUser && window.authSystem.currentUser.id) {
+                console.log('👤 Usuário logado, inicializando favoritos...');
+                await window.favoriteSystem.init();
+            } else {
+                console.log('👤 Usuário não logado, limpando favoritos...');
                 window.favoriteSystem.userFavorites.clear();
                 window.favoriteSystem.updateFavoriteButtons();
             }
             
-            const sidebar = document.querySelector('.sidebar');
-            const overlay = document.querySelector('.sidebar-overlay');
-            const mainContent = document.getElementById('main-content');
-            
-            sidebar.classList.remove('active');
-            overlay.classList.remove('active');
-            mainContent.classList.remove('sidebar-open');
-            
-            if (typeof aplicarFiltroPesquisa === 'function') {
-                aplicarFiltroPesquisa();
-            }
-        }
-    }
-
-    // Configuração do Supabase (APENAS para buscar APIs)
-    const SUPABASE_URL = "https://bllvhpayuglmkhgvoppv.supabase.co";
-    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsbHZocGF5dWdsbWtoZ3ZvcHB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc3MTg3OTksImV4cCI6MjA3MzI5NDc5OX0.6y-iXrOZFl5ufsB06ZW1mAK6y5wPfTIEH8GhMsE_byw";
-
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    let todasAPIs = [];
-    let currentPage = 1;
-    const itemsPerPage = 6;
-    let totalPages = 1;
-
-    // --- Helpers ---
-    function tryParseJSON(value) {
-        if (!value) return null;
-        if (typeof value !== 'string') return value;
-        try { return JSON.parse(value); } catch (e) { return null; }
-    }
-
-    function prettyPrintJSON(value) {
-        const parsed = tryParseJSON(value);
-        if (parsed !== null) return JSON.stringify(parsed, null, 2);
-        return String(value || '');
-    }
-
-    function getPrimaryCategory(api) {
-        if (api.category) return api.category;
-        if (api.tags) {
-            const first = String(api.tags).split(',')[0].trim();
-            return first || 'Outros';
-        }
-        return 'Outros';
-    }
-
-    // --- Sistema de Favoritos CORRIGIDO ---
-    // --- Sistema de Favoritos CORRIGIDO com URL do backend ---
-    // --- CÓDIGO DE DIAGNÓSTICO ---
-async function diagnosticarProblema() {
-    console.log('🔍 INICIANDO DIAGNÓSTICO...');
-    
-    const backendUrl = "https://apihub-br.duckdns.org";
-    
-    try {
-        // Teste 1: Health Check
-        console.log('🧪 Testando Health Check...');
-        const healthResponse = await fetch(`${backendUrl}/health`);
-        console.log('Health Check Status:', healthResponse.status);
-        
-        if (healthResponse.ok) {
-            const healthData = await healthResponse.json();
-            console.log('✅ Health Check OK:', healthData);
-        } else {
-            console.error('❌ Health Check FALHOU:', healthResponse.status);
-        }
-
-        // Teste 2: Tentativa de conexão básica
-        console.log('🧪 Testando conexão básica...');
-        const testResponse = await fetch(backendUrl, { 
-            method: 'HEAD',
-            mode: 'no-cors' // Modo simples para testar conectividade
-        });
-        console.log('Conexão básica:', testResponse.type);
-
-        // Teste 3: Verificar se usuário está logado
-        const user = window.authSystem?.currentUser;
-        console.log('👤 Usuário logado:', user);
-        
-        if (user) {
-            console.log('🔑 User ID:', user.id);
-            
-            // Teste 4: Tentar carregar favoritos
-            console.log('🧪 Testando rota de favoritos...');
-            try {
-                const favResponse = await fetch(`${backendUrl}/favoritos/${user.id}`);
-                console.log('Favoritos Status:', favResponse.status);
-                
-                if (favResponse.ok) {
-                    const favData = await favResponse.json();
-                    console.log('✅ Favoritos carregados:', favData);
-                } else {
-                    console.error('❌ Favoritos FALHOU:', favResponse.status);
-                }
-            } catch (favError) {
-                console.error('❌ Erro na rota de favoritos:', favError.message);
-            }
-        }
-
-    } catch (error) {
-        console.error('💥 ERRO CRÍTICO NO DIAGNÓSTICO:', error);
-        console.error('Tipo do erro:', error.name);
-        console.error('Mensagem:', error.message);
-        
-        // Verificar tipo específico de erro
-        if (error.name === 'TypeError') {
-            console.error('🔧 Provável problema de CORS ou URL incorreta');
-        }
-        if (error.name === 'NetworkError') {
-            console.error('🔧 Problema de rede - backend offline');
-        }
-    }
-}
-
-// Execute o diagnóstico após o carregamento
-
-document.addEventListener('DOMContentLoaded', async function() {
-    console.log('🚀 Inicializando aplicação...');
-    
-    // 1. Inicializar AuthSystem PRIMEIRO
-    window.authSystem = new AuthSystem();
-    console.log('✅ AuthSystem inicializado:', window.authSystem.currentUser);
-    
-    // 2. Inicializar FavoriteSystem DEPOIS
-    window.favoriteSystem = new FavoriteSystem();
-    
-    // 3. Carregar APIs
-    await carregarAPIs();
-    
-    // 4. SÓ DEPOIS inicializar favoritos se usuário estiver logado
-    if (window.authSystem.currentUser && window.authSystem.currentUser.id) {
-        console.log('👤 Usuário logado, inicializando favoritos...');
-        await window.favoriteSystem.init();
-    } else {
-        console.log('👤 Usuário não logado, limpando favoritos...');
-        window.favoriteSystem.userFavorites.clear();
-        window.favoriteSystem.updateFavoriteButtons();
-    }
-});
-    
-    // Adicione esta linha para executar o diagnóstico
-    setTimeout(diagnosticarProblema, 1000);
-
-    
-class FavoriteSystem {
-    constructor() {
-        this.currentUser = null;
-        this.userFavorites = new Set();
-        this.backendUrl = "https://apihub-br.duckdns.org";
-    }
-
-    async init() {
-    // ✅ SINCRONIZAÇÃO CORRETA com o AuthSystem
-    this.currentUser = window.authSystem?.currentUser;
-    console.log('🔍 FavoriteSystem init - Usuário:', this.currentUser);
-    
-    if (this.currentUser && this.currentUser.id) {
-        console.log('✅ User ID disponível:', this.currentUser.id);
-        await this.loadUserFavorites();
-    } else {
-        console.warn('❌ User ID não disponível para favoritos');
-        this.userFavorites.clear();
-        this.updateFavoriteButtons();
-    }
-}
-
-    async loadUserFavorites() {
-        // ✅ VERIFICAÇÃO DUPLA do user ID
-        if (!this.currentUser || !this.currentUser.id) {
-            console.error('❌ User ID não disponível para carregar favoritos');
-            return;
-        }
-
-        try {
-            console.log('🔍 Carregando favoritos para user:', this.currentUser.id);
-            const response = await fetch(`${this.backendUrl}/favoritos/${this.currentUser.id}`);
-            
-            if (!response.ok) throw new Error(`HTTP ${response.status} - ${response.statusText}`);
-            
-            const data = await response.json();
-            console.log('✅ Favoritos carregados:', data);
-            
-            this.userFavorites = new Set(data.map(fav => fav.apis.id));
-            this.updateFavoriteButtons();
-        } catch (error) {
-            console.error('❌ Erro ao carregar favoritos:', error);
-        }
-    }
-
-    async toggleFavorite(apiId) {
-        // ✅ VERIFICAÇÃO DUPLA do user ID
-        if (!this.currentUser || !this.currentUser.id) {
-            console.error('❌ User ID não disponível para favoritar');
-            mostrarMensagemLogin();
-            return false;
-        }
-
-        try {
-            const isFavorited = this.userFavorites.has(apiId);
-            console.log(`🔍 Alternando favorito: API ${apiId}, Favoritado: ${isFavorited}, User: ${this.currentUser.id}`);
-            
-            if (isFavorited) {
-                const response = await fetch(`${this.backendUrl}/favoritos`, {
-                    method: 'DELETE',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        user_id: this.currentUser.id,
-                        api_id: apiId
-                    })
+            // Animações
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
                 });
+            }, { threshold: 0.1 });
 
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                
-                this.userFavorites.delete(apiId);
-                mostrarMensagemErro('API removida dos favoritos', false);
-            } else {
-                const response = await fetch(`${this.backendUrl}/favoritos`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        user_id: this.currentUser.id,
-                        api_id: apiId
-                    })
-                });
-
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                
-                this.userFavorites.add(apiId);
-                mostrarMensagemErro('API adicionada aos favoritos!', false);
-            }
-
-            this.updateFavoriteButtons();
-            return true;
-        } catch (error) {
-            console.error('❌ Erro ao alternar favorito:', error);
-            mostrarMensagemErro('Erro ao salvar favorito', true);
-            return false;
-        }
-    }
-
-    updateFavoriteButtons() {
-        document.querySelectorAll('.favorite-btn').forEach(btn => {
-            const apiId = btn.getAttribute('data-api-id');
-            const icon = btn.querySelector('i');
-            
-            if (this.userFavorites.has(apiId)) {
-                btn.classList.add('favorited');
-                icon.classList.add('fas');
-                icon.classList.remove('far');
-                btn.title = 'Remover dos favoritos';
-            } else {
-                btn.classList.remove('favorited');
-                icon.classList.add('far');
-                icon.classList.remove('fas');
-                btn.title = 'Adicionar aos favoritos';
-            }
-        });
-    }
-
-    isFavorite(apiId) {
-        return this.userFavorites.has(apiId);
-    }
-}
-
-    // Instância global do sistema de favoritos
-    window.favoriteSystem = new FavoriteSystem();
-
-    // --- Mensagem de Login ---
-    function mostrarMensagemLogin() {
-        const notification = document.getElementById('notification');
-        notification.innerHTML = `
-            <i class="fas fa-exclamation-triangle"></i>
-            <span>Faça login para salvar APIs favoritas</span>
-            <button class="login-prompt-btn" onclick="window.location.href='login.html'" style="
-                background: rgba(255,255,255,0.2);
-                border: 1px solid rgba(255,255,255,0.3);
-                color: white;
-                padding: 4px 8px;
-                border-radius: 4px;
-                font-size: 0.8rem;
-                cursor: pointer;
-                margin-left: 10px;
-                transition: all 0.3s ease;
-            ">Fazer Login</button>
-        `;
-        notification.className = 'notification warning show';
-        
-        setTimeout(() => {
-            notification.classList.remove('show');
-        }, 5000);
-    }
-
-    // --- Skeleton Loading ---
-    function mostrarSkeletonCards() {
-        const grid = document.getElementById("apis-grid");
-        grid.innerHTML = '';
-        
-        for (let i = 0; i < itemsPerPage; i++) {
-            const skeletonCard = document.createElement("div");
-            skeletonCard.classList.add("skeleton");
-            skeletonCard.innerHTML = `
-                <div class="skeleton-header">
-                    <div class="skeleton-category"></div>
-                    <div class="skeleton-title"></div>
-                    <div class="skeleton-description"></div>
-                    <div class="skeleton-description short"></div>
-                </div>
-                <div class="skeleton-body">
-                    <div class="skeleton-detail"></div>
-                    <div class="skeleton-detail"></div>
-                    <div class="skeleton-detail"></div>
-                    <div class="skeleton-detail"></div>
-                </div>
-                <div class="skeleton-footer">
-                    <div class="skeleton-link"></div>
-                    <div class="skeleton-button"></div>
-                </div>
-            `;
-            grid.appendChild(skeletonCard);
-        }
-    }
-
-    // --- Error Handling ---
-    function mostrarMensagemErro(mensagem, isError = true) {
-        const notification = document.getElementById('notification');
-        notification.innerHTML = `
-            <i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
-            <span>${mensagem}</span>
-        `;
-        notification.className = `notification ${isError ? 'error' : 'success'} show`;
-        
-        setTimeout(() => {
-            notification.classList.remove('show');
-        }, 5000);
-    }
-
-    function mostrarEstadoErro(mensagem) {
-        const grid = document.getElementById("apis-grid");
-        grid.innerHTML = `
-            <div class="error-state">
-                <div class="error-icon">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </div>
-                <h3>Ocorreu um erro</h3>
-                <p>${mensagem}</p>
-                <button class="retry-button" onclick="carregarAPIs()">
-                    <i class="fas fa-redo"></i> Tentar novamente
-                </button>
-            </div>
-        `;
-        
-        document.getElementById("pagination").innerHTML = '';
-    }
-
-    // --- Carregar APIs (usa Supabase apenas para buscar catálogo) ---
-    async function carregarAPIs() {
-        const grid = document.getElementById("apis-grid");
-        if (grid) {
-            grid.innerHTML = '';
-            mostrarSkeletonCards();
-        }
-
-        try {
-            const { data, error } = await supabase.from("apis").select("*").order("name");
-            
-            if (error) {
-                throw new Error(`Erro no Supabase: ${error.message}`);
-            }
-            
-            todasAPIs = data || [];
-            
-            if (todasAPIs.length === 0) {
-                grid.innerHTML = "<p style='text-align: center; padding: 2rem;'>Nenhuma API encontrada no banco de dados.</p>";
-                document.getElementById("pagination").innerHTML = '';
-                return;
-            }
-            
-            totalPages = Math.ceil(todasAPIs.length / itemsPerPage);
-            atualizarPaginacao();
-            aplicarFiltroPesquisa();
-            
-        } catch (erro) {
-            console.error("Erro ao buscar APIs:", erro);
-            mostrarEstadoErro(erro.message || "Falha ao carregar as APIs. Verifique sua conexão e tente novamente.");
-        }
-    }
-
-    // --- Paginação ---
-    function atualizarPaginacao() {
-        const paginationContainer = document.getElementById("pagination");
-        if (!paginationContainer) return;
-        
-        let paginationHTML = '';
-        
-        paginationHTML += `
-            <button class="pagination-button" onclick="mudarPagina(${currentPage - 1})" 
-                    ${currentPage === 1 ? 'disabled' : ''}>
-                &laquo;
-            </button>
-        `;
-        
-        for (let i = 1; i <= totalPages; i++) {
-            if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
-                paginationHTML += `
-                    <button class="pagination-button ${currentPage === i ? 'active' : ''}" 
-                            onclick="mudarPagina(${i})">
-                        ${i}
-                    </button>
-                `;
-            } else if (i === currentPage - 2 || i === currentPage + 2) {
-                paginationHTML += `<span class="pagination-ellipsis">...</span>`;
-            }
-        }
-        
-        paginationHTML += `
-            <button class="pagination-button" onclick="mudarPagina(${currentPage + 1})" 
-                    ${currentPage === totalPages ? 'disabled' : ''}>
-                &raquo;
-            </button>
-        `;
-        
-        paginationContainer.innerHTML = paginationHTML;
-    }
-
-    function mudarPagina(pagina) {
-        if (pagina < 1 || pagina > totalPages) return;
-        
-        currentPage = pagina;
-        aplicarFiltroPesquisa();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // --- Renderização ---
-    function getCategoryClass(category) {
-        const map = { 
-            'Imagens': 'category-imagens',
-            'Livros': 'category-livros',
-            'Produtos': 'category-produtos',
-            'Tradução': 'category-traducao',
-            'Dados': 'category-dados', 
-            'Datas': 'category-datas', 
-            'Diversão': 'category-diversao', 
-            'Animais': 'category-animais', 
-            'Clima': 'category-clima',
-            'Palavras': 'category-palavras',
-            'Nomes': 'category-nomes',
-            'Financeiro': 'category-financeiro'
-        };
-        return map[category] || 'category-outros';
-    }
-
-    // --- Renderização das APIs ---
-    function renderizarAPIs(lista) {
-        const grid = document.getElementById("apis-grid");
-        if (!grid) return;
-        grid.innerHTML = "";
-
-        if (!lista || lista.length === 0) {
-            grid.innerHTML = `
-                <div class="error-state">
-                    <div class="error-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <h3>Nenhuma API encontrada</h3>
-                    <p>Tente ajustar os termos da sua busca ou filtros.</p>
-                </div>
-            `;
-            document.getElementById("pagination").innerHTML = '';
-            return;
-        }
-
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const apisPaginadas = lista.slice(startIndex, endIndex);
-        
-        totalPages = Math.ceil(lista.length / itemsPerPage);
-        atualizarPaginacao();
-
-        apisPaginadas.forEach(api => {
-            const card = document.createElement("div");
-            card.classList.add("api-card", "animate");
-            const categoryLabel = getPrimaryCategory(api);
-            card.setAttribute("data-category", categoryLabel);
-
-            const isFavorited = window.favoriteSystem.isFavorite(api.id);
-            const favoriteClass = isFavorited ? 'favorited' : '';
-            const isLoggedIn = !!window.authSystem.currentUser;
-
-            let icon = "fas fa-code";
-            if (categoryLabel === "Imagens") icon = "fas fa-image";
-            if (categoryLabel === "Livros") icon = "fas fa-book";
-            if (categoryLabel === "Produtos") icon = "fas fa-box-open";
-            if (categoryLabel === "Tradução") icon = "fas fa-language";
-            if (categoryLabel === "Dados") icon = "fas fa-database";
-            if (categoryLabel === "Datas") icon = "fas fa-calendar";
-            if (categoryLabel === "Diversão") icon = "fas fa-gamepad";
-            if (categoryLabel === "Animais") icon = "fas fa-paw";
-            if (categoryLabel === "Clima") icon = "fas fa-cloud-sun";
-            if (categoryLabel === "Palavras") icon = "fas fa-pencil-alt";
-            if (categoryLabel === "Nomes") icon = "fas fa-user";
-            if (categoryLabel === "Financeiro") icon = "fas fa-money-bill-wave";
-
-            const fullEndpoint = `${api.base_url || ''}${api.endpoint_path || ''}`;
-
-            card.innerHTML = `
-                <div class="api-card-header">
-                    <span class="api-card-category ${getCategoryClass(categoryLabel)}">
-                        <i class="${icon}"></i> ${categoryLabel}
-                    </span>
-                    
-                    <button class="favorite-btn ${favoriteClass}" 
-                            data-api-id="${api.id}" 
-                            ${!isLoggedIn ? 'disabled' : ''}
-                            title="${!isLoggedIn ? 'Faça login para favoritar' : (isFavorited ? 'Remover dos favoritos' : 'Adicionar aos favoritos')}">
-                        <i class="${isFavorited ? 'fas' : 'far'} fa-star"></i>
-                    </button>
-
-                    <h3 class="api-card-title">${api.name || 'Sem nome'}</h3>
-                    <p class="api-card-description">${api.description || ''}</p>
-                </div>
-                <div class="api-card-body">
-                    <div class="api-details">
-                        <div class="api-detail-item">
-                            <i class="fas fa-link"></i>
-                            <span><strong>Endpoint:</strong> ${fullEndpoint || '—'}</span>
-                        </div>
-                        <div class="api-detail-item">
-                            <i class="fas fa-lock"></i>
-                            <span><strong>Autenticação:</strong> ${api.authentication_type || 'Nenhuma'}</span>
-                        </div>
-                        <div class="api-detail-item">
-                            <i class="fas fa-shield-alt"></i>
-                            <span><strong>HTTPS:</strong> ${api.https ? 'Sim' : 'Não'}</span>
-                        </div>
-                        <div class="api-detail-item">
-                            <i class="fas fa-exchange-alt"></i>
-                            <span><strong>CORS:</strong> ${api.cors ? 'Suportado' : 'Não suportado'}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="api-card-footer">
-                    <div class="api-link-container">
-                        <span class="api-link" title="${fullEndpoint}">${fullEndpoint}</span>
-                        <button class="copy-btn" data-url="${fullEndpoint}">
-                            <i class="fas fa-copy"></i> Copiar
-                        </button>
-                    </div>
-                    <button class="how-to-use-btn" onclick="abrirModal('${api.id}')">
-                        <i class="fas fa-book"></i> Como usar
-                    </button>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
-
-        adicionarEventListeners();
-    }
-
-    function adicionarEventListeners() {
-        document.querySelectorAll('.copy-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const url = e.currentTarget.getAttribute('data-url');
-                copiarParaAreaDeTransferencia(url);
+            document.querySelectorAll('section').forEach(section => {
+                observer.observe(section);
             });
         });
-
-        document.querySelectorAll('.favorite-btn').forEach(btn => {
-            btn.addEventListener('click', async (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                const apiId = e.currentTarget.getAttribute('data-api-id');
-                await window.favoriteSystem.toggleFavorite(apiId);
-            });
-        });
-    }
-
-    // --- Modal ---
-    function abrirModal(id) {
-        const api = todasAPIs.find(a => a.id === id);
-        if (!api) {
-            mostrarMensagemErro("API não encontrada.");
-            return;
-        }
-
-        const fullEndpoint = `${api.base_url || ''}${api.endpoint_path || ''}`;
-        const method = api.method || 'GET';
-        const responseFormatted = prettyPrintJSON(api.response_format);
-        const usageExample = api.usage_example || '';
-
-        let parametersTable = '';
-        const params = tryParseJSON(api.parameters);
-        if (params && typeof params === 'object' && Object.keys(params).length > 0) {
-            parametersTable = '<table class="parameter-table"><tr><th>Parâmetro</th><th>Descrição</th></tr>';
-            for (const [key, value] of Object.entries(params)) {
-                parametersTable += `<tr><td><code>${key}</code></td><td>${value}</td></tr>`;
-            }
-            parametersTable += '</table>';
-        } else if (api.parameters && typeof api.parameters === 'string') {
-            parametersTable = `<pre>${api.parameters}</pre>`;
-        } else {
-            parametersTable = '<p>Nenhum parâmetro necessário ou informações não disponíveis.</p>';
-        }
-
-        document.getElementById("modal-title").innerHTML = `
-            ${api.name || 'Sem nome'}
-            <span class="modal-category ${getCategoryClass(getPrimaryCategory(api))}">${getPrimaryCategory(api)}</span>
-        `;
-
-        document.getElementById("modal-body").innerHTML = `
-            <div class="modal-section">
-                <h3 class="modal-section-title"><i class="fas fa-info-circle"></i> Descrição</h3>
-                <p>${api.description || ''}</p>
-            </div>
-
-            <div class="modal-section">
-                <h3 class="modal-section-title"><i class="fas fa-link"></i> Endpoint</h3>
-                <div class="modal-section-content">${fullEndpoint}</div>
-            </div>
-
-            <div class="modal-section">
-                <h3 class="modal-section-title"><i class="fas fa-code"></i> Método HTTP</h3>
-                <div class="modal-section-content">${method}</div>
-            </div>
-
-            <div class="modal-section">
-                <h3 class="modal-section-title"><i class="fas fa-cog"></i> Parâmetros</h3>
-                ${parametersTable}
-            </div>
-
-            <div class="modal-section">
-                <h3 class="modal-section-title"><i class="fas fa-code"></i> Exemplo de Uso</h3>
-                <div class="code-example"><pre>${usageExample || 'Nenhum exemplo disponível.'}</pre></div>
-            </div>
-
-            <div class="modal-section">
-                <h3 class="modal-section-title"><i class="fas fa-reply"></i> Resposta</h3>
-                <div class="code-example"><pre>${responseFormatted || 'Nenhum exemplo de resposta disponível.'}</pre></div>
-            </div>
-        `;
-
-        document.getElementById("modal-overlay").classList.add("active");
-    }
-
-    function copiarParaAreaDeTransferencia(texto) {
-        navigator.clipboard.writeText(texto).then(() => {
-            mostrarMensagemErro("Link copiado para a área de transferência!", false);
-        }).catch(err => {
-            console.error('Falha ao copiar texto: ', err);
-            mostrarMensagemErro("Falha ao copiar o link.");
-        });
-    }
-
-    document.getElementById("modal-close").addEventListener("click", () => {
-        document.getElementById("modal-overlay").classList.remove("active");
-    });
-    document.getElementById("modal-overlay").addEventListener("click", e => {
-        if (e.target === document.getElementById("modal-overlay")) {
-            document.getElementById("modal-overlay").classList.remove("active");
-        }
-    });
-
-    document.querySelector('.search-input').addEventListener('input', aplicarFiltroPesquisa);
-
-    function aplicarFiltroPesquisa() {
-        const searchInput = document.querySelector('.search-input');
-        const termo = searchInput.value.toLowerCase();
-        
-        let filtradas = todasAPIs;
-        
-        if (termo) {
-            filtradas = filtradas.filter(api =>
-                (api.name || '').toLowerCase().includes(termo) ||
-                (api.description || '').toLowerCase().includes(termo) ||
-                (getPrimaryCategory(api) || '').toLowerCase().includes(termo)
-            );
-        }
-
-        renderizarAPIs(filtradas);
-    }
-
-    document.querySelector('.search-button').addEventListener('click', aplicarFiltroPesquisa);
-
-    // --- Inicialização ---
-    // --- Inicialização ---
-document.addEventListener('DOMContentLoaded', async function() {
-    console.log('🚀 Inicializando aplicação...');
-    
-    // 1. Inicializar AuthSystem PRIMEIRO
-    window.authSystem = new AuthSystem();
-    console.log('✅ AuthSystem inicializado:', window.authSystem.currentUser);
-    
-    // 2. Inicializar FavoriteSystem DEPOIS  
-    window.favoriteSystem = new FavoriteSystem();
-    
-    // 3. Carregar APIs
-    await carregarAPIs();
-    
-    // 4. SÓ DEPOIS inicializar favoritos se usuário estiver logado
-    if (window.authSystem.currentUser && window.authSystem.currentUser.id) {
-        console.log('👤 Usuário logado, inicializando favoritos...');
-        await window.favoriteSystem.init();
-    } else {
-        console.log('👤 Usuário não logado, limpando favoritos...');
-        window.favoriteSystem.userFavorites.clear();
-        window.favoriteSystem.updateFavoriteButtons();
-    }
-    
-    // Resto do seu código de observadores...
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate');
-            }
-        });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('section').forEach(section => {
-        observer.observe(section);
-    });
-});
-</script>
+    </script>
 </body>
 </html>
