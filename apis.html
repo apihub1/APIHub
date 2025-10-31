@@ -1440,94 +1440,76 @@
     <script>
         // Sistema de Autenticação - IDÊNTICO ao do index.html
         class AuthSystem {
-            constructor() {
-                this.currentUser = null;
-                this.checkLoginStatus();
-            }
+    constructor() {
+        this.currentUser = null;
+        this.checkLoginStatus();
+    }
 
-            checkLoginStatus() {
-                const token = localStorage.getItem('authToken');
-                const userData = localStorage.getItem('userData');
+    checkLoginStatus() {
+        const token = localStorage.getItem('authToken');
+        const userData = localStorage.getItem('userData');
+        
+        console.log('🔍 Verificando status de login:', { token, userData });
+        
+        if (token && userData) {
+            try {
+                this.currentUser = JSON.parse(userData);
+                console.log('✅ Usuário logado:', this.currentUser);
                 
-                console.log('🔍 Verificando status de login:', { token, userData });
-                
-                if (token && userData) {
-                    try {
-                        this.currentUser = JSON.parse(userData);
-                        console.log('✅ Usuário logado:', this.currentUser);
-                        
-                        // ✅ GARANTIR que o ID está disponível
-                        if (!this.currentUser.id) {
-                            console.warn('⚠️ Usuário sem ID, limpando sessão inválida');
-                            this.logout();
-                            return false;
-                        }
-                        
-                        this.updateUI();
-                        this.initSidebar();
-                        return true;
-                    } catch (error) {
-                        console.error('❌ Erro ao parsear userData:', error);
-                        this.logout();
-                        return false;
-                    }
+                // ✅ GARANTIR que o ID está disponível
+                if (!this.currentUser.id) {
+                    console.warn('⚠️ Usuário sem ID, limpando sessão inválida');
+                    this.logout();
+                    return false;
                 }
-                console.log('❌ Nenhum usuário logado');
+                
+                // ✅ NÃO chamar updateUI() aqui - será chamado depois
+                this.initSidebar();
+                return true;
+            } catch (error) {
+                console.error('❌ Erro ao parsear userData:', error);
+                this.logout();
                 return false;
             }
+        }
+        console.log('❌ Nenhum usuário logado');
+        return false;
+    }
 
             updateUI() {
-                const loginBtn = document.querySelector('.login a');
-                const sidebarToggle = document.querySelector('.sidebar-toggle');
-                const sidebar = document.querySelector('.sidebar');
-                
-                if (this.currentUser) {
-                    loginBtn.textContent = '';
-                    loginBtn.href = '#';
-                    
-                    sidebarToggle.style.display = 'block';
-                    sidebar.style.display = 'flex';
-                    
-                    this.updateSidebarUserInfo();
-                    
-                } else {
-                    loginBtn.textContent = 'Login';
-                    loginBtn.href = 'login.html';
-                    sidebarToggle.style.display = 'none';
-                    sidebar.style.display = 'none';
-                }
-            }
-
-            updateSidebarUserInfo() {
-                if (this.currentUser) {
-                    document.getElementById('sidebar-username').textContent = this.currentUser.name || 'Usuário';
-                    document.getElementById('sidebar-email').textContent = this.currentUser.email || 'Bem-vindo!';
-                }
-            }
-
-            initSidebar() {
-                const toggleBtn = document.querySelector('.sidebar-toggle');
-                const sidebar = document.querySelector('.sidebar');
-                const overlay = document.querySelector('.sidebar-overlay');
-                const mainContent = document.getElementById('main-content');
-                const logoutBtn = document.getElementById('logout-btn');
-
-                toggleBtn.addEventListener('click', () => {
-                    sidebar.classList.toggle('active');
-                    overlay.classList.toggle('active');
-                    mainContent.classList.toggle('sidebar-open');
-                });
-
-                overlay.addEventListener('click', () => {
-                    sidebar.classList.remove('active');
-                    overlay.classList.remove('active');
-                    mainContent.classList.remove('sidebar-open');
-                });
-
-                logoutBtn.addEventListener('click', () => {
-                    this.logout();
-                });
-            }
+    const loginBtn = document.querySelector('.login a');
+    const sidebarToggle = document.querySelector('.sidebar-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    
+    if (this.currentUser) {
+        loginBtn.textContent = '';
+        loginBtn.href = '#';
+        
+        sidebarToggle.style.display = 'block';
+        sidebar.style.display = 'flex';
+        
+        this.updateSidebarUserInfo();
+        
+        // ✅ ATUALIZAR FAVORITOS APENAS SE O SISTEMA JÁ FOI INICIALIZADO
+        if (window.favoriteSystem && window.favoriteSystem.currentUser) {
+            setTimeout(async () => {
+                await window.favoriteSystem.refreshFavorites();
+            }, 100);
+        }
+        
+    } else {
+        loginBtn.textContent = 'Login';
+        loginBtn.href = 'login.html';
+        sidebarToggle.style.display = 'none';
+        sidebar.style.display = 'none';
+        
+        // ✅ LIMPAR FAVORITOS APENAS SE O SISTEMA JÁ FOI INICIALIZADO
+        if (window.favoriteSystem) {
+            window.favoriteSystem.userFavorites.clear();
+            window.favoriteSystem.updateFavoriteButtons();
+        }
+    }
+}
 
             logout() {
                 localStorage.removeItem('authToken');
@@ -1566,20 +1548,19 @@
                 this.backendUrl = "https://apihub-br.duckdns.org";
             }
 
-            async init() {
-                this.currentUser = window.authSystem?.currentUser;
-                console.log('🔍 FavoriteSystem init - Usuário:', this.currentUser);
-                
-                if (this.currentUser && this.currentUser.id) {
-                    console.log('✅ User ID disponível:', this.currentUser.id);
-                    await this.loadUserFavorites();
-                } else {
-                    console.warn('❌ User ID não disponível para favoritos');
-                    this.userFavorites.clear();
-                    this.updateFavoriteButtons();
-                }
-            }
-
+           async init() {
+    this.currentUser = window.authSystem?.currentUser;
+    console.log('🔍 FavoriteSystem init - Usuário:', this.currentUser);
+    
+    if (this.currentUser && this.currentUser.id) {
+        console.log('✅ User ID disponível:', this.currentUser.id);
+        await this.loadUserFavorites(); // AGORA com await
+    } else {
+        console.warn('❌ User ID não disponível para favoritos');
+        this.userFavorites.clear();
+        this.updateFavoriteButtons();
+    }
+}
             async loadUserFavorites() {
                 if (!this.currentUser || !this.currentUser.id) {
                     console.error('❌ User ID não disponível para carregar favoritos');
@@ -1651,6 +1632,16 @@
                     return false;
                 }
             }
+
+async refreshFavorites() {
+    if (this.currentUser && this.currentUser.id) {
+        await this.loadUserFavorites();
+        this.updateFavoriteButtons();
+    } else {
+        this.userFavorites.clear();
+        this.updateFavoriteButtons();
+    }
+}
 
             updateFavoriteButtons() {
                 document.querySelectorAll('.favorite-btn').forEach(btn => {
@@ -1757,38 +1748,42 @@
         }
 
         // --- Carregar APIs ---
-        async function carregarAPIs() {
-            const grid = document.getElementById("apis-grid");
-            if (grid) {
-                grid.innerHTML = '';
-                mostrarSkeletonCards();
-            }
+async function carregarAPIs() {
+    const grid = document.getElementById("apis-grid");
+    if (grid) {
+        grid.innerHTML = '';
+        mostrarSkeletonCards();
+    }
 
-            try {
-                const { data, error } = await supabase.from("apis").select("*").order("name");
-                
-                if (error) {
-                    throw new Error(`Erro no Supabase: ${error.message}`);
-                }
-                
-                todasAPIs = data || [];
-                
-                if (todasAPIs.length === 0) {
-                    grid.innerHTML = "<p style='text-align: center; padding: 2rem;'>Nenhuma API encontrada no banco de dados.</p>";
-                    document.getElementById("pagination").innerHTML = '';
-                    return;
-                }
-                
-                totalPages = Math.ceil(todasAPIs.length / itemsPerPage);
-                atualizarPaginacao();
-                aplicarFiltroPesquisa();
-                
-            } catch (erro) {
-                console.error("Erro ao buscar APIs:", erro);
-                mostrarEstadoErro(erro.message || "Falha ao carregar as APIs. Verifique sua conexão e tente novamente.");
-            }
+    try {
+        const { data, error } = await supabase.from("apis").select("*").order("name");
+        
+        if (error) {
+            throw new Error(`Erro no Supabase: ${error.message}`);
         }
-
+        
+        todasAPIs = data || [];
+        
+        if (todasAPIs.length === 0) {
+            grid.innerHTML = "<p style='text-align: center; padding: 2rem;'>Nenhuma API encontrada no banco de dados.</p>";
+            document.getElementById("pagination").innerHTML = '';
+            return;
+        }
+        
+        totalPages = Math.ceil(todasAPIs.length / itemsPerPage);
+        atualizarPaginacao();
+        aplicarFiltroPesquisa();
+        
+    } catch (erro) {
+        console.error("Erro ao buscar APIs:", erro);
+        mostrarEstadoErro(erro.message || "Falha ao carregar as APIs. Verifique sua conexão e tente novamente.");
+    }
+    setTimeout(() => {
+        if (window.favoriteSystem) {
+            window.favoriteSystem.updateFavoriteButtons();
+        }
+    }, 200);
+}
         function mostrarSkeletonCards() {
             const grid = document.getElementById("apis-grid");
             grid.innerHTML = '';
@@ -2093,68 +2088,66 @@
         });
 
         // --- Filtro de pesquisa ---
-        document.querySelector('.search-input').addEventListener('input', aplicarFiltroPesquisa);
+document.querySelector('.search-input').addEventListener('input', aplicarFiltroPesquisa);
 
-        function aplicarFiltroPesquisa() {
-            const searchInput = document.querySelector('.search-input');
-            const termo = searchInput.value.toLowerCase();
-            
-            let filtradas = todasAPIs;
-            
-            if (termo) {
-                filtradas = filtradas.filter(api =>
-                    (api.name || '').toLowerCase().includes(termo) ||
-                    (api.description || '').toLowerCase().includes(termo) ||
-                    (getPrimaryCategory(api) || '').toLowerCase().includes(termo)
-                );
-            }
+function aplicarFiltroPesquisa() {
+    const searchInput = document.querySelector('.search-input');
+    const termo = searchInput.value.toLowerCase();
+    
+    let filtradas = todasAPIs;
+    
+    if (termo) {
+        filtradas = filtradas.filter(api =>
+            (api.name || '').toLowerCase().includes(termo) ||
+            (api.description || '').toLowerCase().includes(termo) ||
+            (getPrimaryCategory(api) || '').toLowerCase().includes(termo)
+        );
+    }
 
-            renderizarAPIs(filtradas);
-        }
+    renderizarAPIs(filtradas);
+}
 
         document.querySelector('.search-button').addEventListener('click', aplicarFiltroPesquisa);
 
         // --- Inicialização ---
-        document.addEventListener('DOMContentLoaded', async function() {
-            console.log('🚀 Inicializando aplicação...');
-            
-            // 1. Inicializar AuthSystem PRIMEIRO (IDÊNTICO ao index.html)
-            window.authSystem = new AuthSystem();
-            console.log('✅ AuthSystem inicializado:', window.authSystem.currentUser);
-            
-            // 2. Inicializar FavoriteSystem DEPOIS  
-            window.favoriteSystem = new FavoriteSystem();
-            
-            // 3. Carregar APIs
-            await carregarAPIs();
-            
-            // 4. SÓ DEPOIS inicializar favoritos se usuário estiver logado
-            if (window.authSystem.currentUser && window.authSystem.currentUser.id) {
-                console.log('👤 Usuário logado, inicializando favoritos...');
-                await window.favoriteSystem.init();
-            } else {
-                console.log('👤 Usuário não logado, limpando favoritos...');
-                window.favoriteSystem.userFavorites.clear();
-                window.favoriteSystem.updateFavoriteButtons();
+        // --- Inicialização ---
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('🚀 Inicializando aplicação...');
+    
+    // 1. Inicializar AuthSystem PRIMEIRO
+    window.authSystem = new AuthSystem();
+    console.log('✅ AuthSystem inicializado:', window.authSystem.currentUser);
+    
+    // 2. Inicializar FavoriteSystem DEPOIS  
+    window.favoriteSystem = new FavoriteSystem();
+    
+    // 3. Configurar o usuário no FavoriteSystem
+    window.favoriteSystem.currentUser = window.authSystem.currentUser;
+    
+    // 4. AGORA: Inicializar o sistema de favoritos ANTES de carregar as APIs
+    console.log('🔍 Inicializando FavoriteSystem...');
+    await window.favoriteSystem.init();
+    
+    // 5. Só depois carregar as APIs
+    await carregarAPIs();
+    
+    // 6. Atualizar a UI de autenticação (que também atualiza os favoritos)
+    window.authSystem.updateUI();
+    
+    // Animações
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
             }
-            
-            // Animações
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate');
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('section').forEach(section => {
-                observer.observe(section);
-            });
         });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('section').forEach(section => {
+        observer.observe(section);
+    });
+});
     </script>
 </body>
 </html>
-
-
-
 
