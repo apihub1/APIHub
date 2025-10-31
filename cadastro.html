@@ -450,7 +450,7 @@
                     senha: senhaInput.value 
                 };
 
-                const response = await fetch("https://apihub-br.duckdns.org/cadastro", {
+                const response = await fetch("https://apihub-br.duckdns.org:3000/cadastro", {
                     method: "POST",
                     headers: { 
                         "Content-Type": "application/json", 
@@ -516,3 +516,4 @@
     </script>
 </body>
 </html>
+
