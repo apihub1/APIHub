@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br" dir="ltr">
 <head>
@@ -1562,7 +1563,7 @@
             constructor() {
                 this.currentUser = null;
                 this.userFavorites = new Set();
-                this.backendUrl = "https://apihub-br.duckdns.org";
+                this.backendUrl = "http://localhost:3000";
             }
 
             async init() {
@@ -1580,26 +1581,43 @@
             }
 
             async loadUserFavorites() {
-                if (!this.currentUser || !this.currentUser.id) {
-                    console.error('❌ User ID não disponível para carregar favoritos');
-                    return;
-                }
+    if (!this.currentUser || !this.currentUser.id) {
+        console.error('❌ User ID não disponível para carregar favoritos');
+        return;
+    }
 
-                try {
-                    console.log('🔍 Carregando favoritos para user:', this.currentUser.id);
-                    const response = await fetch(`${this.backendUrl}/favoritos/${this.currentUser.id}`);
-                    
-                    if (!response.ok) throw new Error(`HTTP ${response.status} - ${response.statusText}`);
-                    
-                    const data = await response.json();
-                    console.log('✅ Favoritos carregados:', data);
-                    
-                    this.userFavorites = new Set(data.map(fav => fav.apis.id));
-                    this.updateFavoriteButtons();
-                } catch (error) {
-                    console.error('❌ Erro ao carregar favoritos:', error);
-                }
+    try {
+        console.log('🔍 Carregando favoritos para user:', this.currentUser.id);
+        const response = await fetch(`${this.backendUrl}/favoritos/${this.currentUser.id}`);
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`HTTP ${response.status} - ${errorText}`);
+        }
+        
+        const data = await response.json();
+        console.log('✅ Favoritos carregados:', data);
+        
+        // ✅ CORREÇÃO: Adaptar para o novo formato
+        this.userFavorites = new Set();
+        
+        data.forEach(fav => {
+            if (fav.api_id) {
+                this.userFavorites.add(fav.api_id);
             }
+            // Também verifica no formato antigo para compatibilidade
+            if (fav.apis && fav.apis.id) {
+                this.userFavorites.add(fav.apis.id);
+            }
+        });
+        
+        console.log('⭐ IDs de APIs favoritadas:', Array.from(this.userFavorites));
+        this.updateFavoriteButtons();
+    } catch (error) {
+        console.error('❌ Erro ao carregar favoritos:', error);
+        this.mostrarMensagem('Erro ao carregar favoritos', true);
+    }
+}
 
             async toggleFavorite(apiId) {
                 if (!this.currentUser || !this.currentUser.id) {
@@ -2113,49 +2131,65 @@
 
         document.querySelector('.search-button').addEventListener('click', aplicarFiltroPesquisa);
 
-        // --- Inicialização ---
         document.addEventListener('DOMContentLoaded', async function() {
-            console.log('🚀 Inicializando aplicação...');
-            
-            // 1. Inicializar AuthSystem PRIMEIRO (IDÊNTICO ao index.html)
-            window.authSystem = new AuthSystem();
-            console.log('✅ AuthSystem inicializado:', window.authSystem.currentUser);
-            
-            // 2. Inicializar FavoriteSystem DEPOIS  
-            window.favoriteSystem = new FavoriteSystem();
-            
-            // 3. Carregar APIs
-            await carregarAPIs();
-            
-            // 4. SÓ DEPOIS inicializar favoritos se usuário estiver logado
-            if (window.authSystem.currentUser && window.authSystem.currentUser.id) {
-                console.log('👤 Usuário logado, inicializando favoritos...');
-                await window.favoriteSystem.init();
-            } else {
-                console.log('👤 Usuário não logado, limpando favoritos...');
-                window.favoriteSystem.userFavorites.clear();
-                window.favoriteSystem.updateFavoriteButtons();
-            }
-            
-            // Animações
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate');
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('section').forEach(section => {
-                observer.observe(section);
+    console.log('🚀 Inicializando aplicação...');
+    
+    try {
+        // 1. Inicializar AuthSystem
+        window.authSystem = new AuthSystem();
+        console.log('✅ AuthSystem inicializado:', window.authSystem.currentUser);
+        
+        // 2. Inicializar FavoriteSystem  
+        window.favoriteSystem = new FavoriteSystem();
+        
+        // 3. Carregar APIs
+        await carregarAPIs();
+        
+        // 4. Inicializar favoritos SE usuário logado
+        if (window.authSystem.currentUser?.id) {
+            console.log('👤 Usuário logado, inicializando favoritos...');
+            await window.favoriteSystem.init().catch(error => {
+                console.error('❌ Falha ao inicializar favoritos:', error);
+                // Continua mesmo com erro nos favoritos
             });
+        } else {
+            console.log('👤 Usuário não logado');
+            window.favoriteSystem.userFavorites.clear();
+            window.favoriteSystem.updateFavoriteButtons();
+        }
+        
+    } catch (error) {
+        console.error('💥 Erro crítico na inicialização:', error);
+    }
+    
+    // Animações (mantém fora do try/catch)
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+            }
         });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('section').forEach(section => {
+        observer.observe(section);
+    });
+});
+
+    // Verificar se o backend está respondendo
+async function verificarBackend() {
+    try {
+        const response = await fetch(`${window.favoriteSystem.backendUrl}/health`);
+        if (response.ok) {
+            console.log('✅ Backend está respondendo');
+            return true;
+        }
+    } catch (error) {
+        console.error('❌ Backend não está respondendo:', error);
+    }
+    return false;
+}
 
     </script>
 </body>
 </html>
-
-
-
-
-
